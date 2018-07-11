@@ -1,0 +1,38 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../providers/auth';
+
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent  {
+  
+
+  constructor(public authService: AuthService, private router: Router) { }
+
+  loginWithGoogle() {
+    this.authService.signInWithGoogle().then(u => {
+      this.router.navigate(['/shows']);
+      // console.log("u:  " + JSON.stringify(u));
+    } );
+  }
+
+  loginWithFB() {
+    this.authService.signInWithFB().then(u =>  this.router.navigate(['/shows']));
+  }
+
+  loginAsGuest(){
+    this.authService.signInAnonymously().then(u => {
+      this.router.navigate(['/shows']);
+      // console.log("anonimus: " + JSON.stringify(u));
+    });
+  }
+
+  logout() {
+    this.authService.signOut();
+  }
+
+}

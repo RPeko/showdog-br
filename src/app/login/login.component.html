@@ -1,0 +1,28 @@
+<mat-grid-list cols="2">
+        <mat-grid-tile>
+                <div style="text-align:center">
+                    <img class="front-image" alt="Dog exhibitors heper app!" src="/assets/images/welcome.jpg">
+                </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+                <div *ngIf="authService.afAuth.user | async as user; else showLogin">
+                        <h2>Hello {{ user.isAnonymous?" Dear Guest":user.displayName }}!</h2>
+                        <button mat-raised-button color="primary" (click)="logout()">{{ user.isAnonymous?"Login":"Logout"}}</button>
+                    </div>
+                    <ng-template #showLogin>
+                        <mat-list [ngClass]="login-lista">
+                            <mat-list-item>
+                                <button class="login-button" mat-raised-button color="primary" (click)="loginWithGoogle()">Login with Google</button>
+                            </mat-list-item>
+                            <mat-list-item>
+                                <button class="login-button" mat-raised-button color="primary" (click)="loginWithFB()">Login with Facebook</button>
+                            </mat-list-item>
+                            <mat-list-item>
+                                <button class="login-button" mat-raised-button color="secondary" (click)="loginAsGuest()">Login as Guest</button>
+                            </mat-list-item>
+                        </mat-list>
+                    </ng-template>
+        </mat-grid-tile>
+</mat-grid-list>
+
+

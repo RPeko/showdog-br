@@ -1,0 +1,41 @@
+<mat-list *ngIf="groupBy==2; else showByMonth">
+  <ng-container *ngFor="let stateshow of stateshows">
+    <h3 mat-subheader>{{stateshow.state}}</h3>
+    <mat-expansion-panel *ngFor="let show of stateshow.shows">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{show.name}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{show.date}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-grid-list cols="4">
+        <mat-grid-tile colspan="1">
+          {{"Place: " + show.place}}
+        </mat-grid-tile>
+        <mat-grid-tile colspan="3">
+          <div *ngIf="show.lat">
+            <agm-map [latitude]="show.lat" [longitude]="show.lon" [zoom]="13">
+              <agm-marker [latitude]="show.lat" [longitude]="show.lon"></agm-marker>
+            </agm-map>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-expansion-panel>
+    <mat-list-item *ngFor="let show of stateshow.shows">
+      <mat-expansion-panel> {{show.name}}</mat-expansion-panel>
+
+    </mat-list-item>
+  </ng-container>
+</mat-list>
+<ng-template #showByMonth>
+  <mat-list>
+    <ng-container *ngFor="let monthshow of monthshows">
+      <h3 mat-subheader>{{monthshow.month}}</h3>
+      <mat-list-item *ngFor="let show of monthshow.shows">
+        {{show.name}}
+      </mat-list-item>
+    </ng-container>
+  </mat-list>
+</ng-template>
