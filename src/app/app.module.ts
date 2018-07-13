@@ -9,7 +9,7 @@ import { environment } from '../environments/environment';
 import { ShowsComponent } from './shows/shows.component';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { DataProvider } from './providers/data';
-import { ShowsProvider } from './shows/shows.service';
+import { ShowsProvider } from './shows/shows.provider';
 
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -22,8 +22,11 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import {MatRadioModule} from '@angular/material/radio';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { AgmCoreModule } from '@agm/core';
+import { FormsModule } from '../../node_modules/@angular/forms';
 
 @NgModule({
   declarations: [
@@ -38,6 +41,7 @@ import { AgmCoreModule } from '@agm/core';
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapConfig.apiKey
     }),
+    FormsModule,
     BrowserAnimationsModule,
     MatMenuModule,
     MatGridListModule,
@@ -45,7 +49,9 @@ import { AgmCoreModule } from '@agm/core';
     MatListModule,
     MatDividerModule,
     MatButtonModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatButtonToggleModule,
+    MatRadioModule
   ],
   providers: [
     DataProvider,

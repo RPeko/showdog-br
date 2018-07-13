@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import * as firebase from 'firebase/app';
-import { Show } from '../models/show';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { Show } from '../models/show';
 
 @Injectable()
 export class ShowsProvider {
-    public shows: Observable<any[]>;
+    public shows: Observable<Show[]>;
     public statecode = new Subject<string>();
 
     constructor(public db: AngularFireDatabase) {
@@ -16,16 +15,15 @@ export class ShowsProvider {
         this.shows = this.statecode.pipe(
             switchMap(statecode => {
                 if (statecode == 'svedrzave'){
-                    return db.list('/shows').valueChanges();
+                    return db.list<Show>('/shows').valueChanges();
                 } else {
-                    return db.list('/shows', ref => ref.orderByChild("statecode").equalTo(statecode)).valueChanges();
+                    return db.list<Show>('/shows', ref => ref.orderByChild("statecode").equalTo(statecode)).valueChanges();
                 }
             }
         
              
             )
           );
-        // this.shows = db.list('/shows/', ref => ref.orderByChild("/statecode/").equalTo("SRB")).valueChanges();
     }
 
     // upsetShow(show:Show){
@@ -36,19 +34,5 @@ export class ShowsProvider {
     //     return showRef.update(show);
 
     // }
-
-    // snapshotToArray(snapshot) {
-    //     var returnArr = [];
-    
-    //     snapshot.forEach(function(childSnapshot) {
-    //         var item = childSnapshot.val();
-    //         item.key = childSnapshot.key;
-    
-    //         returnArr.push(item);
-    //     });
-    
-    //     return returnArr;
-    // };
-    
 
 }

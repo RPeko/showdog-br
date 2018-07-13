@@ -3,7 +3,7 @@ import { Show } from '../models/show';
 import { Userdata } from '../models/userdata';
 import { AuthService } from '../providers/auth';
 import { DataProvider } from '../providers/data';
-import { ShowsProvider } from './shows.service';
+import { ShowsProvider } from './shows.provider';
 
 
 @Component({
@@ -15,7 +15,6 @@ import { ShowsProvider } from './shows.service';
 export class ShowsComponent implements OnInit {
   stateshows: { state: string, shows: Show[] }[];
   monthshows: { month: string, shows: Show[] }[];
-  groupBy = 2;
   admin = 0;
 
   constructor(
@@ -23,7 +22,6 @@ export class ShowsComponent implements OnInit {
     public showsProvider: ShowsProvider,
     public authService: AuthService
   ) {
-  
   }
 
   ngOnInit(){

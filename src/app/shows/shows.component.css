@@ -2,3 +2,8 @@ agm-map {
     height: 250px;
     width: 500px;
   }
+
+  .groupBy {
+    position: absolute;
+    float: right;
+  }

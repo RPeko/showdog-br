@@ -1,4 +1,8 @@
-<mat-list *ngIf="groupBy==2; else showByMonth">
+<mat-button-toggle-group class="groupBy" #groupBy="matButtonToggleGroup" value=1>
+  <mat-button-toggle value=1>Group By Month</mat-button-toggle>
+  <mat-button-toggle value=2>Group By State</mat-button-toggle>
+</mat-button-toggle-group>
+<mat-list *ngIf="groupBy.value==2; else showByMonth">
   <ng-container *ngFor="let stateshow of stateshows">
     <h3 mat-subheader>{{stateshow.state}}</h3>
     <mat-expansion-panel *ngFor="let show of stateshow.shows">
