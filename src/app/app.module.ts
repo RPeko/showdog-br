@@ -8,7 +8,6 @@ import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
 import { ShowsComponent } from './shows/shows.component';
 import { AppRoutingModule } from 'src/app/app-routing.module';
-import { DataProvider } from './providers/data';
 import { ShowsProvider } from './shows/shows.provider';
 
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -25,13 +24,18 @@ import { MatIconModule } from '@angular/material/icon';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
 import { AgmCoreModule } from '@agm/core';
 import { FormsModule } from '../../node_modules/@angular/forms';
+import { SettingsComponent } from './settings/settings.component';
+import { SettingsProvider } from './settings/settings.provider';
 
 @NgModule({
   declarations: [
     AppComponent,
     ShowsComponent,
+    SettingsComponent,
     LoginComponent
   ],
   imports: [
@@ -51,11 +55,12 @@ import { FormsModule } from '../../node_modules/@angular/forms';
     MatButtonModule,
     MatExpansionModule,
     MatButtonToggleModule,
-    MatRadioModule
+    MatRadioModule,
+    MatSlideToggleModule
   ],
   providers: [
-    DataProvider,
     ShowsProvider,
+    SettingsProvider,
     AuthService,
     AngularFireAuth,
     AngularFireDatabase,

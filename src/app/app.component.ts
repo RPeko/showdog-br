@@ -10,7 +10,8 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'Show Dog';
   menuItems = [
-               {title:"Shows",  routerLink:"/shows"},
+               {title:"Shows",  routerLink:"shows"},
+               {title:"Settings",  routerLink:"settings"},
                {title:"Login",  routerLink:"login"}
               ]
 

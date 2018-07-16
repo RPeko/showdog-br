@@ -30,7 +30,20 @@ export class SettingsComponent implements OnInit {
             this.states[i].checked = (userdata.userstates.findIndex(us => us == this.states[i].code) !== -1);
           }
         }
+        console.log("states: " + JSON.stringify(this.states));
       });
     });
+  }
+
+
+
+  updateUserStates() {
+    let userstates = [];
+    for (let i = 0; i < this.states.length; i++) {
+      if (this.states[i].checked) {
+        userstates.push(this.states[i].code);
+      }
+    }
+    this.authService.updateUserStates(userstates);
   }
 }

@@ -1,3 +1,22 @@
-<p>
-  settings works!
-</p>
+<!-- <mat-list-item>
+  <mat-expansion-panel>Filter states:</mat-expansion-panel>
+  <div *ngFor="let state of states">
+    <mat-slide-toggle class="toggle-margin" [(ngModel)]="state.checked" (ngModelChange)="updateUserStates(state)">
+      {{state.name}}
+    </mat-slide-toggle>
+  </div>
+</mat-list-item> -->
+<mat-accordion>
+  <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          States
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+          <div *ngFor="let state of states">
+            <mat-slide-toggle class="toggle-margin" [(ngModel)]="state.checked" (ngModelChange)="updateUserStates(state)">
+              {{state.name}}
+            </mat-slide-toggle>
+          </div>
+  </mat-expansion-panel>
+</mat-accordion>

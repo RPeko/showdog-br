@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Show } from '../models/show';
 import { Userdata } from '../models/userdata';
 import { AuthService } from '../providers/auth';
-import { DataProvider } from '../providers/data';
 import { ShowsProvider } from './shows.provider';
 
 
@@ -18,7 +17,6 @@ export class ShowsComponent implements OnInit {
   admin = 0;
 
   constructor(
-    public dataProvider: DataProvider,
     public showsProvider: ShowsProvider,
     public authService: AuthService
   ) {
