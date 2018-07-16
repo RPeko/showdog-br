@@ -12,6 +12,7 @@ import { ShowsProvider } from './shows.provider';
 })
 
 export class ShowsComponent implements OnInit {
+    
   stateshows: { state: string, shows: Show[] }[];
   monthshows: { month: string, shows: Show[] }[];
   admin = 0;

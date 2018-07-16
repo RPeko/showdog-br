@@ -21,10 +21,10 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatRadioModule} from '@angular/material/radio';
+import { MatExpansionModule} from '@angular/material/expansion';
+import { MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { AgmCoreModule } from '@agm/core';
 import { FormsModule } from '../../node_modules/@angular/forms';
