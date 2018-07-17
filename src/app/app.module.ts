@@ -12,7 +12,7 @@ import { ShowsProvider } from './shows/shows.provider';
 
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { AuthService } from './providers/auth';
+import { AuthService } from './services/auth';
 import { LoginComponent } from './login/login.component';
 
 import { MatMenuModule } from '@angular/material/menu';
@@ -27,16 +27,19 @@ import { MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { AgmCoreModule } from '@agm/core';
-import { FormsModule } from '../../node_modules/@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '../../node_modules/@angular/forms';
 import { SettingsComponent } from './settings/settings.component';
 import { SettingsProvider } from './settings/settings.provider';
+import { ShowComponent } from './show/show.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ShowsComponent,
+    ShowComponent,
     SettingsComponent,
-    LoginComponent
+    LoginComponent,
+    ShowComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +49,7 @@ import { SettingsProvider } from './settings/settings.provider';
       apiKey: environment.googleMapConfig.apiKey
     }),
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     MatMenuModule,
     MatGridListModule,

@@ -62,8 +62,11 @@
             </div>
           </mat-grid-tile>
           <mat-grid-tile rowspan="1">
-              <button ion-button (click)="open()">
-                <mat-icon>edit</mat-icon>
+              <button ion-button>
+                  <a routerLink = "/show"
+                  [queryParams] = "{show: show | json }">
+                  <mat-icon>edit</mat-icon>                
+                 </a>
               </button>
           </mat-grid-tile>
         </mat-grid-list>

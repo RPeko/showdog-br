@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Show } from '../models/show';
 import { Userdata } from '../models/userdata';
-import { AuthService } from '../providers/auth';
+import { AuthService } from '../services/auth';
 import { ShowsProvider } from './shows.provider';
+import { Router } from '../../../node_modules/@angular/router';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class ShowsComponent implements OnInit {
 
   constructor(
     public showsProvider: ShowsProvider,
-    public authService: AuthService
+    public authService: AuthService,
+    private router: Router
   ) {
   }
 
@@ -75,7 +77,4 @@ export class ShowsComponent implements OnInit {
     }
   }
 
-  open(show:Show){
-    // this.navCtrl.setRoot("ShowPage", {show:show});
-  }
 }

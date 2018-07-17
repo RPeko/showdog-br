@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { State } from '../models/state';
 import { SettingsProvider } from './settings.provider';
 import { Userdata } from '../models/userdata';
-import { AuthService } from '../providers/auth';
+import { AuthService } from '../services/auth';
 
 @Component({
   selector: 'app-settings',
