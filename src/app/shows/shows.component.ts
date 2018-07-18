@@ -36,8 +36,9 @@ export class ShowsComponent implements OnInit {
       this.showsProvider.shows.subscribe(shows => this.processShows(shows));
       if (userdata) {
         console.log("userdata.userstates: " + userdata.userstates);
-        if (!userdata.admin) {
+        if (userdata.admin) {
           this.admin = userdata.admin;
+          console.log("admin: " + this.admin);
         }
         if (userdata.userstates){
           userdata.userstates.forEach(userstate => {

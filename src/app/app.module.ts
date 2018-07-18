@@ -18,6 +18,8 @@ import { LoginComponent } from './login/login.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -31,6 +33,7 @@ import { FormsModule, ReactiveFormsModule } from '../../node_modules/@angular/fo
 import { SettingsComponent } from './settings/settings.component';
 import { SettingsProvider } from './settings/settings.provider';
 import { ShowComponent } from './show/show.component';
+import { ShowProvider } from './show/show.provider';
 
 @NgModule({
   declarations: [
@@ -53,6 +56,8 @@ import { ShowComponent } from './show/show.component';
     BrowserAnimationsModule,
     MatMenuModule,
     MatGridListModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatIconModule,
     MatListModule,
     MatDividerModule,
@@ -64,6 +69,7 @@ import { ShowComponent } from './show/show.component';
   ],
   providers: [
     ShowsProvider,
+    ShowProvider,
     SettingsProvider,
     AuthService,
     AngularFireAuth,

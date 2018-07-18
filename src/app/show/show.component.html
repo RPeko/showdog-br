@@ -1,39 +1,43 @@
 <form [formGroup]="showForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label class="center-block">Name:
-        <input class="form-control" formControlName="name">
-      </label>
+    <div class="form-container">
+        <mat-form-field>
+            <input matInput formControlName="name" placeholder="Name">
+        </mat-form-field>
     </div>
-    <div class="form-group">
-        <label class="center-block">Description:
-          <input class="form-control" formControlName="description">
-        </label>
+    <div class="form-container">
+        <mat-form-field>
+            <input matInput formControlName="description" placeholder="Description">
+        </mat-form-field>
     </div>
-    <div class="form-group">
-        <label class="center-block">Type:
-          <input class="form-control" formControlName="type">
-        </label>
+    <div class="form-container">
+        <mat-form-field>
+            <input matInput formControlName="place" placeholder="Place">
+        </mat-form-field>
     </div>
-    <div class="form-group">
-        <label class="center-block">Date:
-          <input class="form-control" formControlName="date">
-        </label>
+    <div class="form-container">
+        <mat-form-field>
+            <input matInput formControlName="type" placeholder="Type">
+        </mat-form-field>
     </div>
-    <div class="form-group">
-        <label class="center-block">State:
-          <input class="form-control" formControlName="statecode">
-        </label>
+    <div class="form-container">
+        <mat-form-field>
+            <input matInput formControlName="statecode" placeholder="Statecode">
+        </mat-form-field>
     </div>
-    <div class="form-group">
-        <label class="center-block">Latitude:
-          <input class="form-control" formControlName="lat">
-        </label>
+    <div class="form-container">
+        <mat-form-field>
+            <input matInput formControlName="date" placeholder="Date(YYYY-MM-DD)">
+        </mat-form-field>
     </div>
-    <div class="form-group">
-        <label class="center-block">Longitude:
-          <input class="form-control" formControlName="lon">
-        </label>
+    <div class="form-container">
+        <mat-form-field>
+            <input matInput formControlName="lat" placeholder="Latitude">
+        </mat-form-field>
     </div>
-    <button type="submit" class="btn btn-success">Save</button>
-     
+    <div class="form-container">
+        <mat-form-field>
+            <input matInput formControlName="lon" placeholder="Longitude">
+        </mat-form-field>
+    </div>
+    <button type="submit"  mat-raised-button color="primary">Save</button>    
   </form>

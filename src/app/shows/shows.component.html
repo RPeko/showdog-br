@@ -18,17 +18,29 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <mat-grid-list cols="4">
-          <mat-grid-tile colspan="1">
-            {{"Place: " + show.place}}
-          </mat-grid-tile>
-          <mat-grid-tile colspan="3">
-            <div *ngIf="show.lat">
-              <agm-map [latitude]="show.lat" [longitude]="show.lon" [zoom]="13">
-                <agm-marker [latitude]="show.lat" [longitude]="show.lon"></agm-marker>
-              </agm-map>
-            </div>
-          </mat-grid-tile>
-        </mat-grid-list>
+            <mat-grid-tile colspan="1">
+              <table>
+                <tr>{{"Place: " + show.place}}</tr>
+                <tr>{{"Description: " + show.description}}</tr>
+                <tr>{{"Type: " + show.type}}</tr>
+              </table>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+              <div *ngIf="show.lat">
+                <agm-map [latitude]="show.lat" [longitude]="show.lon" [zoom]="13">
+                  <agm-marker [latitude]="show.lat" [longitude]="show.lon"></agm-marker>
+                </agm-map>
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+          <mat-action-row *ngIf="admin>2">
+               <button mat-button>
+                  <a routerLink = "/show"
+                    [queryParams] = "{show: show | json }">
+                    <mat-icon>edit</mat-icon>                
+                  </a>
+                </button>
+            </mat-action-row>
       </mat-expansion-panel>
       <mat-list-item *ngFor="let show of stateshow.shows">
         <mat-expansion-panel> {{show.name}}</mat-expansion-panel>
@@ -50,26 +62,29 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <mat-grid-list cols="4">
-          <mat-grid-tile colspan="1" rowspan="1">
-              {{"Place: " + show.place}}
-          </mat-grid-tile>
-          <!-- <div *ngIf="admin>2"> -->
-          <mat-grid-tile colspan="3" rowspan="2">
-            <div *ngIf="show.lat">
-              <agm-map [latitude]="show.lat" [longitude]="show.lon" [zoom]="13">
-                <agm-marker [latitude]="show.lat" [longitude]="show.lon"></agm-marker>
-              </agm-map>
-            </div>
-          </mat-grid-tile>
-          <mat-grid-tile rowspan="1">
-              <button ion-button>
+            <mat-grid-tile colspan="1">
+              <table>
+                <tr>{{"Place: " + show.place}}</tr>
+                <tr>{{"Description: " + show.description}}</tr>
+                <tr>{{"Type: " + show.type}}</tr>
+              </table>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+              <div *ngIf="show.lat">
+                <agm-map [latitude]="show.lat" [longitude]="show.lon" [zoom]="13">
+                  <agm-marker [latitude]="show.lat" [longitude]="show.lon"></agm-marker>
+                </agm-map>
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+          <mat-action-row *ngIf="admin>2">
+               <button mat-button>
                   <a routerLink = "/show"
-                  [queryParams] = "{show: show | json }">
-                  <mat-icon>edit</mat-icon>                
-                 </a>
-              </button>
-          </mat-grid-tile>
-        </mat-grid-list>
+                    [queryParams] = "{show: show | json }">
+                    <mat-icon>edit</mat-icon>                
+                  </a>
+                </button>
+            </mat-action-row>
       </mat-expansion-panel>
     </ng-container>
   </mat-list>
