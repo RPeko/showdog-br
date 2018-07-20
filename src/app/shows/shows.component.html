@@ -3,6 +3,11 @@
     <mat-button-toggle value=1>Group By Month</mat-button-toggle>
     <mat-button-toggle value=2>Group By State</mat-button-toggle>
   </mat-button-toggle-group>
+  <button mat-button *ngIf="admin>2">
+    <a routerLink = "/show">
+      <mat-icon>add</mat-icon>                
+    </a>
+  </button>
 </div>
 <div>
   <mat-list *ngIf="groupBy.value==2; else showByMonth">

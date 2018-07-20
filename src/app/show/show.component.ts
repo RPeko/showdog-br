@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Show } from '../models/show';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormBuilder } from '../../../node_modules/@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShowProvider } from './show.provider';
+import { LatValidator } from '../validators/lat';
+import { LonValidator } from '../validators/lon';
 
 
 @Component({
@@ -14,17 +16,18 @@ import { ShowProvider } from './show.provider';
 export class ShowComponent implements OnInit {
 show: Show;
 showForm: FormGroup;
+types = ["Champion show", "Derby show", "International show", "National dog show", "Special show", "Club Show"];
 
   constructor(private route: ActivatedRoute, private router:Router,  private fb: FormBuilder, private showProvider: ShowProvider) {
     this.showForm = this.fb.group({
-      name: [''],
+      name: ['', Validators.required],
       description: '',
       place: '',
       type: '',
       statecode: '',
       date: '',
-      lat: 0,
-      lon: 0
+      lat: [0, LatValidator.isValid],
+      lon: [0, LonValidator.isValid]
     });
     }
 
@@ -33,8 +36,8 @@ showForm: FormGroup;
       if (params.show){
         this.show = JSON.parse(params.show);
       } else {
-        this.show = {"key":"0", "name":"", "description":"", "place":"", "type":"", "statecode":"", "date":"", "lat":0, "lon":0};
-        this.show.date = (new Date()).toISOString();
+        this.show = {"key":"", "name":"", "description":"", "place":"", "type":"", "statecode":"", "date":"", "lat":0, "lon":0};
+        this.show.date = (new Date()).toISOString().substring(0,10);
       }
       this.showForm.setValue({
         name: this.show.name || "",
@@ -43,8 +46,8 @@ showForm: FormGroup;
         type: this.show.type || "",
         statecode: this.show.statecode || "",
         date: this.show.date || "",
-        lat: this.show.lat || "",
-        lon: this.show.lon || "",
+        lat: this.show.lat || 0,
+        lon: this.show.lon || 0,
       });
   });
   }
@@ -56,8 +59,8 @@ showForm: FormGroup;
     this.show.type = this.showForm.value.type;
     this.show.statecode = this.showForm.value.statecode;
     this.show.date = this.showForm.value.date.slice(0, 10);
-    this.show.lat = this.showForm.value.lat;
-    this.show.lon = this.showForm.value.lon;
+    this.show.lat = +this.showForm.value.lat;
+    this.show.lon = +this.showForm.value.lon;
     this.showProvider.upsertShow(this.show)
     .then(() => this.router.navigate(['shows']))
     .catch(err => console.log("err: " + err));

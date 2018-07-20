@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
 import { ShowsComponent } from './shows/shows.component';
-import { AppRoutingModule } from 'src/app/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 import { ShowsProvider } from './shows/shows.provider';
 
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -19,7 +19,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material';
+import {MatInputModule, MatSelectModule} from '@angular/material';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,7 +29,7 @@ import { MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { AgmCoreModule } from '@agm/core';
-import { FormsModule, ReactiveFormsModule } from '../../node_modules/@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from './settings/settings.component';
 import { SettingsProvider } from './settings/settings.provider';
 import { ShowComponent } from './show/show.component';
@@ -65,7 +65,8 @@ import { ShowProvider } from './show/show.provider';
     MatExpansionModule,
     MatButtonToggleModule,
     MatRadioModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSelectModule
   ],
   providers: [
     ShowsProvider,

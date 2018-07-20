@@ -16,7 +16,11 @@
     </div>
     <div class="form-container">
         <mat-form-field>
-            <input matInput formControlName="type" placeholder="Type">
+            <mat-select placeholder="Show Type">
+                <mat-option *ngFor="let type of types" [value]="type" formControlName="type">
+                  {{type}}
+                </mat-option>
+              </mat-select>
         </mat-form-field>
     </div>
     <div class="form-container">

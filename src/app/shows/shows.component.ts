@@ -3,7 +3,7 @@ import { Show } from '../models/show';
 import { Userdata } from '../models/userdata';
 import { AuthService } from '../services/auth';
 import { ShowsProvider } from './shows.provider';
-import { Router } from '../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -31,19 +31,19 @@ export class ShowsComponent implements OnInit {
       this.stateshows = [];
       this.monthshows = [];
       userdata = data.val();
-      console.log("data.val: " + JSON.stringify(userdata));
 
-      this.showsProvider.shows.subscribe(shows => this.processShows(shows));
+      this.showsProvider.shows.subscribe(shows => this.processShows(shows), err => console.log("showsprovider err: " + err));
       if (userdata) {
-        console.log("userdata.userstates: " + userdata.userstates);
+        // console.log("userdata.userstates: " + userdata.userstates);
         if (userdata.admin) {
           this.admin = userdata.admin;
-          console.log("admin: " + this.admin);
+          // console.log("admin: " + this.admin);
         }
         if (userdata.userstates){
           userdata.userstates.forEach(userstate => {
-            console.log("userstate: " + userstate);
-            this.showsProvider.statecode.next(userstate);   
+            // console.log("next userstate: " + userstate);
+            console.log((new Date()).toISOString() +  " - start: " + userstate);
+            this.showsProvider.statecode.next(userstate);
           });
         }
       } else { 
@@ -53,15 +53,17 @@ export class ShowsComponent implements OnInit {
   }
 
   processShows(shows:Show[]){
-    console.log("shows to process: " + JSON.stringify(shows));
     for (let i = 0; i < shows.length; i++){
       this.groupByState(shows[i]);
       this.groupByMonth(shows[i]);
     }
+    // console.log((new Date()).toISOString() + "  processed shows: " + JSON.stringify(shows));
+    console.log((new Date()).toISOString() + "  processed shows ...");
   }
 
   groupByState(show:Show){
     let index = this.stateshows.findIndex(ss => ss.state == show.statecode);
+    // console.log("stateshow index: " + index);
     if (index > -1){
       this.stateshows[index].shows.push(show);
     } else {
@@ -71,6 +73,7 @@ export class ShowsComponent implements OnInit {
 
   groupByMonth(show:Show){
     let index = this.monthshows.findIndex(ms => ms.month == show.date.slice(0, 7));
+    // console.log("monthshow index: " + index);
     if (index > -1){
       this.monthshows[index].shows.push(show);
     } else {
