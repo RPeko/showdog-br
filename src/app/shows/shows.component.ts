@@ -5,7 +5,6 @@ import { AuthService } from '../services/auth';
 import { ShowsProvider } from './shows.provider';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-shows',
   templateUrl: './shows.component.html',
@@ -33,6 +32,7 @@ export class ShowsComponent implements OnInit {
       userdata = data.val();
 
       this.showsProvider.shows.subscribe(shows => this.processShows(shows), err => console.log("showsprovider err: " + err));
+      
       if (userdata) {
         // console.log("userdata.userstates: " + userdata.userstates);
         if (userdata.admin) {
@@ -40,14 +40,13 @@ export class ShowsComponent implements OnInit {
           // console.log("admin: " + this.admin);
         }
         if (userdata.userstates){
-          userdata.userstates.forEach(userstate => {
-            // console.log("next userstate: " + userstate);
-            console.log((new Date()).toISOString() +  " - start: " + userstate);
-            this.showsProvider.statecode.next(userstate);
-          });
+          for (let i=0; i< userdata.userstates.length; i++){
+            console.log((new Date()).toISOString() +  " - start: " + userdata.userstates[i]);
+              this.showsProvider.statecode.next(userdata.userstates[i]);
+          }
         }
       } else { 
-        this.showsProvider.statecode.next("svedrzave");
+        this.showsProvider.statecode.next(null);
       }
     });
   }
@@ -58,7 +57,7 @@ export class ShowsComponent implements OnInit {
       this.groupByMonth(shows[i]);
     }
     // console.log((new Date()).toISOString() + "  processed shows: " + JSON.stringify(shows));
-    console.log((new Date()).toISOString() + "  processed shows ...");
+        console.log((new Date()).toISOString() + " processShows ...");
   }
 
   groupByState(show:Show){
