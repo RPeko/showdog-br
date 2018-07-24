@@ -57,6 +57,7 @@ types = ["Champion show", "Derby show", "International show", "National dog show
     this.show.description = this.showForm.value.description;
     this.show.place = this.showForm.value.place;
     this.show.type = this.showForm.value.type;
+    console.log("Type: " + this.showForm.value.type);
     this.show.statecode = this.showForm.value.statecode;
     this.show.date = this.showForm.value.date.slice(0, 10);
     this.show.lat = +this.showForm.value.lat;

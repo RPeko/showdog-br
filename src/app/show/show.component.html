@@ -16,8 +16,8 @@
     </div>
     <div class="form-container">
         <mat-form-field>
-            <mat-select placeholder="Show Type">
-                <mat-option *ngFor="let type of types" [value]="type" formControlName="type">
+            <mat-select placeholder="Show Type" formControlName="type">
+                <mat-option *ngFor="let type of types" [value]="type">
                   {{type}}
                 </mat-option>
               </mat-select>

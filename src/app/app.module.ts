@@ -34,6 +34,8 @@ import { SettingsComponent } from './settings/settings.component';
 import { SettingsProvider } from './settings/settings.provider';
 import { ShowComponent } from './show/show.component';
 import { ShowProvider } from './show/show.provider';
+import { RegistrationComponent } from './registration/registration.component';
+import { RegistrationProvider } from './registration/registration.provider';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import { ShowProvider } from './show/show.provider';
     ShowComponent,
     SettingsComponent,
     LoginComponent,
-    ShowComponent
+    ShowComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
@@ -72,6 +75,7 @@ import { ShowProvider } from './show/show.provider';
     ShowsProvider,
     ShowProvider,
     SettingsProvider,
+    RegistrationProvider,
     AuthService,
     AngularFireAuth,
     AngularFireDatabase,
