@@ -4,6 +4,7 @@ import { Userdata } from '../models/userdata';
 import { AuthService } from '../services/auth';
 import { ShowsProvider } from './shows.provider';
 import { Router } from '@angular/router';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-shows',
@@ -16,6 +17,17 @@ export class ShowsComponent implements OnInit {
   stateshows: { state: string, shows: Show[] }[];
   monthshows: { month: string, shows: Show[] }[];
   admin = 0;
+
+  mymap: L.Map;
+  centar = L.latLng(45.57185, 19.640113);
+  zoom = 14;
+  baselayer =  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+                      {
+                        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativeclmmons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                        maxZoom: 18,
+                        id: 'mapbox.streets',
+                        accessToken: 'pk.eyJ1IjoicnBla28iLCJhIjoiY2prMmh3ZHNmMGxwYTNwbjVrM2YwbHZmNiJ9.xPpVMvB1XQhtetosemv_4w'
+                      });
 
   constructor(
     public showsProvider: ShowsProvider,
@@ -49,6 +61,13 @@ export class ShowsComponent implements OnInit {
         this.showsProvider.statecode.next(null);
       }
     });
+    this.mymap = L.map('lmapa');
+    this.mymap.setView(this.centar, this.zoom);
+    this.baselayer.addTo(this.mymap);
+  }
+
+  createMap(){
+    
   }
 
   processShows(shows:Show[]){
