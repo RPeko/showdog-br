@@ -61,13 +61,13 @@ export class ShowsComponent implements OnInit {
         this.showsProvider.statecode.next(null);
       }
     });
-    this.mymap = L.map('lmapa');
-    this.mymap.setView(this.centar, this.zoom);
-    this.baselayer.addTo(this.mymap);
+    this.createMap();
   }
 
   createMap(){
-    
+    this.mymap = L.map('lmapa');
+    this.mymap.setView(this.centar, this.zoom);
+    this.baselayer.addTo(this.mymap);
   }
 
   processShows(shows:Show[]){

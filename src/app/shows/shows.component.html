@@ -10,7 +10,7 @@
   </button>
 </div>
 <mat-grid-list cols="2">
-  <mat-grid-tile>
+  <mat-grid-tile colspan="1" [style.border-right]="'2px solid #ddd'">
     <mat-list *ngIf="groupBy.value==2; else showByMonth">
       <ng-container *ngFor="let stateshow of stateshows">
         <h3 mat-subheader>{{stateshow.state}}</h3>
@@ -44,8 +44,8 @@
       </ng-container>
     </mat-list>
   </mat-grid-tile>
-  <mat-grid-tile>
-        <div id="lmapa"></div>
+  <mat-grid-tile colspan="1" [style.border-right]="'2px solid #ddd'">
+        <div id="lmapa" class="lmapa"></div>
   </mat-grid-tile>
 </mat-grid-list>
 
