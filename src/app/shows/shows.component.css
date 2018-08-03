@@ -1,2 +1,22 @@
 .lmapa {
+    position: relative;
+    /* height: 50vh; */
+    /* width:500px; */
+}
+
+#lmapa { height: 80vh; }
+
+.container {
+    display: flex;
+}
+
+.left {
+    float:left;
+    width: 40vw;
+    margin-right: 2vw;
+}
+
+.right {
+    float:left;
+    width: 50vw;
 }

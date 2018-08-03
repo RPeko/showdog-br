@@ -5,6 +5,16 @@ import { AuthService } from '../services/auth';
 import { ShowsProvider } from './shows.provider';
 import { Router } from '@angular/router';
 import * as L from 'leaflet';
+import 'leaflet.markercluster';
+
+const baselayer =  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+{
+  attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativeclmmons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+  maxZoom: 18,
+  id: 'mapbox.streets',
+  accessToken: 'pk.eyJ1IjoicnBla28iLCJhIjoiY2prMmh3ZHNmMGxwYTNwbjVrM2YwbHZmNiJ9.xPpVMvB1XQhtetosemv_4w'
+});
+
 
 @Component({
   selector: 'app-shows',
@@ -17,17 +27,11 @@ export class ShowsComponent implements OnInit {
   stateshows: { state: string, shows: Show[] }[];
   monthshows: { month: string, shows: Show[] }[];
   admin = 0;
+  markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 18 });
 
   mymap: L.Map;
   centar = L.latLng(45.57185, 19.640113);
-  zoom = 14;
-  baselayer =  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
-                      {
-                        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativeclmmons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-                        maxZoom: 18,
-                        id: 'mapbox.streets',
-                        accessToken: 'pk.eyJ1IjoicnBla28iLCJhIjoiY2prMmh3ZHNmMGxwYTNwbjVrM2YwbHZmNiJ9.xPpVMvB1XQhtetosemv_4w'
-                      });
+  zoom = 8;
 
   constructor(
     public showsProvider: ShowsProvider,
@@ -43,7 +47,12 @@ export class ShowsComponent implements OnInit {
       this.monthshows = [];
       userdata = data.val();
 
-      this.showsProvider.shows.subscribe(shows => this.processShows(shows), err => console.log("showsprovider err: " + err));
+      this.createMap();
+
+      this.showsProvider.shows.subscribe(shows => {
+        this.processShows(shows);
+        this.mymap.fitBounds(this.markerClusters.getBounds());
+      }, err => console.log("showsprovider err: " + err));
       
       if (userdata) {
         // console.log("userdata.userstates: " + userdata.userstates);
@@ -61,22 +70,34 @@ export class ShowsComponent implements OnInit {
         this.showsProvider.statecode.next(null);
       }
     });
-    this.createMap();
+
   }
 
   createMap(){
     this.mymap = L.map('lmapa');
     this.mymap.setView(this.centar, this.zoom);
-    this.baselayer.addTo(this.mymap);
+    baselayer.addTo(this.mymap);
   }
 
   processShows(shows:Show[]){
     for (let i = 0; i < shows.length; i++){
       this.groupByState(shows[i]);
       this.groupByMonth(shows[i]);
+      if ((typeof shows[i].lat === 'number') && (typeof shows[i].lon === 'number')){
+        this.addMarker(shows[i].lat, shows[i].lon, shows[i].name);
+      }
+        this.mymap.addLayer(this.markerClusters);
+        
+
     }
     // console.log((new Date()).toISOString() + "  processed shows: " + JSON.stringify(shows));
         console.log((new Date()).toISOString() + " processShows ...");
+  }
+
+  addMarker(lat: number, lon: number, name:string){
+    let marker = L.marker(new L.LatLng(lat, lon), { title: name });
+    marker.bindPopup(name);
+		this.markerClusters.addLayer(marker);
   }
 
   groupByState(show:Show){
