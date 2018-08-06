@@ -23,11 +23,13 @@ const baselayer =  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}
 })
 
 export class ShowsComponent implements OnInit {
-    
+  shows: Show[];
   stateshows: { state: string, shows: Show[] }[];
   monthshows: { month: string, shows: Show[] }[];
   admin = 0;
   markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 18 });
+  types: string[] = [];
+  filter: string[];
 
   mymap: L.Map;
   centar = L.latLng(45.57185, 19.640113);
@@ -43,6 +45,7 @@ export class ShowsComponent implements OnInit {
   ngOnInit(){
     this.authService.getUserdata().on('value', data => {
       let userdata: Userdata;
+      this.shows = [];
       this.stateshows = [];
       this.monthshows = [];
       userdata = data.val();
@@ -50,15 +53,15 @@ export class ShowsComponent implements OnInit {
       this.createMap();
 
       this.showsProvider.shows.subscribe(shows => {
-        this.processShows(shows);
-        this.mymap.fitBounds(this.markerClusters.getBounds());
+        this.shows = shows;
+        this.getTypes(this.shows);
+        this.processShows(this.shows);
       }, err => console.log("showsprovider err: " + err));
-      
+      // console.log("userdata: " + JSON.stringify(userdata));
       if (userdata) {
-        // console.log("userdata.userstates: " + userdata.userstates);
         if (userdata.admin) {
           this.admin = userdata.admin;
-          // console.log("admin: " + this.admin);
+          console.log("admin: " + this.admin);
         }
         if (userdata.userstates){
           for (let i=0; i< userdata.userstates.length; i++){
@@ -70,7 +73,6 @@ export class ShowsComponent implements OnInit {
         this.showsProvider.statecode.next(null);
       }
     });
-
   }
 
   createMap(){
@@ -79,7 +81,16 @@ export class ShowsComponent implements OnInit {
     baselayer.addTo(this.mymap);
   }
 
+  getTypes(shows:Show[]){
+    for (let i=0; i<shows.length;i++){
+      this.types.findIndex(type => type == shows[i].type)==-1?this.types.push(shows[i].type):"";
+    }
+  }
+
   processShows(shows:Show[]){
+    this.stateshows = [];
+    this.monthshows = [];
+    this.markerClusters.clearLayers();
     for (let i = 0; i < shows.length; i++){
       this.groupByState(shows[i]);
       this.groupByMonth(shows[i]);
@@ -87,11 +98,12 @@ export class ShowsComponent implements OnInit {
         this.addMarker(shows[i].lat, shows[i].lon, shows[i].name);
       }
         this.mymap.addLayer(this.markerClusters);
-        
+        console.log(JSON.stringify(this.types));
 
     }
     // console.log((new Date()).toISOString() + "  processed shows: " + JSON.stringify(shows));
         console.log((new Date()).toISOString() + " processShows ...");
+    // this.mymap.fitBounds(this.markerClusters.getBounds());
   }
 
   addMarker(lat: number, lon: number, name:string){
@@ -118,6 +130,10 @@ export class ShowsComponent implements OnInit {
     } else {
       this.monthshows.push({month: show.date.slice(0, 7), shows: [show]});
     }
+  }
+
+  filtering(){
+      this.processShows(this.shows.filter(show => this.filter.includes(show.type)));
   }
 
 }

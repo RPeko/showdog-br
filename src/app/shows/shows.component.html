@@ -1,52 +1,61 @@
 <div class="container">
-    <div class="left">
-        <div>
-            <mat-button-toggle-group #groupBy="matButtonToggleGroup" value=1>
-              <mat-button-toggle value=1>Group By Month</mat-button-toggle>
-              <mat-button-toggle value=2>Group By State</mat-button-toggle>
-            </mat-button-toggle-group>
-            <button mat-button *ngIf="admin>2">
-              <a routerLink="/show">
-                <mat-icon>add</mat-icon>
+  <div class="left">
+    <div>
+      <mat-button-toggle-group #groupBy="matButtonToggleGroup" value=1>
+        <mat-button-toggle value=1>Group By Month</mat-button-toggle>
+        <mat-button-toggle value=2>Group By State</mat-button-toggle>
+      </mat-button-toggle-group>
+      <button mat-button *ngIf="admin>2">
+        <a routerLink="/show">
+          <mat-icon>add</mat-icon>
+        </a>
+      </button>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-select [(value)]="filter" (selectionChange)="filtering()"  multiple>
+          <mat-option *ngFor="let type of types" [value]="type">
+            {{type}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-list *ngIf="groupBy.value==2; else showByMonth">
+      <ng-container *ngFor="let stateshow of stateshows">
+        <h3 mat-subheader>{{stateshow.state}}</h3>
+        <mat-expansion-panel *ngFor="let show of stateshow.shows">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{show.name}}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{show.date}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div>
+            <table>
+              <tr>{{"Place: " + show.place}}</tr>
+              <tr>{{"Description: " + show.description}}</tr>
+              <tr>{{"Type: " + show.type}}</tr>
+            </table>
+          </div>
+          <mat-action-row *ngIf="admin>2">
+            <button mat-button>
+              <a routerLink="/show" [queryParams]="{show: show | json }">
+                <mat-icon>edit</mat-icon>
               </a>
             </button>
-          </div>
-        <mat-list *ngIf="groupBy.value==2; else showByMonth">
-            <ng-container *ngFor="let stateshow of stateshows">
-              <h3 mat-subheader>{{stateshow.state}}</h3>
-              <mat-expansion-panel *ngFor="let show of stateshow.shows">
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    {{show.name}}
-                  </mat-panel-title>
-                  <mat-panel-description>
-                    {{show.date}}
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
-                <div>
-                  <table>
-                    <tr>{{"Place: " + show.place}}</tr>
-                    <tr>{{"Description: " + show.description}}</tr>
-                    <tr>{{"Type: " + show.type}}</tr>
-                  </table>
-                </div>
-                <mat-action-row *ngIf="admin>2">
-                  <button mat-button>
-                    <a routerLink="/show" [queryParams]="{show: show | json }">
-                      <mat-icon>edit</mat-icon>
-                    </a>
-                  </button>
-                </mat-action-row>
-              </mat-expansion-panel>
-              <mat-list-item *ngFor="let show of stateshow.shows">
-                <mat-expansion-panel> {{show.name}}</mat-expansion-panel>
-              </mat-list-item>
-            </ng-container>
-          </mat-list>
-    </div>
-    <div class="right">
-        <div id="lmapa" class="lmapa"></div>
-    </div>
+          </mat-action-row>
+        </mat-expansion-panel>
+        <mat-list-item *ngFor="let show of stateshow.shows">
+          <mat-expansion-panel> {{show.name}}</mat-expansion-panel>
+        </mat-list-item>
+      </ng-container>
+    </mat-list>
+  </div>
+  <div class="right">
+    <div id="lmapa" class="lmapa"></div>
+  </div>
 </div>
 
 <ng-template #showByMonth>
@@ -80,4 +89,3 @@
     </ng-container>
   </mat-list>
 </ng-template>
-
