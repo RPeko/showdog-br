@@ -4,8 +4,10 @@ export class Firm {
     description: string;
     place: string;
     address: string;
-    statecode:string;
+    statecode: string;
     type: number;
     lat: number;
     lon: number;
+    email: string;
+    phone: string;
 }

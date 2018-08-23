@@ -23,6 +23,7 @@ const baselayer =  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}
 })
 
 export class ShowsComponent implements OnInit {
+  ucitano = false;
   shows: Show[];
   stateshows: { state: string, shows: Show[] }[];
   monthshows: { month: string, shows: Show[] }[];
@@ -88,6 +89,7 @@ export class ShowsComponent implements OnInit {
   }
 
   processShows(shows:Show[]){
+    this. ucitano = false;
     this.stateshows = [];
     this.monthshows = [];
     this.markerClusters.clearLayers();
@@ -104,6 +106,7 @@ export class ShowsComponent implements OnInit {
     // console.log((new Date()).toISOString() + "  processed shows: " + JSON.stringify(shows));
         console.log((new Date()).toISOString() + " processShows ...");
     // this.mymap.fitBounds(this.markerClusters.getBounds());
+    this.ucitano = true;
   }
 
   addMarker(lat: number, lon: number, name:string){

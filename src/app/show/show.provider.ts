@@ -9,7 +9,7 @@ export class ShowProvider {
 showRef: any;
 
     constructor(public db: AngularFireDatabase) {
-      this.showRef = db.database.ref('/shows/');
+        this.showRef = db.database.ref('/shows/');
     }
 
     
@@ -17,8 +17,8 @@ showRef: any;
         if (!show.key || show.key == '' || show.key == 'undefined'){
             show.key = this.showRef.push().key;
         } 
-        const showRef = this.db.object('/shows/' + show.key);
-        return showRef.update(show);
+        const showObj = this.db.object('/shows/' + show.key);
+        return showObj.update(show);
 
     }
 

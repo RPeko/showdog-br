@@ -1,7 +1,50 @@
-
-
-
-
+<form [formGroup]="firmForm" (ngSubmit)="onSubmit()">
+    <div class="form-container">
+        <mat-form-field>
+            <input matInput formControlName="name" placeholder="Name">
+        </mat-form-field>
+    </div>
+    <div class="form-container">
+        <mat-form-field>
+            <input matInput formControlName="description" placeholder="Description">
+        </mat-form-field>
+    </div>
+    <div class="form-container">
+        <mat-form-field>
+            <input matInput formControlName="place" placeholder="place">
+        </mat-form-field>
+    </div>
+    <div class="form-container">
+        <mat-form-field>
+            <input matInput formControlName="address" placeholder="address">
+        </mat-form-field>
+    </div>
+    <div class="form-container">
+        <mat-form-field>
+            <input matInput formControlName="statecode" placeholder="statecode">
+        </mat-form-field>
+    </div>
+    <div class="form-container">
+        <mat-form-field>
+            <mat-select placeholder="Firm Type" formControlName="type">
+                <mat-option *ngFor="let type of types" [value]="type">
+                  {{type}}
+                </mat-option>
+              </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="form-container">
+        <mat-form-field>
+            <input matInput formControlName="lat" placeholder="Latitude">
+        </mat-form-field>
+    </div>
+    <div class="form-container">
+        <mat-form-field>
+            <input matInput formControlName="lon" placeholder="Longitude">
+        </mat-form-field>
+    </div>
+    <button type="submit"  mat-raised-button color="primary">Save</button>    
+  </form>
 <mat-list *ngFor="let firm of firms">
 {{firm.name}}
 </mat-list>
