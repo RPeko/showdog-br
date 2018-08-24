@@ -13,11 +13,9 @@ export class ShowsProvider {
     constructor(public db: AngularFireDatabase) {
         // this.statecode.subscribe(sc => console.log("sc: " + sc));
 
-          this.shows = this.statecode.pipe(
-            mergeMap(sc =>
-                {return db.list<Show>('/shows', ref => sc ? ref.orderByChild("statecode").equalTo(sc) : ref).valueChanges()}
-            )
-          );
+          this.shows = db.list<Show>('/shows').valueChanges();
+        //  this.shows =  db.list<Show>('/shows', ref => ref.orderByChild('statecode').equalTo('SRB')).valueChanges();
+
     }
 
 }

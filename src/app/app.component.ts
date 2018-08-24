@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,15 @@ export class AppComponent {
                {title:"Register your bussiness",  routerLink:"registration"},
                {title:"Settings",  routerLink:"settings"},
                {title:"Login",  routerLink:"login"}
-              ]
+              ];
+  
+              constructor(
+                private router: Router
+              ) {
+              }
+  
+  showsproba(){
+    this.router.navigate(['shows']);
+  }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth';
 
@@ -11,11 +11,12 @@ import { AuthService } from '../services/auth';
 export class LoginComponent  {
   
 
-  constructor(public authService: AuthService, private router: Router) { }
+  constructor(public authService: AuthService, private router: Router, private ngZone: NgZone) { }
 
   loginWithGoogle() {
     this.authService.signInWithGoogle().then(u => {
-      this.router.navigate(['/shows']);
+      this.ngZone.run(() => this.router.navigate(['/shows']));
+      
       // console.log("u:  " + JSON.stringify(u));
     } );
   }

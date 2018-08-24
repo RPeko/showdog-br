@@ -3,6 +3,7 @@
 </button>
 <mat-menu #menu="matMenu">
   <button mat-menu-item *ngFor="let item of menuItems" routerLink="{{item.routerLink}}">{{item.title}}</button>
+  <button mat-menu-item (click)="showsproba()">shows proba</button>
 </mat-menu>
 
 <div class="router-outlet">
