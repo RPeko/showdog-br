@@ -27,9 +27,11 @@ export class ShowsComponent implements OnInit {
   mymap: L.Map;
   centar = L.latLng(45.57185, 19.640113);
   zoom = 8;
-  baselayer =  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+  baselayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
     {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativeclmmons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      attribution:
+      `Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,
+      <a href="http://creativeclmmons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>`,
       maxZoom: 18,
       id: 'mapbox.streets',
       accessToken: 'pk.eyJ1IjoicnBla28iLCJhIjoiY2prMmh3ZHNmMGxwYTNwbjVrM2YwbHZmNiJ9.xPpVMvB1XQhtetosemv_4w'
@@ -40,21 +42,21 @@ export class ShowsComponent implements OnInit {
     public authService: AuthService,
     private router: Router
   ) {
-  
+
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.createMap();
     this.authService.afAuth.authState.subscribe(() => this.loadData());
   }
 
-  createMap(){
+  createMap() {
     this.mymap = L.map('lmapa');
     this.mymap.setView(this.centar, this.zoom);
     this.baselayer.addTo(this.mymap);
   }
 
-  loadData(){
+  loadData() {
     this.authService.getUserdata().on('value', data => {
       let userdata: Userdata;
       this.allshows = [];
@@ -66,83 +68,83 @@ export class ShowsComponent implements OnInit {
       this.showsProvider.shows.subscribe(allshows => {
         this.allshows = allshows;
         if (userdata) {
-              if (userdata.admin) {
-                this.admin = userdata.admin;
-                // console.log("admin: " + this.admin);
-              }
-              if (userdata.userstates){
-                //if logged then display only shows for user selected states
-                this.allshows.forEach(show => {
-                  if (userdata.userstates.findIndex(state => state == show.statecode)>-1){
-                    this.shows.push(show);
-                  }
-                });
+          if (userdata.admin) {
+            this.admin = userdata.admin;
+            // console.log("admin: " + this.admin);
           }
-        } else { 
+          if (userdata.userstates) {
+            // if logged then display only shows for user selected states
+            this.allshows.forEach(show => {
+              if (userdata.userstates.findIndex(state => state === show.statecode) > -1) {
+                this.shows.push(show);
+              }
+            });
+          }
+        } else {
           // if not logged display all shows
           this.allshows.forEach(show => this.shows.push(show));
         }
         this.getTypes(this.shows);
         this.processShows(this.shows);
-      }, err => console.log("showsprovider err: " + err));
+      }, err => console.log('showsprovider err: ' + err));
     });
   }
 
 
 
-  getTypes(shows:Show[]){
-    for (let i=0; i<shows.length;i++){
-      this.types.findIndex(type => type == shows[i].type)==-1?this.types.push(shows[i].type):"";
+  getTypes(shows: Show[]) {
+    for (let i = 0; i < shows.length; i++) {
+      this.types.findIndex(type => type === shows[i].type) === -1 ? this.types.push(shows[i].type) : console.log('a');
     }
     this.filter = this.types;
   }
 
-  processShows(shows:Show[]){
+  processShows(shows: Show[]) {
     this.stateshows = [];
     this.monthshows = [];
-    // this.markerClusters.clearLayers();
-    for (let i = 0; i < shows.length; i++){
+    this.markerClusters.clearLayers();
+    for (let i = 0; i < shows.length; i++) {
       this.groupByState(shows[i]);
       this.groupByMonth(shows[i]);
-      if ((typeof shows[i].lat === 'number') && (typeof shows[i].lon === 'number')){
+      if ((typeof shows[i].lat === 'number') && (typeof shows[i].lon === 'number')) {
         this.addMarker(shows[i].lat, shows[i].lon, shows[i].name);
       }
-        this.mymap.addLayer(this.markerClusters);
-        console.log(JSON.stringify(this.types));
+      this.mymap.addLayer(this.markerClusters);
+      console.log(JSON.stringify(this.types));
 
     }
-    console.log((new Date()).toISOString() + " processShows ...");
+    console.log((new Date()).toISOString() + ' processShows ...');
     this.mymap.fitBounds(this.markerClusters.getBounds());
   }
 
-  addMarker(lat: number, lon: number, name:string){
-    let marker = L.marker(new L.LatLng(lat, lon), { title: name });
+  addMarker(lat: number, lon: number, name: string) {
+    const marker = L.marker(new L.LatLng(lat, lon), { title: name });
     marker.bindPopup(name);
-		this.markerClusters.addLayer(marker);
+    this.markerClusters.addLayer(marker);
   }
 
-  groupByState(show:Show){
-    let index = this.stateshows.findIndex(ss => ss.state == show.statecode);
+  groupByState(show: Show) {
+    const index = this.stateshows.findIndex(ss => ss.state === show.statecode);
     // console.log("stateshow index: " + index);
-    if (index > -1){
+    if (index > -1) {
       this.stateshows[index].shows.push(show);
     } else {
-      this.stateshows.push({state: show.statecode, shows: [show]});
+      this.stateshows.push({ state: show.statecode, shows: [show] });
     }
   }
 
-  groupByMonth(show:Show){
-    let index = this.monthshows.findIndex(ms => ms.month == show.date.slice(0, 7));
+  groupByMonth(show: Show) {
+    const index = this.monthshows.findIndex(ms => ms.month === show.date.slice(0, 7));
     // console.log("monthshow index: " + index);
-    if (index > -1){
+    if (index > -1) {
       this.monthshows[index].shows.push(show);
     } else {
-      this.monthshows.push({month: show.date.slice(0, 7), shows: [show]});
+      this.monthshows.push({ month: show.date.slice(0, 7), shows: [show] });
     }
   }
 
-  filtering(){
-      this.processShows(this.shows.filter(show => this.filter.includes(show.type)));
+  filtering() {
+    this.processShows(this.shows.filter(show => this.filter.includes(show.type)));
   }
 
 }

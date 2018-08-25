@@ -18,7 +18,7 @@
         </a>
       </button>
     </div>
-    <mat-list *ngIf="groupBy.value==2; else showByMonth">
+    <mat-list class="lista" *ngIf="groupBy.value==2; else showByMonth">
       <ng-container *ngFor="let stateshow of stateshows">
         <h3 mat-subheader>{{stateshow.state}}</h3>
         <mat-expansion-panel *ngFor="let show of stateshow.shows">
@@ -57,7 +57,7 @@
 </div>
 
 <ng-template #showByMonth>
-  <mat-list>
+  <mat-list class="lista">
     <ng-container *ngFor="let monthshow of monthshows">
       <h3 mat-subheader>{{monthshow.month}}</h3>
       <mat-expansion-panel *ngFor="let show of monthshow.shows">

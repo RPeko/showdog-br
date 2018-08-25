@@ -10,6 +10,9 @@
     display: flex;
 }
 
+.lista {
+    height: 50vh!important;
+}
 .left {
     float:left;
     width: 40vw;
