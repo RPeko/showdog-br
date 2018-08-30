@@ -1,5 +1,5 @@
 export class Firm {
-    key:string;
+    key: string;
     name: string;
     description: string;
     place: string;

@@ -9,15 +9,13 @@ import { AuthService } from '../services/auth';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent  {
-  
 
   constructor(public authService: AuthService, private router: Router, private ngZone: NgZone) { }
 
   loginWithGoogle() {
     this.authService.signInWithGoogle().then(u => {
       this.ngZone.run(() => this.router.navigate(['/shows']));
-      
-      // console.log("u:  " + JSON.stringify(u));
+      // console.log('u:  ' + JSON.stringify(u));
     } );
   }
 

@@ -20,7 +20,7 @@ export class RegistrationComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     public registrationProvider: RegistrationProvider,
-    private router:Router,
+    private router: Router,
     private fb: FormBuilder) {
     this.firmForm = this.fb.group({
       name: ['', Validators.required],
