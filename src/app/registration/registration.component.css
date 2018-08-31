@@ -1,3 +1,7 @@
+.container {
+    display: flex;
+}
+
 .left {
     float:left;
     width: 40vw;
@@ -6,5 +10,9 @@
 
 .right {
     float:left;
-    width: 50vw;
+    width: 55vw;
+}
+
+.form-field {
+   width: 35vw;
 }

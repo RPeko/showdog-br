@@ -13,10 +13,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 export class RegistrationComponent implements OnInit {
   firm: Firm;
-  firms: Firm[];
-  firmtypes: FirmType[];
+  firms: Firm[] = [];
+  firmtypes: FirmType[] = [];
   admin = 0;
   firmForm: FormGroup;
+  submitButtonText: string;
 
   constructor(private route: ActivatedRoute,
     public registrationProvider: RegistrationProvider,
@@ -37,11 +38,18 @@ export class RegistrationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.registrationProvider.firmtypes.subscribe(firmtypes => this.firmtypes = firmtypes);
+    this.registrationProvider.firmtypes.subscribe(firmtypes => {
+      for (let i=0; i< firmtypes.length; i++){
+        this.firmtypes.push({id: i, name: firmtypes[i].name, order: firmtypes[i].order});
+      }
+      console.log(JSON.stringify(this.firmtypes));
+    });
     this.registrationProvider.firms.subscribe(firms => this.firms = firms);
     this.route.queryParams.subscribe(params => {
       if (params.firm) {
         this.firm = JSON.parse(params.firm);
+        console.log("firm: "  + JSON.stringify(this.firm));
+        this.submitButtonText = "Save edits";
       } else {
         this.firm = {
           'key': '',
@@ -51,21 +59,22 @@ export class RegistrationComponent implements OnInit {
           'address': '',
           'statecode': '',
           'type': null,
-          'lat': 0,
-          'lon': 0,
+          'lat': null,
+          'lon': null,
           'email': '',
           'phone': '',
         };
+        this.submitButtonText = "Add";
       }
       this.firmForm.setValue({
         name: this.firm.name || '',
         description: this.firm.description || '',
         place: this.firm.place || '',
         address: this.firm.address || '',
-        type: this.firm.type || '',
+        type: +this.firm.type || '',
         statecode: this.firm.statecode || '',
-        lat: this.firm.lat || 0,
-        lon: this.firm.lon || 0,
+        lat: this.firm.lat || null,
+        lon: this.firm.lon || null,
         email: this.firm.email || '',
         phone: this.firm.phone || '',
       });
@@ -77,7 +86,8 @@ export class RegistrationComponent implements OnInit {
     this.firm.description = this.firmForm.value.description;
     this.firm.place = this.firmForm.value.place;
     this.firm.address = this.firmForm.value.address;
-    this.firm.type = this.firmForm.value.type;
+    console.log("Saved value for type: " + this.firmForm.value.type);
+    this.firm.type = +this.firmForm.value.type;
     this.firm.statecode = this.firmForm.value.statecode;
     this.firm.lat = +this.firmForm.value.lat;
     this.firm.lon = +this.firmForm.value.lon;
@@ -86,6 +96,15 @@ export class RegistrationComponent implements OnInit {
     this.registrationProvider.upsertFirm(this.firm)
     .then(() => console.log("added new firm!"))
     .catch(err => console.log("err: " + err));
+  }
+
+  getFirmtype(id:any){
+      let type = this.firmtypes.find(type => type.id = id);
+      if (type){
+        return type.name;
+      } else {
+        return null;
+      }
   }
 
 }

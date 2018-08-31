@@ -27,6 +27,7 @@ import { MatRadioModule} from '@angular/material/radio';
 import { MatExpansionModule} from '@angular/material/expansion';
 import { MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 import { AgmCoreModule } from '@agm/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -69,7 +70,8 @@ import { RegistrationProvider } from './registration/registration.provider';
     MatButtonToggleModule,
     MatRadioModule,
     MatSlideToggleModule,
-    MatSelectModule
+    MatSelectModule,
+    MatToolbarModule
   ],
   providers: [
     ShowsProvider,

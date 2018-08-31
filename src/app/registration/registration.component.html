@@ -1,50 +1,50 @@
 <div class="container">
     <div class="left">
         <form [formGroup]="firmForm" (ngSubmit)="onSubmit()">
-            <div class="form-container">
-                <mat-form-field>
+            <div>
+                <mat-form-field class="form-field">
                     <mat-select placeholder="Firm Type" formControlName="type">
-                        <mat-option *ngFor="let type of types" [value]="type">
-                            {{type}}
+                        <mat-option *ngFor="let firmtype of firmtypes" [value]="firmtype.id">
+                            {{firmtype.name}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="form-container">
-                <mat-form-field>
+            <div>
+                <mat-form-field class="form-field">
                     <input matInput formControlName="name" placeholder="Name">
                 </mat-form-field>
             </div>
-            <div class="form-container">
-                <mat-form-field>
+            <div>
+                <mat-form-field class="form-field">
                     <input matInput formControlName="description" placeholder="Description">
                 </mat-form-field>
             </div>
-            <div class="form-container">
-                <mat-form-field>
-                    <input matInput formControlName="place" placeholder="place">
+            <div>
+                <mat-form-field class="form-field">
+                    <input matInput formControlName="place" placeholder="Place">
                 </mat-form-field>
             </div>
-            <div class="form-container">
-                <mat-form-field>
-                    <input matInput formControlName="address" placeholder="address">
+            <div>
+                <mat-form-field class="form-field">
+                    <input matInput formControlName="address" placeholder="Address">
                 </mat-form-field>
             </div>
-            <div class="form-container">
-                <mat-form-field>
-                    <input matInput formControlName="statecode" placeholder="statecode">
+            <div>
+                <mat-form-field class="form-field">
+                    <input matInput formControlName="statecode" placeholder="Statecode">
                 </mat-form-field>
             </div>
             <table>
                 <tr>
                     <td>
                         <div class="form-container">
-                            <mat-form-field>
+                            <mat-form-field class="form-field">
                                 <input matInput formControlName="lat" placeholder="Latitude">
                             </mat-form-field>
                         </div>
                         <div class="form-container">
-                            <mat-form-field>
+                            <mat-form-field class="form-field">
                                 <input matInput formControlName="lon" placeholder="Longitude">
                             </mat-form-field>
                         </div>
@@ -56,23 +56,25 @@
                     </td>
                 </tr>
             </table>
-
-            <button type="submit" mat-raised-button color="primary">Save</button>
+            <button type="submit" mat-raised-button color="primary">{{submitButtonText}}</button>
         </form>
     </div>
     <div class="right">
-        My businesses:
+        <mat-toolbar>My businesses:</mat-toolbar>
         <mat-expansion-panel *ngFor="let firm of firms">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     {{firm.name}}
                 </mat-panel-title>
+                <mat-panel-description>
+                    {{getFirmtype(firm.type)}}
+                </mat-panel-description>
             </mat-expansion-panel-header>
             <div>
                 <table>
                     <tr>{{"Place: " + firm.place}}</tr>
                     <tr>{{"Description: " + firm.description}}</tr>
-                    <tr>{{"Type: " + firm.type}}</tr>
+                    <tr>{{"Type: " + getFirmtype(firm.type)}}</tr>
                 </table>
             </div>
             <div>
