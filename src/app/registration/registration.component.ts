@@ -39,8 +39,8 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit() {
     this.registrationProvider.firmtypes.subscribe(firmtypes => {
-      for (let i=0; i< firmtypes.length; i++){
-        this.firmtypes.push({id: i, name: firmtypes[i].name, order: firmtypes[i].order});
+      for (let i = 0; i < firmtypes.length; i++) {
+        this.firmtypes.push({ id: i, name: firmtypes[i].name, order: firmtypes[i].order });
       }
       console.log(JSON.stringify(this.firmtypes));
     });
@@ -48,8 +48,8 @@ export class RegistrationComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params.firm) {
         this.firm = JSON.parse(params.firm);
-        console.log("firm: "  + JSON.stringify(this.firm));
-        this.submitButtonText = "Save edits";
+        console.log('firm: ' + JSON.stringify(this.firm));
+        this.submitButtonText = 'Save edits';
       } else {
         this.firm = {
           'key': '',
@@ -64,7 +64,7 @@ export class RegistrationComponent implements OnInit {
           'email': '',
           'phone': '',
         };
-        this.submitButtonText = "Add";
+        this.submitButtonText = 'Add';
       }
       this.firmForm.setValue({
         name: this.firm.name || '',
@@ -81,30 +81,31 @@ export class RegistrationComponent implements OnInit {
     });
   }
 
-  onSubmit() { 
+  onSubmit() {
     this.firm.name = this.firmForm.value.name;
     this.firm.description = this.firmForm.value.description;
     this.firm.place = this.firmForm.value.place;
     this.firm.address = this.firmForm.value.address;
-    console.log("Saved value for type: " + this.firmForm.value.type);
-    this.firm.type = +this.firmForm.value.type;
+    console.log('Saved value for type: ' + this.firmForm.value.type);
+    this.firm.type = this.firmForm.value.type;
     this.firm.statecode = this.firmForm.value.statecode;
     this.firm.lat = +this.firmForm.value.lat;
     this.firm.lon = +this.firmForm.value.lon;
     this.firm.email = this.firmForm.value.email;
     this.firm.phone = this.firmForm.value.phone;
     this.registrationProvider.upsertFirm(this.firm)
-    .then(() => console.log("added new firm!"))
-    .catch(err => console.log("err: " + err));
+      .then(() => console.log('added new firm!'))
+      .catch(err => console.log('err: ' + err));
   }
 
-  getFirmtype(id:any){
-      let type = this.firmtypes.find(type => type.id = id);
-      if (type){
-        return type.name;
-      } else {
-        return null;
-      }
+  getFirmtype(id: any) {
+    const firmtype = this.firmtypes.find(t => t.id === id);
+    if (firmtype) {
+      return firmtype.name;
+    } else {
+      return null;
+    }
   }
+
 
 }
