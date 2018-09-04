@@ -19,7 +19,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule, MatSelectModule} from '@angular/material';
+import {MatInputModule, MatSelectModule, MatDialogModule} from '@angular/material';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,11 +32,15 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { AgmCoreModule } from '@agm/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from './settings/settings.component';
-import { SettingsProvider } from './settings/settings.provider';
 import { ShowComponent } from './show/show.component';
 import { ShowProvider } from './show/show.provider';
 import { RegistrationComponent } from './registration/registration.component';
 import { RegistrationProvider } from './registration/registration.provider';
+import { FirmsComponent } from './firms/firms.component';
+import { FirmsProvider } from './firms/firms.provider';
+import { StateDialogComponent } from './state-dialog/state-dialog.component';
+import { StateDialogProvider } from './state-dialog/state-dialog.provider';
+import { SettingsProvider } from './settings/settings.provider';
 
 @NgModule({
   declarations: [
@@ -46,7 +50,9 @@ import { RegistrationProvider } from './registration/registration.provider';
     SettingsComponent,
     LoginComponent,
     ShowComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    FirmsComponent,
+    StateDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,13 +77,16 @@ import { RegistrationProvider } from './registration/registration.provider';
     MatRadioModule,
     MatSlideToggleModule,
     MatSelectModule,
+    MatDialogModule,
     MatToolbarModule
   ],
   providers: [
     ShowsProvider,
     ShowProvider,
     SettingsProvider,
+    StateDialogProvider,
     RegistrationProvider,
+    FirmsProvider,
     AuthService,
     AngularFireAuth,
     AngularFireDatabase,

@@ -1,7 +1,16 @@
+/* .lmapa {
+    position: relative;
+} */
+
+#lmapa { height: 80vh; }
+
 .container {
     display: flex;
 }
 
+.lista {
+    height: 50vh!important;
+}
 .left {
     float:left;
     width: 40vw;
@@ -10,13 +19,5 @@
 
 .right {
     float:left;
-    width: 55vw;
-}
-
-.form-field {
-   width: 35vw;
-}
-
-.cancel-link {
-    padding-left: 1vw;
+    width: 50vw;
 }

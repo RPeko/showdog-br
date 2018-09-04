@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="left">
+    <!-- <div class="filter">
+      <mat-select placeholder="Filter show types" [(value)]="filter" (selectionChange)="filtering()" multiple>
+        <mat-option *ngFor="let type of types" [value]="type">
+          {{type}}
+        </mat-option>
+      </mat-select>
+    </div> -->
+    <mat-list class="lista">
+      <ng-container *ngFor="let statefirm of statefirms">
+        <h3 mat-subheader>{{statefirm.state}}</h3>
+        <mat-expansion-panel *ngFor="let firm of statefirm.firms">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{firm.name}}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{firm.date}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div>
+            <table>
+              <tr>{{"Place: " + firm.place}}</tr>
+              <tr>{{"Description: " + firm.description}}</tr>
+              <tr>{{"Type: " + firm.type}}</tr>
+            </table>
+          </div>
+        </mat-expansion-panel>
+      </ng-container>
+    </mat-list>
+  </div>
+  <div class="right">
+    <div id="lmapa" class="lmapa"></div>
+  </div>
+</div>

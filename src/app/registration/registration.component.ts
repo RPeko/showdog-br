@@ -4,6 +4,7 @@ import { RegistrationProvider } from './registration.provider';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FirmType } from '../models/firmtype';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-registration',
@@ -22,13 +23,14 @@ export class RegistrationComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     public registrationProvider: RegistrationProvider,
     private router: Router,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    public dialog: MatDialog) {
     this.firmForm = this.fb.group({
       name: ['', Validators.required],
       description: '',
       place: '',
       address: '',
-      statecode: '',
+      statecode: ['', Validators.required],
       type: null,
       lat: 0,
       lon: 0,
@@ -38,6 +40,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.submitButtonText = 'Add';
     this.registrationProvider.firmtypes.subscribe(firmtypes => {
       for (let i = 0; i < firmtypes.length; i++) {
         this.firmtypes.push({ id: i, name: firmtypes[i].name, order: firmtypes[i].order });
@@ -45,39 +48,38 @@ export class RegistrationComponent implements OnInit {
       console.log(JSON.stringify(this.firmtypes));
     });
     this.registrationProvider.firms.subscribe(firms => this.firms = firms);
-    this.route.queryParams.subscribe(params => {
-      if (params.firm) {
-        this.firm = JSON.parse(params.firm);
-        console.log('firm: ' + JSON.stringify(this.firm));
-        this.submitButtonText = 'Save edits';
-      } else {
-        this.firm = {
-          'key': '',
-          'name': '',
-          'description': '',
-          'place': '',
-          'address': '',
-          'statecode': '',
-          'type': null,
-          'lat': null,
-          'lon': null,
-          'email': '',
-          'phone': '',
-        };
-        this.submitButtonText = 'Add';
-      }
-      this.firmForm.setValue({
-        name: this.firm.name || '',
-        description: this.firm.description || '',
-        place: this.firm.place || '',
-        address: this.firm.address || '',
-        type: +this.firm.type || '',
-        statecode: this.firm.statecode || '',
-        lat: this.firm.lat || null,
-        lon: this.firm.lon || null,
-        email: this.firm.email || '',
-        phone: this.firm.phone || '',
-      });
+    
+  }
+
+  populateForm(firm: Firm) {
+    if (firm){
+      this.firm = firm;
+    } else {
+      this.firm = {
+        'key': '',
+        'name': '',
+        'description': '',
+        'place': '',
+        'address': '',
+        'statecode': '',
+        'type': null,
+        'lat': null,
+        'lon': null,
+        'email': '',
+        'phone': '',
+      };
+    }
+    this.firmForm.setValue({
+      name: this.firm.name || '',
+      description: this.firm.description || '',
+      place: this.firm.place || '',
+      address: this.firm.address || '',
+      type: +this.firm.type || '',
+      statecode: this.firm.statecode || '',
+      lat: this.firm.lat || null,
+      lon: this.firm.lon || null,
+      email: this.firm.email || '',
+      phone: this.firm.phone || '',
     });
   }
 
@@ -86,7 +88,6 @@ export class RegistrationComponent implements OnInit {
     this.firm.description = this.firmForm.value.description;
     this.firm.place = this.firmForm.value.place;
     this.firm.address = this.firmForm.value.address;
-    console.log('Saved value for type: ' + this.firmForm.value.type);
     this.firm.type = this.firmForm.value.type;
     this.firm.statecode = this.firmForm.value.statecode;
     this.firm.lat = +this.firmForm.value.lat;
@@ -94,7 +95,7 @@ export class RegistrationComponent implements OnInit {
     this.firm.email = this.firmForm.value.email;
     this.firm.phone = this.firmForm.value.phone;
     this.registrationProvider.upsertFirm(this.firm)
-      .then(() => console.log('added new firm!'))
+      .then(() => this.populateForm(null))
       .catch(err => console.log('err: ' + err));
   }
 
@@ -106,6 +107,5 @@ export class RegistrationComponent implements OnInit {
       return null;
     }
   }
-
 
 }

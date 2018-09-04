@@ -55,8 +55,11 @@
                         </a>
                     </td>
                 </tr>
+                <tr>
+                    <button type="submit" mat-raised-button color="primary">{{submitButtonText}}</button>
+                    <button type="button" mat-button  (click)="populateForm()">Cancel</button>
+                </tr>
             </table>
-            <button type="submit" mat-raised-button color="primary">{{submitButtonText}}</button>
         </form>
     </div>
     <div class="right">
@@ -79,10 +82,8 @@
             </div>
             <div>
                 <mat-action-row>
-                    <button mat-button>
-                        <a routerLink="/registration" [queryParams]="{firm: firm | json }">
-                            <mat-icon>edit</mat-icon>
-                        </a>
+                    <button mat-button (click)="populateForm(firm)">
+                        <mat-icon>edit</mat-icon>
                     </button>
                 </mat-action-row>
             </div>

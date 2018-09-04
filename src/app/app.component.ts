@@ -11,7 +11,8 @@ import { Router } from '../../node_modules/@angular/router';
 export class AppComponent {
   title = 'Show Dog';
   menuItems = [
-               {title: 'Shows',  routerLink: 'shows'},
+               {title: 'Dog Shows',  routerLink: 'shows'},
+               {title: 'Dog Related Businesses',  routerLink: 'firms'},
                {title: 'Register your bussiness',  routerLink: 'registration'},
                {title: 'Settings',  routerLink: 'settings'},
                {title: 'Login',  routerLink: 'login'}

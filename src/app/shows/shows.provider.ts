@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs';
-import { switchMap, mergeMap } from 'rxjs/operators';
 import { Show } from '../models/show';
 
 @Injectable()
