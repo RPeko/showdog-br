@@ -19,7 +19,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule, MatSelectModule, MatDialogModule} from '@angular/material';
+import {MatInputModule, MatSelectModule } from '@angular/material';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -38,8 +38,6 @@ import { RegistrationComponent } from './registration/registration.component';
 import { RegistrationProvider } from './registration/registration.provider';
 import { FirmsComponent } from './firms/firms.component';
 import { FirmsProvider } from './firms/firms.provider';
-import { StateDialogComponent } from './state-dialog/state-dialog.component';
-import { StateDialogProvider } from './state-dialog/state-dialog.provider';
 import { SettingsProvider } from './settings/settings.provider';
 
 @NgModule({
@@ -52,7 +50,6 @@ import { SettingsProvider } from './settings/settings.provider';
     ShowComponent,
     RegistrationComponent,
     FirmsComponent,
-    StateDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,14 +74,12 @@ import { SettingsProvider } from './settings/settings.provider';
     MatRadioModule,
     MatSlideToggleModule,
     MatSelectModule,
-    MatDialogModule,
     MatToolbarModule
   ],
   providers: [
     ShowsProvider,
     ShowProvider,
     SettingsProvider,
-    StateDialogProvider,
     RegistrationProvider,
     FirmsProvider,
     AuthService,

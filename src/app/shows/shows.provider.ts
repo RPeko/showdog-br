@@ -10,11 +10,7 @@ export class ShowsProvider {
     public statecode = new Subject<string>();
 
     constructor(public db: AngularFireDatabase) {
-        // this.statecode.subscribe(sc => console.log("sc: " + sc));
-
           this.shows = db.list<Show>('/shows').valueChanges();
-        //  this.shows =  db.list<Show>('/shows', ref => ref.orderByChild('statecode').equalTo('SRB')).valueChanges();
-
     }
 
 }

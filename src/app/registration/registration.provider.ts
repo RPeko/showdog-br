@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { Firm } from '../models/firm';
 import { FirmType } from '../models/firmtype';
 import { State } from '../models/state';
+import { AuthService } from '../services/auth';
 
 @Injectable()
 export class RegistrationProvider {
@@ -12,8 +13,8 @@ export class RegistrationProvider {
     public states: Observable<State[]>;
     firmRef: any;
 
-    constructor(public db: AngularFireDatabase) {
-        this.firms = db.list<Firm>('/firms').valueChanges();
+    constructor(public db: AngularFireDatabase, private authService: AuthService) {
+        this.firms = db.list<Firm>('/firms', ref => ref.orderByChild('userId').equalTo(this.authService.getUid())).valueChanges();
         this.firmtypes = db.list<FirmType>('/firmtype').valueChanges();
         this.states = db.list<State>('/states').valueChanges();
         this.firmRef = db.database.ref('/firms/');

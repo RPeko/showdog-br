@@ -7,6 +7,8 @@ import { FirmsProvider } from './firms.provider';
 import { FirmType } from '../models/firmtype';
 
 
+const iconBaseUrl = 'assets/icons/';
+
 @Component({
   selector: 'app-firms',
   templateUrl: './firms.component.html',
@@ -15,9 +17,10 @@ import { FirmType } from '../models/firmtype';
 export class FirmsComponent implements OnInit {
   firms: Firm[];
   statefirms: { state: string, firms: Firm[] }[];
-  markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 18 });
+  markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 14 });
   firmtypes: (FirmType & { count: number })[] = [];
   filter: number[];
+
 
   mymap: L.Map;
   centar = L.latLng(45.57185, 19.640113);
@@ -55,7 +58,6 @@ export class FirmsComponent implements OnInit {
     this.firmsProvider.firmtypes.subscribe(firmtypes => {
       for (let i = 0; i < firmtypes.length; i++) {
         this.firmtypes.push({ id: i, name: firmtypes[i].name, order: firmtypes[i].order, count: 0 });
-
       }
       console.log(JSON.stringify(this.firmtypes));
       this.firmsProvider.firms.subscribe(firms => {
@@ -80,7 +82,7 @@ export class FirmsComponent implements OnInit {
     for (let i = 0; i < firms.length; i++) {
       this.groupByState(firms[i]);
       if ((typeof firms[i].lat === 'number') && (typeof firms[i].lon === 'number')) {
-        this.addMarker(firms[i].lat, firms[i].lon, firms[i].name);
+        this.addMarker(firms[i]);
       }
       this.mymap.addLayer(this.markerClusters);
     }
@@ -88,8 +90,8 @@ export class FirmsComponent implements OnInit {
     // this.mymap.fitBounds(this.markerClusters.getBounds());
   }
 
-  addMarker(lat: number, lon: number, name: string) {
-    const marker = L.marker(new L.LatLng(lat, lon), { title: name });
+  addMarker(firm:Firm) {
+    const marker = L.marker(new L.LatLng(firm.lat, firm.lon), { title: firm.name }).setIcon(L.icon({ iconUrl: iconBaseUrl + 'firmtype-' + firm.type + '.svg'}));
     marker.bindPopup(name);
     this.markerClusters.addLayer(marker);
   }

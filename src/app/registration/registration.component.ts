@@ -3,8 +3,10 @@ import { Firm } from '../models/firm';
 import { RegistrationProvider } from './registration.provider';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FirmType } from '../models/firmtype';
+import { State } from '../models/state';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { AuthService } from '../services/auth';
+import { MyErrorStateMatcher } from '../validators/matcher';
 
 @Component({
   selector: 'app-registration',
@@ -15,23 +17,26 @@ import { MatDialog } from '@angular/material';
 export class RegistrationComponent implements OnInit {
   firm: Firm;
   firms: Firm[] = [];
+  states: State[] = [];
   firmtypes: FirmType[] = [];
   admin = 0;
   firmForm: FormGroup;
-  submitButtonText: string;
+  submitButtonText = 'Add';
+  matcher = new MyErrorStateMatcher();
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     public registrationProvider: RegistrationProvider,
+    private authService: AuthService,
     private router: Router,
-    private fb: FormBuilder,
-    public dialog: MatDialog) {
+    private fb: FormBuilder) {
     this.firmForm = this.fb.group({
       name: ['', Validators.required],
       description: '',
       place: '',
       address: '',
       statecode: ['', Validators.required],
-      type: null,
+      type:  [null, Validators.required],
       lat: 0,
       lon: 0,
       email: ['', Validators.email],
@@ -40,7 +45,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.submitButtonText = 'Add';
     this.registrationProvider.firmtypes.subscribe(firmtypes => {
       for (let i = 0; i < firmtypes.length; i++) {
         this.firmtypes.push({ id: i, name: firmtypes[i].name, order: firmtypes[i].order });
@@ -48,15 +52,19 @@ export class RegistrationComponent implements OnInit {
       console.log(JSON.stringify(this.firmtypes));
     });
     this.registrationProvider.firms.subscribe(firms => this.firms = firms);
-    
+    this.registrationProvider.states.subscribe(states => this.states = states);
+
   }
 
   populateForm(firm: Firm) {
-    if (firm){
+    if (firm) {
       this.firm = firm;
+      console.log("saved firm: " + JSON.stringify(firm));
+      this.submitButtonText = 'Save edits';
     } else {
       this.firm = {
         'key': '',
+        'userId': this.authService.getUid(),
         'name': '',
         'description': '',
         'place': '',
@@ -68,13 +76,14 @@ export class RegistrationComponent implements OnInit {
         'email': '',
         'phone': '',
       };
+      this.submitButtonText = 'Add';
     }
     this.firmForm.setValue({
       name: this.firm.name || '',
       description: this.firm.description || '',
       place: this.firm.place || '',
       address: this.firm.address || '',
-      type: +this.firm.type || '',
+      type: +this.firm.type || null,
       statecode: this.firm.statecode || '',
       lat: this.firm.lat || null,
       lon: this.firm.lon || null,
@@ -86,6 +95,9 @@ export class RegistrationComponent implements OnInit {
   onSubmit() {
     this.firm.name = this.firmForm.value.name;
     this.firm.description = this.firmForm.value.description;
+    if (!this.firm.userId){
+      this.firm.userId = this.authService.getUid();
+    }
     this.firm.place = this.firmForm.value.place;
     this.firm.address = this.firmForm.value.address;
     this.firm.type = this.firmForm.value.type;

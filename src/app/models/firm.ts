@@ -1,5 +1,6 @@
 export class Firm {
     key: string;
+    userId: string;
     name: string;
     description: string;
     place: string;
