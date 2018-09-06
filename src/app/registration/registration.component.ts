@@ -36,7 +36,7 @@ export class RegistrationComponent implements OnInit {
       place: '',
       address: '',
       statecode: ['', Validators.required],
-      type:  [null, Validators.required],
+      type: [null, Validators.required],
       lat: 0,
       lon: 0,
       email: ['', Validators.email],
@@ -95,7 +95,7 @@ export class RegistrationComponent implements OnInit {
   onSubmit() {
     this.firm.name = this.firmForm.value.name;
     this.firm.description = this.firmForm.value.description;
-    if (!this.firm.userId){
+    if (!this.firm.userId) {
       this.firm.userId = this.authService.getUid();
     }
     this.firm.place = this.firmForm.value.place;

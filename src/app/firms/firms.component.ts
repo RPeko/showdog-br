@@ -14,10 +14,10 @@ const iconBaseUrl = 'assets/icons/';
   templateUrl: './firms.component.html',
   styleUrls: ['./firms.component.css']
 })
+
 export class FirmsComponent implements OnInit {
   firms: Firm[];
   statefirms: { state: string, firms: Firm[] }[];
-  markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 14 });
   firmtypes: (FirmType & { count: number })[] = [];
   filter: number[];
 
@@ -25,6 +25,8 @@ export class FirmsComponent implements OnInit {
   mymap: L.Map;
   centar = L.latLng(45.57185, 19.640113);
   zoom = 8;
+  
+  markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 13 });
   baselayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
     {
       attribution:
@@ -91,8 +93,10 @@ export class FirmsComponent implements OnInit {
   }
 
   addMarker(firm:Firm) {
-    const marker = L.marker(new L.LatLng(firm.lat, firm.lon), { title: firm.name }).setIcon(L.icon({ iconUrl: iconBaseUrl + 'firmtype-' + firm.type + '.svg'}));
-    marker.bindPopup(name);
+    console.log(firm.name + ' type ' + firm.type + ' icon:  ' + iconBaseUrl + 'firmtype' + firm.type + '.svg');
+    const icon = L.icon({ iconUrl: iconBaseUrl + 'firmtype' + firm.type + '.svg'});
+    const marker = L.marker(new L.LatLng(firm.lat, firm.lon), { title: firm.name, icon: icon });
+    marker.bindPopup('<div>' + firm.name + '</div>');
     this.markerClusters.addLayer(marker);
   }
 
