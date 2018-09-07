@@ -37,11 +37,25 @@ export class RegistrationComponent implements OnInit {
       address: '',
       statecode: ['', Validators.required],
       type: [null, Validators.required],
-      lat: 0,
-      lon: 0,
+      lat: null,
+      lon: null,
       email: ['', Validators.email],
       phone: '',
     });
+    this.firm = {
+      'key': '',
+      'userId': this.authService.getUid(),
+      'name': '',
+      'description': '',
+      'place': '',
+      'address': '',
+      'statecode': '',
+      'type': null,
+      'lat': null,
+      'lon': null,
+      'email': '',
+      'phone': '',
+    };
   }
 
   ngOnInit() {
@@ -85,8 +99,8 @@ export class RegistrationComponent implements OnInit {
       address: this.firm.address || '',
       type: +this.firm.type || null,
       statecode: this.firm.statecode || '',
-      lat: this.firm.lat || null,
-      lon: this.firm.lon || null,
+      lat: +this.firm.lat || null,
+      lon: +this.firm.lon || null,
       email: this.firm.email || '',
       phone: this.firm.phone || '',
     });

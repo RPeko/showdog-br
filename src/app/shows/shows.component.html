@@ -1,11 +1,11 @@
 <div class="container">
   <div class="left">
     <div class="filter">
-      <mat-select placeholder="Filter show types" [(value)]="filter" (selectionChange)="filtering()" multiple>
-        <mat-option *ngFor="let type of types" [value]="type">
-          {{type}}
-        </mat-option>
-      </mat-select>
+          <mat-select placeholder="Filter show types" [(value)]="filter" (selectionChange)="filtering()" multiple>
+            <mat-option *ngFor="let type of types" [value]="type">
+              {{type}}
+            </mat-option>
+          </mat-select>
     </div>
     <div>
       <mat-button-toggle-group #groupBy="matButtonToggleGroup" value=1>

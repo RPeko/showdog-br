@@ -94,7 +94,7 @@ export class ShowsComponent implements OnInit {
 
   getTypes(shows: Show[]) {
     for (let i = 0; i < shows.length; i++) {
-      this.types.findIndex(type => type === shows[i].type) === -1 ? this.types.push(shows[i].type) : console.log('a');
+      (this.types.findIndex(type => type === shows[i].type) === -1) && this.types.push(shows[i].type);
     }
     this.filter = this.types;
   }

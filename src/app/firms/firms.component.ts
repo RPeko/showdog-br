@@ -9,6 +9,11 @@ import { FirmType } from '../models/firmtype';
 
 const iconBaseUrl = 'assets/icons/';
 
+interface CFirmType extends  FirmType
+{ 
+  count: number;
+}
+
 @Component({
   selector: 'app-firms',
   templateUrl: './firms.component.html',
@@ -18,8 +23,8 @@ const iconBaseUrl = 'assets/icons/';
 export class FirmsComponent implements OnInit {
   firms: Firm[];
   statefirms: { state: string, firms: Firm[] }[];
-  firmtypes: (FirmType & { count: number })[] = [];
-  filter: number[];
+  firmtypes: CFirmType[] = [];
+  filter: number[] = [];
 
 
   mymap: L.Map;
@@ -61,7 +66,7 @@ export class FirmsComponent implements OnInit {
       for (let i = 0; i < firmtypes.length; i++) {
         this.firmtypes.push({ id: i, name: firmtypes[i].name, order: firmtypes[i].order, count: 0 });
       }
-      console.log(JSON.stringify(this.firmtypes));
+      // console.log(JSON.stringify(this.firmtypes));
       this.firmsProvider.firms.subscribe(firms => {
         console.log('firms: ' + JSON.stringify(firms));
         this.firms = firms;
@@ -72,10 +77,11 @@ export class FirmsComponent implements OnInit {
   }
 
   getTypes(firms: Firm[]) {
-    let types: FirmType[];
     for (let i = 0; i < firms.length; i++) {
       this.firmtypes.find(type => type.id === firms[i].type).count++;
     }
+    this.firmtypes.forEach(firmtype => (firmtype.count>0) && this.filter.push(firmtype.id));
+    console.log('Filter: ' + this.filter);
   }
 
   processFirms(firms: Firm[]) {
@@ -113,5 +119,9 @@ export class FirmsComponent implements OnInit {
   filtering() {
     this.processFirms(this.firms.filter(firm => this.filter.includes(firm.type)));
   }
+
+  compareFn(t1: CFirmType, t2: CFirmType): boolean {
+    return t1 && t2 ? t1.id === t2.id : t1 === t2;
+   }
 
 }
