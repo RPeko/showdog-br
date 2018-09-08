@@ -7,6 +7,7 @@ import { FirmsProvider } from './firms.provider';
 import { FirmType } from '../models/firmtype';
 
 
+
 const iconBaseUrl = 'assets/icons/';
 
 interface CFirmType extends  FirmType
@@ -24,8 +25,7 @@ export class FirmsComponent implements OnInit {
   firms: Firm[];
   statefirms: { state: string, firms: Firm[] }[];
   firmtypes: CFirmType[] = [];
-  filter: number[] = [];
-
+  selectedFirmtypes: CFirmType[] = [];
 
   mymap: L.Map;
   centar = L.latLng(45.57185, 19.640113);
@@ -68,20 +68,25 @@ export class FirmsComponent implements OnInit {
       }
       // console.log(JSON.stringify(this.firmtypes));
       this.firmsProvider.firms.subscribe(firms => {
-        console.log('firms: ' + JSON.stringify(firms));
+        // console.log('firms: ' + JSON.stringify(firms));
         this.firms = firms;
-        this.getTypes(this.firms);
-        this.processFirms(this.firms);
+        this.countTypes(this.firms);
+        // this.selectedFirmtypes = this.firmtypes.filter(ft => ft.count > 0);
+        this.filtering();
       }, err => console.log('firmsprovider err: ' + err));
     });
   }
 
-  getTypes(firms: Firm[]) {
+  countTypes(firms: Firm[]) {
     for (let i = 0; i < firms.length; i++) {
       this.firmtypes.find(type => type.id === firms[i].type).count++;
     }
-    this.firmtypes.forEach(firmtype => (firmtype.count>0) && this.filter.push(firmtype.id));
-    console.log('Filter: ' + this.filter);
+  }
+
+   filtering() {
+    let filter = [];
+    this.selectedFirmtypes.forEach(ft => filter.push(ft.id));
+    this.processFirms(this.firms.filter(firm => filter.includes(firm.type)));
   }
 
   processFirms(firms: Firm[]) {
@@ -94,12 +99,14 @@ export class FirmsComponent implements OnInit {
       }
       this.mymap.addLayer(this.markerClusters);
     }
-    console.log((new Date()).toISOString() + ' processfirms ...');
-    // this.mymap.fitBounds(this.markerClusters.getBounds());
+    // console.log((new Date()).toISOString() + ' processfirms ...');
+    if (this.selectedFirmtypes.length > 0){
+       this.mymap.fitBounds(this.markerClusters.getBounds());
+    }
   }
 
   addMarker(firm:Firm) {
-    console.log(firm.name + ' type ' + firm.type + ' icon:  ' + iconBaseUrl + 'firmtype' + firm.type + '.svg');
+    // console.log(firm.name + ' type ' + firm.type + ' icon:  ' + iconBaseUrl + 'firmtype' + firm.type + '.svg');
     const icon = L.icon({ iconUrl: iconBaseUrl + 'firmtype' + firm.type + '.svg'});
     const marker = L.marker(new L.LatLng(firm.lat, firm.lon), { title: firm.name, icon: icon });
     marker.bindPopup('<div>' + firm.name + '</div>');
@@ -115,13 +122,5 @@ export class FirmsComponent implements OnInit {
       this.statefirms.push({ state: firm.statecode, firms: [firm] });
     }
   }
-
-  filtering() {
-    this.processFirms(this.firms.filter(firm => this.filter.includes(firm.type)));
-  }
-
-  compareFn(t1: CFirmType, t2: CFirmType): boolean {
-    return t1 && t2 ? t1.id === t2.id : t1 === t2;
-   }
 
 }

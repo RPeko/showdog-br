@@ -1,16 +1,15 @@
 <div class="container">
   <div class="left">
     <div class="filter">
-      <form>
-        <mat-form-field>
-          <mat-select placeholder="Filter business types" [(value)]="filter" [compareWith]="compareFn"
-            (selectionChange)="filtering()" multiple>
-            <mat-option *ngFor="let firmtype of firmtypes" [value]="firmtype.id">
+          <mat-select 
+            placeholder="Click for filtering business types" 
+            [(value)]="selectedFirmtypes" 
+            (selectionChange)="filtering()" 
+            multiple>
+            <mat-option *ngFor="let firmtype of firmtypes" [value]="firmtype">
               {{firmtype.name}} ({{firmtype.count}})
             </mat-option>
           </mat-select>
-        </mat-form-field>
-      </form>
     </div>
     <mat-list class="lista">
       <ng-container *ngFor="let statefirm of statefirms">
