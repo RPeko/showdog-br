@@ -27,3 +27,11 @@
 .filter {
     padding-bottom: 2vh;
 }
+
+.check-uncheck  {
+    padding-bottom: 1vh;
+  }
+
+.check-uncheck-button {
+    width: 50%;
+}

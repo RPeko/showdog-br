@@ -6,7 +6,14 @@ import { ShowsProvider } from './shows.provider';
 import { Router } from '@angular/router';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
+import { ShowType } from '../models/showtype';
 
+interface CShowType extends  ShowType
+{ 
+  count: number;
+}
+
+const iconBaseUrl = 'assets/icons/';
 
 @Component({
   selector: 'app-shows',
@@ -21,8 +28,8 @@ export class ShowsComponent implements OnInit {
   monthshows: { month: string, shows: Show[] }[];
   admin = 0;
   markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 18 });
-  types: string[] = [];
-  filter: string[];
+  showTypes: CShowType[] = [];
+  selectedShowTypes: CShowType[] = [];
 
   mymap: L.Map;
   centar = L.latLng(45.57185, 19.640113);
@@ -48,6 +55,11 @@ export class ShowsComponent implements OnInit {
   ngOnInit() {
     this.createMap();
     this.authService.afAuth.authState.subscribe(() => this.loadData());
+    this.showsProvider.showtypes.subscribe(showtypes =>  {
+      for (let i = 0; i < showtypes.length; i++) {
+      this.showTypes.push({ id: i, name: showtypes[i].name, order: showtypes[i].order, count: 0 });
+    }
+  });
   }
 
   createMap() {
@@ -84,19 +96,23 @@ export class ShowsComponent implements OnInit {
           // if not logged display all shows
           this.allshows.forEach(show => this.shows.push(show));
         }
-        this.getTypes(this.shows);
-        this.processShows(this.shows);
+        this.countTypes(this.shows);
+        this.checkAllTypes();
+        this.filtering();
       }, err => console.log('showsprovider err: ' + err));
     });
   }
 
-
-
-  getTypes(shows: Show[]) {
+  countTypes(shows: Show[]) {
     for (let i = 0; i < shows.length; i++) {
-      (this.types.findIndex(type => type === shows[i].type) === -1) && this.types.push(shows[i].type);
+      this.showTypes.find(type => type.id === shows[i].type).count++;
     }
-    this.filter = this.types;
+  }
+
+  filtering() {
+    let filter = [];
+    this.selectedShowTypes.forEach(st => filter.push(st.id));
+    this.processShows(this.shows.filter(show => filter.includes(show.type)));
   }
 
   processShows(shows: Show[]) {
@@ -107,18 +123,26 @@ export class ShowsComponent implements OnInit {
       this.groupByState(shows[i]);
       this.groupByMonth(shows[i]);
       if ((typeof shows[i].lat === 'number') && (typeof shows[i].lon === 'number')) {
-        this.addMarker(shows[i].lat, shows[i].lon, shows[i].name);
+        this.addMarker(shows[i]);
       }
       this.mymap.addLayer(this.markerClusters);
-      console.log(JSON.stringify(this.types));
-
     }
     console.log((new Date()).toISOString() + ' processShows ...');
-    this.mymap.fitBounds(this.markerClusters.getBounds());
+    // this.mymap.fitBounds(this.markerClusters.getBounds());
   }
 
-  addMarker(lat: number, lon: number, name: string) {
-    const marker = L.marker(new L.LatLng(lat, lon), { title: name });
+  checkAllTypes() {
+    this.selectedShowTypes = this.showTypes;
+  }
+
+  unCheckAllTypes() {
+    this.selectedShowTypes = [];
+  }
+
+  addMarker(show:Show) {
+    // const icon = L.icon({ iconUrl: iconBaseUrl + 'showtype' + show.type + '.svg'});
+    const icon = L.icon({ iconUrl: iconBaseUrl + 'showtypedefault.svg'});
+    const marker = L.marker(new L.LatLng(show.lat, show.lon), { title: show.name, icon: icon });
     marker.bindPopup(name);
     this.markerClusters.addLayer(marker);
   }
@@ -143,8 +167,5 @@ export class ShowsComponent implements OnInit {
     }
   }
 
-  filtering() {
-    this.processShows(this.shows.filter(show => this.filter.includes(show.type)));
-  }
 
 }

@@ -63,7 +63,7 @@ export class RegistrationComponent implements OnInit {
       for (let i = 0; i < firmtypes.length; i++) {
         this.firmtypes.push({ id: i, name: firmtypes[i].name, order: firmtypes[i].order });
       }
-      console.log(JSON.stringify(this.firmtypes));
+      // console.log(JSON.stringify(this.firmtypes));
     });
     this.registrationProvider.firms.subscribe(firms => this.firms = firms);
     this.registrationProvider.states.subscribe(states => this.states = states);

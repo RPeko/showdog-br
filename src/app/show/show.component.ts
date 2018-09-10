@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShowProvider } from './show.provider';
 import { LatValidator } from '../validators/lat';
 import { LonValidator } from '../validators/lon';
+import { ShowType } from '../models/showtype';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { LonValidator } from '../validators/lon';
 export class ShowComponent implements OnInit {
 show: Show;
 showForm: FormGroup;
-types = ["Champion show", "Derby show", "International show", "National dog show", "Special show", "Club Show"];
+types: ShowType[] = [];
 
   constructor(private route: ActivatedRoute, private router:Router,  private fb: FormBuilder, private showProvider: ShowProvider) {
     this.showForm = this.fb.group({
@@ -36,19 +37,24 @@ types = ["Champion show", "Derby show", "International show", "National dog show
       if (params.show){
         this.show = JSON.parse(params.show);
       } else {
-        this.show = {"key":"", "name":"", "description":"", "place":"", "type":"", "statecode":"", "date":"", "lat":0, "lon":0};
+        this.show = {"key":"", "name":"", "description":"", "place":"", "type": 3, "statecode":"", "date":"", "lat": null, "lon":null};
         this.show.date = (new Date()).toISOString().substring(0,10);
       }
       this.showForm.setValue({
         name: this.show.name || "",
         description: this.show.description || "",
         place: this.show.place || "",
-        type: this.show.type || "",
+        type: this.show.type || null,
         statecode: this.show.statecode || "",
         date: this.show.date || "",
         lat: this.show.lat || 0,
         lon: this.show.lon || 0,
       });
+  });
+    this.showProvider.showtypes.subscribe(showtypes =>  {
+      for (let i = 0; i < showtypes.length; i++) {
+      this.types.push({ id: i, name: showtypes[i].name, order: showtypes[i].order });
+    }
   });
   }
 

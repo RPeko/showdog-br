@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { Show } from '../models/show';
 import { Observable } from 'rxjs';
+import { ShowType } from '../models/showtype';
 
 
 @Injectable()
 export class ShowProvider {
-showRef: any;
+    public showRef: any;
+    public showtypes: Observable<ShowType[]>;
 
     constructor(public db: AngularFireDatabase) {
         this.showRef = db.database.ref('/shows/');
+        this.showtypes = db.list<ShowType>('/firmtype').valueChanges();
     }
 
     

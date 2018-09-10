@@ -17,10 +17,10 @@
     <div class="form-container">
         <mat-form-field>
             <mat-select placeholder="Show Type" formControlName="type">
-                <mat-option *ngFor="let type of types" [value]="type">
-                  {{type}}
+                <mat-option *ngFor="let showtype of showtypes" [value]="showtype.id">
+                    {{showtype.name}}
                 </mat-option>
-              </mat-select>
+            </mat-select>
         </mat-form-field>
     </div>
     <div class="form-container">
@@ -43,5 +43,5 @@
             <input matInput formControlName="lon" placeholder="Longitude">
         </mat-form-field>
     </div>
-    <button type="submit"  mat-raised-button color="primary">Save</button>    
-  </form>
+    <button type="submit" mat-raised-button color="primary">Save</button>
+</form>

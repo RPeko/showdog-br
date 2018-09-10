@@ -7,7 +7,6 @@ import { FirmsProvider } from './firms.provider';
 import { FirmType } from '../models/firmtype';
 
 
-
 const iconBaseUrl = 'assets/icons/';
 
 interface CFirmType extends  FirmType
@@ -31,7 +30,7 @@ export class FirmsComponent implements OnInit {
   centar = L.latLng(45.57185, 19.640113);
   zoom = 8;
   
-  markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 13 });
+  markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 11 });
   baselayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
     {
       attribution:

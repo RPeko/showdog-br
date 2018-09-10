@@ -1,11 +1,20 @@
 <div class="container">
   <div class="left">
     <div class="filter">
-          <mat-select placeholder="Filter show types" [(value)]="filter" (selectionChange)="filtering()" multiple>
-            <mat-option *ngFor="let type of types" [value]="type">
-              {{type}}
-            </mat-option>
-          </mat-select>
+      <mat-select placeholder="Click for filtering show types" [(value)]="selectedShowTypes" (selectionChange)="filtering()"
+        multiple>
+        <div class="check-uncheck">
+          <button class = "check-uncheck-button" mat-raised-button (click)="checkAllTypes()">
+             Select All
+          </button>
+          <button class = "check-uncheck-button" mat-raised-button (click)="unCheckAllTypes()">
+             Deselect All
+          </button>
+        </div>
+        <mat-option *ngFor="let showType of showTypes" [value]="showType">
+          {{showType.name}} ({{showType.count}})
+        </mat-option>
+      </mat-select>
     </div>
     <div>
       <mat-button-toggle-group #groupBy="matButtonToggleGroup" value=1>
