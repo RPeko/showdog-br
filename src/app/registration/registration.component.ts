@@ -73,7 +73,7 @@ export class RegistrationComponent implements OnInit {
   populateForm(firm: Firm) {
     if (firm) {
       this.firm = firm;
-      console.log("saved firm: " + JSON.stringify(firm));
+      // console.log("saved firm: " + JSON.stringify(firm));
       this.submitButtonText = 'Save edits';
     } else {
       this.firm = {
@@ -133,5 +133,4 @@ export class RegistrationComponent implements OnInit {
       return null;
     }
   }
-
 }

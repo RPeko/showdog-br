@@ -17,14 +17,14 @@ import { ShowType } from '../models/showtype';
 export class ShowComponent implements OnInit {
 show: Show;
 showForm: FormGroup;
-types: ShowType[] = [];
+showTypes: ShowType[] = [];
 
   constructor(private route: ActivatedRoute, private router:Router,  private fb: FormBuilder, private showProvider: ShowProvider) {
     this.showForm = this.fb.group({
       name: ['', Validators.required],
       description: '',
       place: '',
-      type: '',
+      type: null,
       statecode: '',
       date: '',
       lat: [0, LatValidator.isValid],
@@ -44,7 +44,7 @@ types: ShowType[] = [];
         name: this.show.name || "",
         description: this.show.description || "",
         place: this.show.place || "",
-        type: this.show.type || null,
+        type: this.show.type || 0, // nemoj null, jer ako je this.show.type == 0 bice null
         statecode: this.show.statecode || "",
         date: this.show.date || "",
         lat: this.show.lat || 0,
@@ -53,7 +53,7 @@ types: ShowType[] = [];
   });
     this.showProvider.showtypes.subscribe(showtypes =>  {
       for (let i = 0; i < showtypes.length; i++) {
-      this.types.push({ id: i, name: showtypes[i].name, order: showtypes[i].order });
+      this.showTypes.push({ id: i, name: showtypes[i].name, description: showtypes[i].description, order: showtypes[i].order});
     }
   });
   }
@@ -71,6 +71,10 @@ types: ShowType[] = [];
     this.showProvider.upsertShow(this.show)
     .then(() => this.router.navigate(['shows']))
     .catch(err => console.log("err: " + err));
+  }
+
+  back(){
+    this.router.navigate(['/shows']);
   }
 
 }

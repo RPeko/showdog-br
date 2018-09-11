@@ -3,7 +3,6 @@ import { Show } from '../models/show';
 import { Userdata } from '../models/userdata';
 import { AuthService } from '../services/auth';
 import { ShowsProvider } from './shows.provider';
-import { Router } from '@angular/router';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { ShowType } from '../models/showtype';
@@ -47,7 +46,6 @@ export class ShowsComponent implements OnInit {
   constructor(
     public showsProvider: ShowsProvider,
     public authService: AuthService,
-    private router: Router
   ) {
 
   }
@@ -57,7 +55,7 @@ export class ShowsComponent implements OnInit {
     this.authService.afAuth.authState.subscribe(() => this.loadData());
     this.showsProvider.showtypes.subscribe(showtypes =>  {
       for (let i = 0; i < showtypes.length; i++) {
-      this.showTypes.push({ id: i, name: showtypes[i].name, order: showtypes[i].order, count: 0 });
+      this.showTypes.push({ id: i, name: showtypes[i].name, description: showtypes[i].description, order: showtypes[i].order, count: 0 });
     }
   });
   }
@@ -104,8 +102,9 @@ export class ShowsComponent implements OnInit {
   }
 
   countTypes(shows: Show[]) {
+    // console.log('Shows: ' + JSON.stringify(shows));
     for (let i = 0; i < shows.length; i++) {
-      this.showTypes.find(type => type.id === shows[i].type).count++;
+      this.showTypes.find(type => type.id === shows[i].type) && this.showTypes.find(type => type.id === shows[i].type).count++;
     }
   }
 
@@ -127,8 +126,8 @@ export class ShowsComponent implements OnInit {
       }
       this.mymap.addLayer(this.markerClusters);
     }
-    console.log((new Date()).toISOString() + ' processShows ...');
-    // this.mymap.fitBounds(this.markerClusters.getBounds());
+    // console.log((new Date()).toISOString() + ' processShows ...');
+    this.mymap.fitBounds(this.markerClusters.getBounds());
   }
 
   checkAllTypes() {
@@ -140,10 +139,10 @@ export class ShowsComponent implements OnInit {
   }
 
   addMarker(show:Show) {
-    // const icon = L.icon({ iconUrl: iconBaseUrl + 'showtype' + show.type + '.svg'});
-    const icon = L.icon({ iconUrl: iconBaseUrl + 'showtypedefault.svg'});
+    const icon = L.icon({ iconUrl: iconBaseUrl + 'showtype' + show.type + '.svg'});
+    // const icon = L.icon({ iconUrl: iconBaseUrl + 'showtypedefault.svg'});
     const marker = L.marker(new L.LatLng(show.lat, show.lon), { title: show.name, icon: icon });
-    marker.bindPopup(name);
+    marker.bindPopup('<div>' + show.name + '</div>');
     this.markerClusters.addLayer(marker);
   }
 
@@ -165,6 +164,10 @@ export class ShowsComponent implements OnInit {
     } else {
       this.monthshows.push({ month: show.date.slice(0, 7), shows: [show] });
     }
+  }
+
+  getFilterHeader(){
+    return "Selected: " + this.selectedShowTypes.map(type => type.name);
   }
 
 

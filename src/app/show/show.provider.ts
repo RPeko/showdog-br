@@ -12,7 +12,7 @@ export class ShowProvider {
 
     constructor(public db: AngularFireDatabase) {
         this.showRef = db.database.ref('/shows/');
-        this.showtypes = db.list<ShowType>('/firmtype').valueChanges();
+        this.showtypes = db.list<ShowType>('/showtype').valueChanges();
     }
 
     

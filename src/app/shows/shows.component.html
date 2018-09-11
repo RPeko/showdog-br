@@ -4,15 +4,18 @@
       <mat-select placeholder="Click for filtering show types" [(value)]="selectedShowTypes" (selectionChange)="filtering()"
         multiple>
         <div class="check-uncheck">
-          <button class = "check-uncheck-button" mat-raised-button (click)="checkAllTypes()">
-             Select All
+          <button class="check-uncheck-button" mat-raised-button (click)="checkAllTypes()">
+            Select All
           </button>
-          <button class = "check-uncheck-button" mat-raised-button (click)="unCheckAllTypes()">
-             Deselect All
+          <button class="check-uncheck-button" mat-raised-button (click)="unCheckAllTypes()">
+            Deselect All
           </button>
         </div>
+        <mat-select-trigger>
+          {{getFilterHeader()}}
+        </mat-select-trigger>
         <mat-option *ngFor="let showType of showTypes" [value]="showType">
-          {{showType.name}} ({{showType.count}})
+          {{showType.description}} ({{showType.count}})
         </mat-option>
       </mat-select>
     </div>
