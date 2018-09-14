@@ -7,17 +7,18 @@ import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { ShowType } from '../models/showtype';
 
-interface CShowType extends  ShowType
+interface extShowType extends  ShowType
 { 
   count: number;
 }
 
 const iconBaseUrl = 'assets/icons/';
+const intNow = (new Date()).getFullYear() *1000 + ((new Date()).getMonth() + 1) * 50;
 
 @Component({
   selector: 'app-shows',
   templateUrl: './shows.component.html',
-  styleUrls: ['./shows.component.css']
+  styleUrls: ['./shows.component.scss']
 })
 
 export class ShowsComponent implements OnInit {
@@ -27,8 +28,8 @@ export class ShowsComponent implements OnInit {
   monthshows: { month: string, shows: Show[] }[];
   admin = 0;
   markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 18 });
-  showTypes: CShowType[] = [];
-  selectedShowTypes: CShowType[] = [];
+  showTypes: extShowType[] = [];
+  selectedShowTypes: extShowType[] = [];
 
   mymap: L.Map;
   centar = L.latLng(45.57185, 19.640113);
@@ -55,7 +56,12 @@ export class ShowsComponent implements OnInit {
     this.authService.afAuth.authState.subscribe(() => this.loadData());
     this.showsProvider.showtypes.subscribe(showtypes =>  {
       for (let i = 0; i < showtypes.length; i++) {
-      this.showTypes.push({ id: i, name: showtypes[i].name, description: showtypes[i].description, order: showtypes[i].order, count: 0 });
+      this.showTypes.push({ id: i, 
+                            name: showtypes[i].name, 
+                            description: showtypes[i].description, 
+                            order: showtypes[i].order, 
+                            count: 0
+                          });
     }
   });
   }
@@ -97,6 +103,7 @@ export class ShowsComponent implements OnInit {
         this.countTypes(this.shows);
         this.checkAllTypes();
         this.filtering();
+        this.setCssClass(this.shows);
       }, err => console.log('showsprovider err: ' + err));
     });
   }
@@ -170,5 +177,46 @@ export class ShowsComponent implements OnInit {
     return "Selected: " + this.selectedShowTypes.map(type => type.name);
   }
 
+  setCssClass(shows: Show[]) {
+    this.shows.forEach(show => show.cssClass = this.getClass(show));
+  }
 
+  getClass(show: Show){
+    let intRegOpen;
+    let intRegClosed;
+    let intDate;
+    let klasa = "";
+    
+    intRegOpen = +show.regopen.slice(0,4) * 1000 + +show.regopen.slice(6,8)*50 + +show.regopen.slice(9,11);
+    intRegClosed = +show.regclosed.slice(0,4) * 1000 + +show.regclosed.slice(6,8) * 50 + +show.regclosed.slice(9,11);
+    intDate = +show.date.slice(0,4) * 1000 + +show.date.slice(6,8) * 50 + +show.date.slice(9,11);
+
+      if (typeof intRegOpen !== 'number'){
+        intRegOpen = 3000000-10;
+      }
+     
+      if (typeof intRegClosed !== 'number'){
+        intRegClosed = 3000000-1;
+      }
+
+      if (typeof intDate !== 'number'){
+        intDate = 3000000;
+      }
+
+      if (intRegClosed < intRegOpen){
+        intRegClosed = intRegOpen;
+      }
+
+      if (intRegOpen < intNow){
+        klasa = "reg-open";
+      }
+
+      if (intRegClosed < intNow){
+        klasa =  "reg-closed";
+      } else if (intRegClosed < intNow + 2) {
+        klasa = "reg-lastminute";
+      }
+
+      return klasa;
+  }
 }

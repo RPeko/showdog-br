@@ -8,6 +8,9 @@ export class Show {
     date: string;
     lat: number;
     lon: number;
+    regopen: string;
+    regclosed:string;
+    cssClass?: string;
 
     constructor() {
         this.key = '';

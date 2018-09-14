@@ -14,6 +14,7 @@ $showdog-accent:  mat-palette($mat-green, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $showdog-warn:    mat-palette($mat-red);
+$showdog-warn-light:    mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $showdog-theme: mat-light-theme($showdog-primary, $showdog-accent, $showdog-warn);

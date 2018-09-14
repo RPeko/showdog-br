@@ -15,7 +15,8 @@
           {{getFilterHeader()}}
         </mat-select-trigger>
         <mat-option *ngFor="let showType of showTypes" [value]="showType">
-          {{showType.description}} ({{showType.count}})
+          <img  src="assets/icons/showtype{{showType.id}}.svg">
+          <span>{{showType.description}} ({{showType.count}})</span>
         </mat-option>
       </mat-select>
     </div>
@@ -36,7 +37,7 @@
         <mat-expansion-panel *ngFor="let show of stateshow.shows">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              {{show.name}}
+                <img class="type-icon" src="assets/icons/showtype{{show.type}}.svg">{{show.name}}
             </mat-panel-title>
             <mat-panel-description>
               {{show.date}}
@@ -72,10 +73,10 @@
   <mat-list class="lista">
     <ng-container *ngFor="let monthshow of monthshows">
       <h3 mat-subheader>{{monthshow.month}}</h3>
-      <mat-expansion-panel *ngFor="let show of monthshow.shows">
+      <mat-expansion-panel *ngFor="let show of monthshow.shows" [ngClass]="show.cssClass">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{show.name}}
+              <img class="type-icon" src="assets/icons/showtype{{show.type}}.svg">{{show.name}}
           </mat-panel-title>
           <mat-panel-description>
             {{show.statecode}}
