@@ -28,6 +28,7 @@ import { MatExpansionModule} from '@angular/material/expansion';
 import { MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 import { AgmCoreModule } from '@agm/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -74,7 +75,8 @@ import { SettingsProvider } from './settings/settings.provider';
     MatRadioModule,
     MatSlideToggleModule,
     MatSelectModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTooltipModule
   ],
   providers: [
     ShowsProvider,

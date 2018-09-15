@@ -44,13 +44,16 @@
 }
 
 .reg-open {
-    background-color: mat-color($mat-green, 100);
-}
-
-.reg-close {
-    background-color: mat-color($mat-grey, 100);
+    color: mat-color($mat-green, 700);
+    padding-right: 15px;
 }
 
 .reg-lastminute {
-    background-color: mat-color($mat-red, 100);
+    color: mat-color($mat-red, 500);
+    padding-right: 15px;
+}
+
+.reg-closed {
+    color: mat-color($mat-grey, 500);
+    padding-right: 15px;
 }
