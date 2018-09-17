@@ -27,7 +27,7 @@ const intNow = (new Date()).getFullYear() * 1000 + ((new Date()).getMonth() + 1)
 export class ShowsComponent implements OnInit {
     allshows: Show[];
     shows: ExtShow[];
-    stateshows: { state: string, shows: Show[] }[];
+    countryshows: { country: string, shows: Show[] }[];
     monthshows: { month: string, shows: Show[] }[];
     admin = 0;
     markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 18 });
@@ -81,7 +81,7 @@ export class ShowsComponent implements OnInit {
             let userdata: Userdata;
             this.allshows = [];
             this.shows = [];
-            this.stateshows = [];
+            this.countryshows = [];
             this.monthshows = [];
             userdata = data.val();
 
@@ -92,10 +92,10 @@ export class ShowsComponent implements OnInit {
                         this.admin = userdata.admin;
                         // console.log("admin: " + this.admin);
                     }
-                    if (userdata.userstates) {
+                    if (userdata.usercountries) {
                         // if logged then display only shows for user selected states
                         this.allshows.forEach(show => {
-                            if (userdata.userstates.findIndex(state => state === show.statecode) > -1) {
+                            if (userdata.usercountries.findIndex(country => country === show.countrycode) > -1) {
                                 this.shows.push(<ExtShow>show);
                             }
                         });
@@ -126,7 +126,7 @@ export class ShowsComponent implements OnInit {
     }
 
     processShows(shows: Show[]) {
-        this.stateshows = [];
+        this.countryshows = [];
         this.monthshows = [];
         this.markerClusters.clearLayers();
         for (let i = 0; i < shows.length; i++) {
@@ -159,20 +159,19 @@ export class ShowsComponent implements OnInit {
     }
 
     addMarker(show: Show) {
-        const icon = L.icon({ iconUrl: iconBaseUrl + 'showtype' + show.type + '.svg' });
-        // const icon = L.icon({ iconUrl: iconBaseUrl + 'showtypedefault.svg'});
+        const icon = L.icon({ iconUrl: iconBaseUrl + 'showtype/' + show.type + '.svg' });
         const marker = L.marker(new L.LatLng(show.lat, show.lon), { title: show.name, icon: icon });
         marker.bindPopup('<div>' + show.name + '</div>');
         this.markerClusters.addLayer(marker);
     }
 
     groupByState(show: Show) {
-        const index = this.stateshows.findIndex(ss => ss.state === show.statecode);
+        const index = this.countryshows.findIndex(ss => ss.country === show.countrycode);
         // console.log("stateshow index: " + index);
         if (index > -1) {
-            this.stateshows[index].shows.push(show);
+            this.countryshows[index].shows.push(show);
         } else {
-            this.stateshows.push({ state: show.statecode, shows: [show] });
+            this.countryshows.push({ country: show.countrycode, shows: [show] });
         }
     }
 

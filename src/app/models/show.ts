@@ -4,7 +4,7 @@ export class Show {
     description: string;
     place: string;
     type: number;
-    statecode: string;
+    countrycode: string;
     date: string;
     lat: number;
     lon: number;

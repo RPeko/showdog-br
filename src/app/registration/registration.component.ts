@@ -3,7 +3,7 @@ import { Firm } from '../models/firm';
 import { RegistrationProvider } from './registration.provider';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FirmType } from '../models/firmtype';
-import { State } from '../models/state';
+import { Country } from '../models/country';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth';
 import { MyErrorStateMatcher } from '../validators/matcher';
@@ -17,7 +17,7 @@ import { MyErrorStateMatcher } from '../validators/matcher';
 export class RegistrationComponent implements OnInit {
   firm: Firm;
   firms: Firm[] = [];
-  states: State[] = [];
+  states: Country[] = [];
   firmtypes: FirmType[] = [];
   admin = 0;
   firmForm: FormGroup;
@@ -35,7 +35,7 @@ export class RegistrationComponent implements OnInit {
       description: '',
       place: '',
       address: '',
-      statecode: ['', Validators.required],
+      countrycode: ['', Validators.required],
       type: [null, Validators.required],
       lat: null,
       lon: null,
@@ -49,7 +49,7 @@ export class RegistrationComponent implements OnInit {
       'description': '',
       'place': '',
       'address': '',
-      'statecode': '',
+      'countrycode': '',
       'type': null,
       'lat': null,
       'lon': null,
@@ -83,7 +83,7 @@ export class RegistrationComponent implements OnInit {
         'description': '',
         'place': '',
         'address': '',
-        'statecode': '',
+        'countrycode': '',
         'type': null,
         'lat': null,
         'lon': null,
@@ -98,7 +98,7 @@ export class RegistrationComponent implements OnInit {
       place: this.firm.place || '',
       address: this.firm.address || '',
       type: +this.firm.type || null,
-      statecode: this.firm.statecode || '',
+      countrycode: this.firm.countrycode || '',
       lat: +this.firm.lat || null,
       lon: +this.firm.lon || null,
       email: this.firm.email || '',
@@ -115,7 +115,7 @@ export class RegistrationComponent implements OnInit {
     this.firm.place = this.firmForm.value.place;
     this.firm.address = this.firmForm.value.address;
     this.firm.type = this.firmForm.value.type;
-    this.firm.statecode = this.firmForm.value.statecode;
+    this.firm.countrycode = this.firmForm.value.countrycode;
     this.firm.lat = +this.firmForm.value.lat;
     this.firm.lon = +this.firmForm.value.lon;
     this.firm.email = this.firmForm.value.email;

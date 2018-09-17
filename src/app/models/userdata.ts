@@ -1,4 +1,4 @@
 export class Userdata {
-    userstates: string[];
+    usercountries: string[];
     admin:number;
 }

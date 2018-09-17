@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { State } from '../models/state';
+import { Country } from '../models/country';
 import { SettingsProvider } from './settings.provider';
 import { Userdata } from '../models/userdata';
 import { AuthService } from '../services/auth';
@@ -11,7 +11,7 @@ import { AuthService } from '../services/auth';
 })
 
 export class SettingsComponent implements OnInit {
-  states: State[] = [];
+  countries: Country[] = [];
 
 
   constructor(public settingsProvider: SettingsProvider, public authService: AuthService) { 
@@ -19,31 +19,31 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.settingsProvider.states.subscribe(states => 
+    this.settingsProvider.countries.subscribe(countries => 
       {
-      this.states = states;
+      this.countries = countries;
       let userdata: Userdata;
       this.authService.getUserdata().on('value', data => {
         userdata = data.val();
-        if (userdata && userdata.userstates) {
-          for (let i=0; i<this.states.length; i++){
-            this.states[i].checked = (userdata.userstates.findIndex(us => us == this.states[i].code) !== -1);
+        if (userdata && userdata.usercountries) {
+          for (let i=0; i<this.countries.length; i++){
+            this.countries[i].checked = (userdata.usercountries.findIndex(us => us == this.countries[i].code) !== -1);
           }
         }
-        console.log("states: " + JSON.stringify(this.states));
+        console.log("countries: " + JSON.stringify(this.countries));
       });
     });
   }
 
 
 
-  updateUserStates() {
-    let userstates = [];
-    for (let i = 0; i < this.states.length; i++) {
-      if (this.states[i].checked) {
-        userstates.push(this.states[i].code);
+  updateusercountries() {
+    let usercountries = [];
+    for (let i = 0; i < this.countries.length; i++) {
+      if (this.countries[i].checked) {
+        usercountries.push(this.countries[i].code);
       }
     }
-    this.authService.updateUserStates(userstates);
+    this.authService.updateusercountries(usercountries);
   }
 }

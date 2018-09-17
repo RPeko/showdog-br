@@ -44,7 +44,7 @@ showTypes: ShowType[] = [];
                      "description":"", 
                      "place":"", 
                      "type": 3, 
-                     "statecode":"", 
+                     "countrycode":"", 
                      "date":"",
                      "regopen":"",
                      "regclosed":"",
@@ -58,7 +58,7 @@ showTypes: ShowType[] = [];
         description: this.show.description || "",
         place: this.show.place || "",
         type: this.show.type || 0, // nemoj null, jer ako je this.show.type == 0 bice null
-        statecode: this.show.statecode || "",
+        statecode: this.show.countrycode || "",
         date: this.show.date || "",
         regopen: this.show.regopen || "",
         regclosed: this.show.regclosed || "",
@@ -79,7 +79,7 @@ showTypes: ShowType[] = [];
     this.show.place = this.showForm.value.place;
     this.show.type = this.showForm.value.type;
     console.log("Type: " + this.showForm.value.type);
-    this.show.statecode = this.showForm.value.statecode;
+    this.show.countrycode = this.showForm.value.statecode;
     this.show.date = this.showForm.value.date.slice(0, 10);
     this.show.regopen = this.showForm.value.regopen.slice(0, 10);
     this.show.regclosed = this.showForm.value.regclosed.slice(0, 10);

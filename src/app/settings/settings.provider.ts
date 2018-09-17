@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/internal/Observable';
-import { State } from '../models/state';
+import { Country } from '../models/country';
 
 @Injectable()
 export class SettingsProvider {
-    public states: Observable<State[]>;
+    public countries: Observable<Country[]>;
 
     constructor(public db: AngularFireDatabase) {
-        this.states = db.list<State>('/states').valueChanges();
+        this.countries = db.list<Country>('/countries').valueChanges();
 }
 }

@@ -105,20 +105,19 @@ export class FirmsComponent implements OnInit {
   }
 
   addMarker(firm:Firm) {
-    // console.log(firm.name + ' type ' + firm.type + ' icon:  ' + iconBaseUrl + 'firmtype' + firm.type + '.svg');
-    const icon = L.icon({ iconUrl: iconBaseUrl + 'firmtype' + firm.type + '.svg'});
+    const icon = L.icon({ iconUrl: iconBaseUrl + 'firmtype/' + firm.type + '.svg'});
     const marker = L.marker(new L.LatLng(firm.lat, firm.lon), { title: firm.name, icon: icon });
     marker.bindPopup('<div>' + firm.name + '</div>');
     this.markerClusters.addLayer(marker);
   }
 
   groupByState(firm: Firm) {
-    const index = this.statefirms.findIndex(ss => ss.state === firm.statecode);
+    const index = this.statefirms.findIndex(ss => ss.state === firm.countrycode);
     // console.log("statefirm index: " + index);
     if (index > -1) {
       this.statefirms[index].firms.push(firm);
     } else {
-      this.statefirms.push({ state: firm.statecode, firms: [firm] });
+      this.statefirms.push({ state: firm.countrycode, firms: [firm] });
     }
   }
 

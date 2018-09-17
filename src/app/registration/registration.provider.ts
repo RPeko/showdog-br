@@ -3,20 +3,20 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/internal/Observable';
 import { Firm } from '../models/firm';
 import { FirmType } from '../models/firmtype';
-import { State } from '../models/state';
+import { Country } from '../models/country';
 import { AuthService } from '../services/auth';
 
 @Injectable()
 export class RegistrationProvider {
     public firms: Observable<Firm[]>;
     public firmtypes: Observable<FirmType[]>;
-    public states: Observable<State[]>;
+    public states: Observable<Country[]>;
     firmRef: any;
 
     constructor(public db: AngularFireDatabase, private authService: AuthService) {
         this.firms = db.list<Firm>('/firms', ref => ref.orderByChild('userId').equalTo(this.authService.getUid())).valueChanges();
         this.firmtypes = db.list<FirmType>('/firmtype').valueChanges();
-        this.states = db.list<State>('/states').valueChanges();
+        this.states = db.list<Country>('/countries').valueChanges();
         this.firmRef = db.database.ref('/firms/');
 }
 

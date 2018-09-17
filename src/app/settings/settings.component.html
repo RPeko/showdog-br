@@ -5,9 +5,9 @@
           Countries
         </mat-panel-title>
       </mat-expansion-panel-header>
-          <div *ngFor="let state of states">
-            <mat-slide-toggle class="toggle-margin" [(ngModel)]="state.checked" (ngModelChange)="updateUserStates(state)">
-              {{state.name}}
+          <div *ngFor="let country of countries">
+            <mat-slide-toggle class="toggle-margin" [(ngModel)]="country.checked" (ngModelChange)="updateusercountries(country)">
+              {{country.name}}
             </mat-slide-toggle>
           </div>
   </mat-expansion-panel>

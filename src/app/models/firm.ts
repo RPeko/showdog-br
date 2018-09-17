@@ -5,7 +5,7 @@ export class Firm {
     description: string;
     place: string;
     address: string;
-    statecode: string;
+    countrycode: string;
     type: number;
     lat: number;
     lon: number;

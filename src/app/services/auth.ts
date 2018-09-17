@@ -22,14 +22,14 @@ export class AuthService {
 		return this.db.database.ref('/userdata/' + (this.getUid() || 0));		
 	}
 
-	getUserstates() {
-		return this.db.database.ref('/userdata/' + (this.getUid() || 0) + '/userstates/');
+	getusercountries() {
+		return this.db.database.ref('/userdata/' + (this.getUid() || 0) + '/usercountries/');
 	}
 
-	updateUserStates(userstates: string[]) {
+	updateusercountries(usercountries: string[]) {
 		if (this.user){
-			const userstatesRef = this.db.object('/userdata/' + this.getUid() + '/userstates');
-			userstatesRef.set(userstates);
+			const usercountriesRef = this.db.object('/userdata/' + this.getUid() + '/usercountries');
+			usercountriesRef.set(usercountries);
 		}
     }
 
