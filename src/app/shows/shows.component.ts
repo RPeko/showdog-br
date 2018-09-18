@@ -135,8 +135,9 @@ export class ShowsComponent implements OnInit {
             if ((typeof shows[i].lat === 'number') && (typeof shows[i].lon === 'number')) {
                 this.addMarker(shows[i]);
             }
-            this.mymap.addLayer(this.markerClusters);
         }
+        this.mymap.addLayer(this.markerClusters);
+        // console.log('countryshows: ' + JSON.stringify(this.countryshows));
         // console.log((new Date()).toISOString() + ' processShows ...');
         this.mymap.fitBounds(this.markerClusters.getBounds());
     }

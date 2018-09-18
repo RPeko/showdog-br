@@ -33,7 +33,7 @@
     </div>
     <mat-list class="lista" *ngIf="groupBy.value==2; else showByMonth">
       <ng-container *ngFor="let countryshow of countryshows">
-        <h3 mat-subheader>{{countryshow.country}}</h3>
+        <div mat-subheader><img class="flag-icon" src="assets/icons/flag/{{countryshow.country}}.svg">{{countryshow.country}}</div>
         <mat-expansion-panel *ngFor="let show of countryshow.shows">
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -47,8 +47,7 @@
             <table>
               <tr>{{"Place: " + show.place}}</tr>
               <tr>{{"Description: " + show.description}}</tr>
-              <tr>{{"Type: " + show.type}}</tr>
-              
+              <tr>{{"Type: " + show.type}}</tr>      
             </table>
           </div>
           <mat-action-row *ngIf="admin>2">
@@ -77,9 +76,11 @@
       <mat-expansion-panel *ngFor="let show of monthshow.shows" matTooltip="{{getToolTip(show)}}">
         <mat-expansion-panel-header>
           <mat-panel-title>
-              <img class="type-icon" src="assets/icons/showtype/{{show.type}}.svg">
-              {{show.name}} / 
-              {{show.countrycode}}
+              <span class="panel-title">
+                  <img class="type-icon" src="assets/icons/showtype/{{show.type}}.svg">
+                  {{show.name}}
+                  <img class="flag-icon" src="assets/icons/flag/{{show.countrycode}}.svg">
+              </span> 
           </mat-panel-title>
           <mat-panel-description>
             <mat-icon class="reg-open" *ngIf="show.regFlag==='open'">access_time</mat-icon>

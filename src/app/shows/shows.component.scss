@@ -13,8 +13,9 @@
 }
 
 .lista {
-    height: 50vh!important;
+    // height: 50vh!important;
 }
+
 .left {
     float:left;
     width: 40vw;
@@ -39,8 +40,18 @@
 }
 
 .type-icon {
-    height: 75%;
-    padding-right: 10px;
+    height: 18px;
+    padding-right: 20px;
+}
+
+.flag-icon {
+    height: 18px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.panel-title {
+    width: 90%;
 }
 
 .reg-open {
