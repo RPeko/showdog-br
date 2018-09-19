@@ -31,23 +31,25 @@
         </a>
       </button>
     </div>
-    <mat-list class="lista" *ngIf="groupBy.value==2; else showByMonth">
+    <mat-list *ngIf="groupBy.value==2; else showByMonth">
       <ng-container *ngFor="let countryshow of countryshows">
-        <div mat-subheader><img class="flag-icon" src="assets/icons/flag/{{countryshow.country}}.svg">{{countryshow.country}}</div>
-        <mat-expansion-panel *ngFor="let show of countryshow.shows">
+        <h3 mat-subheader><img class="flag-icon" src="assets/icons/flag/{{countryshow.country}}.svg">{{countryshow.country}}</h3>
+        <mat-expansion-panel *ngFor="let show of countryshow.shows" matTooltip="{{getToolTip(show)}}">
           <mat-expansion-panel-header>
-            <mat-panel-title>
-                <img class="type-icon" src="assets/icons/showtype/{{show.type}}.svg">{{show.name}}
+            <mat-panel-title [ngStyle]="{'width': '300px'}">
+                <img class="type-icon" src="assets/icons/showtype/{{show.type}}.svg">{{show.name}}/{{show.date}}
             </mat-panel-title>
             <mat-panel-description>
-              {{show.date}}
+              <mat-icon class="reg-open" *ngIf="show.regFlag==='open'">access_time</mat-icon>
+              <mat-icon class="reg-lastminute" *ngIf="show.regFlag==='lastminute'" >av_timer</mat-icon>
+              <mat-icon class="reg-closed" *ngIf="show.regFlag==='closed'">timer_off</mat-icon>
             </mat-panel-description>
           </mat-expansion-panel-header>
           <div>
             <table>
-              <tr>{{"Place: " + show.place}}</tr>
+              <tr>{{"Place: " + show.place}}</tr> 
               <tr>{{"Description: " + show.description}}</tr>
-              <tr>{{"Type: " + show.type}}</tr>      
+              <tr>{{"Type: " + getTypeName(show.type)}}</tr>      
             </table>
           </div>
           <mat-action-row *ngIf="admin>2">
@@ -58,9 +60,6 @@
             </button>
           </mat-action-row>
         </mat-expansion-panel>
-        <mat-list-item *ngFor="let show of countryshow.shows">
-          <mat-expansion-panel> {{show.name}}</mat-expansion-panel>
-        </mat-list-item>
       </ng-container>
     </mat-list>
   </div>

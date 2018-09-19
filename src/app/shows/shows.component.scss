@@ -12,10 +12,6 @@
     display: flex;
 }
 
-.lista {
-    // height: 50vh!important;
-}
-
 .left {
     float:left;
     width: 40vw;
@@ -56,15 +52,21 @@
 
 .reg-open {
     color: mat-color($mat-green, 700);
+    padding-top: 1px;
     padding-right: 15px;
+    padding-left: 15px;
 }
 
 .reg-lastminute {
     color: mat-color($mat-red, 500);
+    padding-top: 1px;
     padding-right: 15px;
+    padding-left: 15px;
 }
 
 .reg-closed {
     color: mat-color($mat-grey, 500);
+    padding-top: 1px;
     padding-right: 15px;
+    padding-left: 15px;
 }

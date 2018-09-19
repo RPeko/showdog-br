@@ -23,7 +23,7 @@ interface CFirmType extends  FirmType
 export class FirmsComponent implements OnInit {
   firms: Firm[];
   statefirms: { state: string, firms: Firm[] }[];
-  firmtypes: CFirmType[] = [];
+  firmTypes: CFirmType[] = [];
   selectedFirmtypes: CFirmType[] = [];
 
   mymap: L.Map;
@@ -61,16 +61,16 @@ export class FirmsComponent implements OnInit {
 
   loadData() {
     this.statefirms = [];
-    this.firmsProvider.firmtypes.subscribe(firmtypes => {
-      for (let i = 0; i < firmtypes.length; i++) {
-        this.firmtypes.push({ id: i, name: firmtypes[i].name, order: firmtypes[i].order, count: 0 });
+    this.firmsProvider.firmTypes.subscribe(firmTypes => {
+      for (let i = 0; i < firmTypes.length; i++) {
+        this.firmTypes.push({ id: i, name: firmTypes[i].name, order: firmTypes[i].order, count: 0 });
       }
-      // console.log(JSON.stringify(this.firmtypes));
+      // console.log(JSON.stringify(this.firmTypes));
       this.firmsProvider.firms.subscribe(firms => {
         // console.log('firms: ' + JSON.stringify(firms));
         this.firms = firms;
         this.countTypes(this.firms);
-        // this.selectedFirmtypes = this.firmtypes.filter(ft => ft.count > 0);
+        // this.selectedFirmtypes = this.firmTypes.filter(ft => ft.count > 0);
         this.filtering();
       }, err => console.log('firmsprovider err: ' + err));
     });
@@ -78,7 +78,16 @@ export class FirmsComponent implements OnInit {
 
   countTypes(firms: Firm[]) {
     for (let i = 0; i < firms.length; i++) {
-      this.firmtypes.find(type => type.id === firms[i].type).count++;
+      this.firmTypes.find(type => type.id === firms[i].type).count++;
+    }
+  }
+
+  getTypeName(id: number){
+    const type = this.firmTypes.find(t => t.id === id);
+    if (type) {
+        return type.name;
+    } else {
+        return '';
     }
   }
 

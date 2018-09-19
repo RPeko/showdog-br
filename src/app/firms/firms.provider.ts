@@ -7,11 +7,11 @@ import { FirmType } from '../models/firmtype';
 @Injectable()
 export class FirmsProvider {
     public firms: Observable<Firm[]>;
-    public firmtypes: Observable<FirmType[]>;
+    public firmTypes: Observable<FirmType[]>;
 
     constructor(public db: AngularFireDatabase) {
         this.firms = db.list<Firm>('/firms').valueChanges();
-        this.firmtypes = db.list<FirmType>('/firmtype').valueChanges();
+        this.firmTypes = db.list<FirmType>('/firmtype').valueChanges();
 }
 
 }
