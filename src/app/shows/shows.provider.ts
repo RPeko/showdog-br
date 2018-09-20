@@ -13,7 +13,7 @@ export class ShowsProvider {
 
 
     constructor(public db: AngularFireDatabase) {
-          this.shows = db.list<Show>('/shows').valueChanges();
+          this.shows = db.list<Show>('/shows', ref => ref.orderByChild('date')).valueChanges();
           this.showtypes = db.list<ShowType>('/showtype').valueChanges();
     }
 

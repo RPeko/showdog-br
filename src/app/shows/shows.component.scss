@@ -35,6 +35,11 @@
     width: 50%;
 }
 
+td {
+    width: 50%;
+    padding-right: 10px;
+}
+
 .type-icon {
     height: 18px;
     padding-right: 20px;
@@ -48,6 +53,9 @@
 
 .panel-title {
     width: 90%;
+}
+.panel-header-finished {
+    background-color: mat-color($mat-grey, 200);
 }
 
 .reg-open {

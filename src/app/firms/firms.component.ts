@@ -29,7 +29,6 @@ export class FirmsComponent implements OnInit {
   mymap: L.Map;
   centar = L.latLng(45.57185, 19.640113);
   zoom = 8;
-  
   markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 11 });
   baselayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
     {
@@ -92,7 +91,7 @@ export class FirmsComponent implements OnInit {
   }
 
    filtering() {
-    let filter = [];
+    const filter = [];
     this.selectedFirmtypes.forEach(ft => filter.push(ft.id));
     this.processFirms(this.firms.filter(firm => filter.includes(firm.type)));
   }

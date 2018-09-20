@@ -95,14 +95,22 @@ export class ShowsComponent implements OnInit {
                     if (userdata.usercountries) {
                         // if logged then display only shows for user selected states
                         this.allshows.forEach(show => {
+                        const intDate = +show.date.slice(0, 4) * 1000 + +show.date.slice(5, 7) * 50 + +show.date.slice(8, 10);
                             if (userdata.usercountries.findIndex(country => country === show.countrycode) > -1) {
-                                this.shows.push(<ExtShow>show);
+                                if ((intDate + 7 > intNow) || (this.admin > 2)) {
+                                    this.shows.push(<ExtShow>show);
+                                }
                             }
                         });
                     }
                 } else {
                     // if not logged display all shows
-                    this.allshows.forEach(show => this.shows.push(show));
+                    this.allshows.forEach(show => {
+                        const intDate = +show.date.slice(0, 4) * 1000 + +show.date.slice(5, 7) * 50 + +show.date.slice(8, 10);
+                        if ((intDate + 7 > intNow) || (this.admin > 2)) {
+                            this.shows.push(<ExtShow>show);
+                        }
+                    });
                 }
                 this.countTypes();
                 this.checkAllTypes();
@@ -219,6 +227,10 @@ export class ShowsComponent implements OnInit {
             intRegClosed = intRegOpen;
         }
 
+        if (intDate < intNow) {
+            return 'finished';
+        }
+
         if (intRegOpen <= intNow) {
             if (intRegClosed >= intNow) {
                 if (intRegClosed > intNow + 2) {
@@ -232,11 +244,6 @@ export class ShowsComponent implements OnInit {
         } else {
             flag = 'willopen';
         }
-        // console.log('Show: ' + JSON.stringify(show));
-        // console.log('intRegOpen: ' + intRegOpen);
-        // console.log('intRegClosed: ' + intRegClosed);
-        // console.log('intNow: ' + intNow);
-        // console.log('flag: ' + flag);
         return flag;
     }
 
