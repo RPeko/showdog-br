@@ -3,18 +3,18 @@
     <div class="filter">
           <mat-select 
             placeholder="Click for filtering business types" 
-            [(value)]="selectedFirmtypes" 
+            [(value)]="selectedFirmTypes" 
             (selectionChange)="filtering()" 
             multiple>
-            <mat-option *ngFor="let firmtype of firmtypes" [value]="firmtype">
-              {{firmtype.name}} ({{firmtype.count}})
+            <mat-option *ngFor="let firmType of firmTypes" [value]="firmType">
+              {{firmType.name}} ({{firmType.count}})
             </mat-option>
           </mat-select>
     </div>
     <mat-list class="lista">
-      <ng-container *ngFor="let statefirm of statefirms">
-        <h3 mat-subheader>{{statefirm.state}}</h3>
-        <mat-expansion-panel *ngFor="let firm of statefirm.firms">
+      <ng-container *ngFor="let countryFirm of countryFirms">
+        <h3 mat-subheader>{{countryFirm.country}}</h3>
+        <mat-expansion-panel *ngFor="let firm of countryFirm.firms">
           <mat-expansion-panel-header>
             <mat-panel-title>
               {{firm.name}}

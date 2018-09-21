@@ -10,9 +10,7 @@ import { FirmType } from '../models/firmtype';
 const iconBaseUrl = 'assets/icons/';
 
 interface CFirmType extends  FirmType
-{ 
-  count: number;
-}
+{ count: number; }
 
 @Component({
   selector: 'app-firms',
@@ -22,9 +20,9 @@ interface CFirmType extends  FirmType
 
 export class FirmsComponent implements OnInit {
   firms: Firm[];
-  statefirms: { state: string, firms: Firm[] }[];
+  countryFirms: { country: string, firms: Firm[] }[];
   firmTypes: CFirmType[] = [];
-  selectedFirmtypes: CFirmType[] = [];
+  selectedFirmTypes: CFirmType[] = [];
 
   mymap: L.Map;
   centar = L.latLng(45.57185, 19.640113);
@@ -59,7 +57,7 @@ export class FirmsComponent implements OnInit {
   }
 
   loadData() {
-    this.statefirms = [];
+    this.countryFirms = [];
     this.firmsProvider.firmTypes.subscribe(firmTypes => {
       for (let i = 0; i < firmTypes.length; i++) {
         this.firmTypes.push({ id: i, name: firmTypes[i].name, order: firmTypes[i].order, count: 0 });
@@ -92,22 +90,22 @@ export class FirmsComponent implements OnInit {
 
    filtering() {
     const filter = [];
-    this.selectedFirmtypes.forEach(ft => filter.push(ft.id));
+    this.selectedFirmTypes.forEach(ft => filter.push(ft.id));
     this.processFirms(this.firms.filter(firm => filter.includes(firm.type)));
   }
 
   processFirms(firms: Firm[]) {
-    this.statefirms = [];
+    this.countryFirms = [];
     this.markerClusters.clearLayers();
     for (let i = 0; i < firms.length; i++) {
-      this.groupByState(firms[i]);
+      this.groupBycountry(firms[i]);
       if ((typeof firms[i].lat === 'number') && (typeof firms[i].lon === 'number')) {
         this.addMarker(firms[i]);
       }
       this.mymap.addLayer(this.markerClusters);
     }
     // console.log((new Date()).toISOString() + ' processfirms ...');
-    if (this.selectedFirmtypes.length > 0){
+    if (this.selectedFirmTypes.length > 0){
        this.mymap.fitBounds(this.markerClusters.getBounds());
     }
   }
@@ -119,13 +117,13 @@ export class FirmsComponent implements OnInit {
     this.markerClusters.addLayer(marker);
   }
 
-  groupByState(firm: Firm) {
-    const index = this.statefirms.findIndex(ss => ss.state === firm.countrycode);
-    // console.log("statefirm index: " + index);
+  groupBycountry(firm: Firm) {
+    const index = this.countryFirms.findIndex(ss => ss.country === firm.countrycode);
+    // console.log("countryfirm index: " + index);
     if (index > -1) {
-      this.statefirms[index].firms.push(firm);
+      this.countryFirms[index].firms.push(firm);
     } else {
-      this.statefirms.push({ state: firm.countrycode, firms: [firm] });
+      this.countryFirms.push({ country: firm.countrycode, firms: [firm] });
     }
   }
 
