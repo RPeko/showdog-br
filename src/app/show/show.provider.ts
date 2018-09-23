@@ -15,11 +15,10 @@ export class ShowProvider {
         this.showtypes = db.list<ShowType>('/showtype').valueChanges();
     }
 
-    
-    upsertShow(show:Show){
-        if (!show.key || show.key == '' || show.key == 'undefined'){
-            show.key = this.showRef.push().key;
-        } 
+    upsertShow(show: Show){
+        if (!show.key || show.key === '' || show.key === 'undefined') {
+            show.key = this.showRef.push().key; }
+
         const showObj = this.db.object('/shows/' + show.key);
         return showObj.update(show);
 

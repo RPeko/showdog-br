@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth';
 import { ShowsProvider } from './shows.provider';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
+import * as moment from 'moment';
 import { ShowType } from '../models/showtype';
 
 interface ExtShowType extends ShowType {
@@ -16,7 +17,7 @@ interface ExtShow extends Show {
 }
 
 const iconBaseUrl = 'assets/icons/';
-const intNow = (new Date()).getFullYear() * 1000 + ((new Date()).getMonth() + 1) * 50 + (new Date()).getDate();
+const intNow = +moment().format('YYYYMMDD');
 
 @Component({
     selector: 'app-shows',
@@ -95,9 +96,8 @@ export class ShowsComponent implements OnInit {
                     if (userdata.usercountries) {
                         // if logged then display only shows for user selected states
                         this.allshows.forEach(show => {
-                        const intDate = +show.date.slice(0, 4) * 1000 + +show.date.slice(5, 7) * 50 + +show.date.slice(8, 10);
                             if (userdata.usercountries.findIndex(country => country === show.countrycode) > -1) {
-                                if ((intDate + 7 > intNow) || (this.admin > 2)) {
+                                if ((show.date + 3 > intNow) || (this.admin > 2)) {
                                     this.shows.push(<ExtShow>show);
                                 }
                             }
@@ -106,8 +106,7 @@ export class ShowsComponent implements OnInit {
                 } else {
                     // if not logged display all shows
                     this.allshows.forEach(show => {
-                        const intDate = +show.date.slice(0, 4) * 1000 + +show.date.slice(5, 7) * 50 + +show.date.slice(8, 10);
-                        if ((intDate + 7 > intNow) || (this.admin > 2)) {
+                        if ((show.date + 3 > intNow) || (this.admin > 2)) {
                             this.shows.push(<ExtShow>show);
                         }
                     });
@@ -185,12 +184,12 @@ export class ShowsComponent implements OnInit {
     }
 
     groupByMonth(show: Show) {
-        const index = this.monthshows.findIndex(ms => ms.month === show.date.slice(0, 7));
+        const index = this.monthshows.findIndex(ms => ms.month === ('' + show.date).slice(0, 6));
         // console.log("monthshow index: " + index);
         if (index > -1) {
             this.monthshows[index].shows.push(show);
         } else {
-            this.monthshows.push({ month: show.date.slice(0, 7), shows: [show] });
+            this.monthshows.push({ month: ('' + show.date).slice(0, 6), shows: [show] });
         }
     }
 
@@ -203,37 +202,31 @@ export class ShowsComponent implements OnInit {
     }
 
     getRegFlag(show: Show) {
-        let intRegOpen;
-        let intRegClosed;
-        let intDate;
         let flag = '';
-        intRegOpen = +show.regopen.slice(0, 4) * 1000 + +show.regopen.slice(5, 7) * 50 + +show.regopen.slice(8, 10);
-        intRegClosed = +show.regclosed.slice(0, 4) * 1000 + +show.regclosed.slice(5, 7) * 50 + +show.regclosed.slice(8, 10);
-        intDate = +show.date.slice(0, 4) * 1000 + +show.date.slice(5, 7) * 50 + +show.date.slice(8, 10);
 
-        if (typeof intRegOpen !== 'number' || intRegOpen === 0) {
+        if (show.regopen === null) {
             return '';
         }
 
-        if (typeof intRegClosed !== 'number' || intRegClosed === 0) {
+        if (show.regclosed === null) {
             return '';
         }
 
-        if (typeof intDate !== 'number' || intDate === 0) {
+        if (show.date === null) {
             return '';
         }
 
-        if (intRegClosed < intRegOpen) {
-            intRegClosed = intRegOpen;
+        if (show.regclosed < show.regopen) {
+            show.regclosed = show.regopen;
         }
 
-        if (intDate < intNow) {
+        if (show.date < intNow) {
             return 'finished';
         }
 
-        if (intRegOpen <= intNow) {
-            if (intRegClosed >= intNow) {
-                if (intRegClosed > intNow + 2) {
+        if (show.regopen <= intNow) {
+            if (show.regclosed >= intNow) {
+                if (show.regclosed > intNow + 2) {
                     flag = 'open';
                 } else {
                     flag = 'lastminute';
@@ -250,15 +243,23 @@ export class ShowsComponent implements OnInit {
     getToolTip(show: ExtShow) {
         switch (show.regFlag) {
             case 'open':
-                return 'Registration opened until: '  + show.regclosed;
+                return 'Registration opened until: '  + this.intToDateToString(show.regclosed, 'LL');
             case 'lastminute':
-                return 'Registration opened until: '  + show.regclosed;
+                return 'Registration opened until: '  + this.intToDateToString(show.regclosed, 'LL');
             case 'closed':
-                return 'Registration closed on: '  + show.regclosed;
+                return 'Registration closed on: '  + this.intToDateToString(show.regclosed, 'LL');
             case 'willopen':
-                return 'Registration will be open on: '  + show.regopen;
+                return 'Registration will be open on: '  + this.intToDateToString(show.regopen, 'LL');
             default:
                 return '';
+        }
+    }
+
+    intToDateToString(intDate: number, format: string) {
+        if (moment('' + intDate, 'YYYYMMDD').isValid()) {
+          return  moment('' + intDate, 'YYYYMMDD').format(format);
+        } else {
+          return '';
         }
     }
 }

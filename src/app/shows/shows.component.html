@@ -15,7 +15,7 @@
           {{getFilterHeader()}}
         </mat-select-trigger>
         <mat-option *ngFor="let showType of showTypes" [value]="showType">
-          <img  src="assets/icons/showtype/{{showType.id}}.svg">
+          <img src="assets/icons/showtype/{{showType.id}}.svg">
           <span>{{showType.description}} ({{showType.count}})</span>
         </mat-option>
       </mat-select>
@@ -31,46 +31,46 @@
         </a>
       </button>
     </div>
-    <mat-list *ngIf="groupBy.value==2; else showByMonth">
-      <ng-container *ngFor="let countryshow of countryshows">
-        <h3 mat-subheader><img class="flag-icon" src="assets/icons/flag/{{countryshow.country}}.svg">{{countryshow.country}}</h3>
-        <mat-expansion-panel *ngFor="let show of countryshow.shows" matTooltip="{{getToolTip(show)}}">
-          <mat-expansion-panel-header [ngClass]="{'panel-header-finished': show.regFlag==='finished'}">
-            <mat-panel-title [ngStyle]="{'width': '300px'}">
-                <img class="type-icon" src="assets/icons/showtype/{{show.type}}.svg">{{show.name}} / {{show.date}}
-            </mat-panel-title>
-            <mat-panel-description>
-              <mat-icon class="reg-open" *ngIf="show.regFlag==='open'">access_time</mat-icon>
-              <mat-icon class="reg-lastminute" *ngIf="show.regFlag==='lastminute'" >av_timer</mat-icon>
-              <mat-icon class="reg-closed" *ngIf="show.regFlag==='closed'">timer_off</mat-icon>
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <div>
-            <table>
-              <tr>
-                <td>{{"Place: " + show.place}}</td>
-                <td>{{"Opening date: " + show.date}}</td>
-              </tr> 
-              <tr>
+      <mat-list *ngIf="groupBy.value==2; else showByMonth">
+        <ng-container *ngFor="let countryshow of countryshows">
+          <h3 mat-subheader><img class="flag-icon" src="assets/icons/flag/{{countryshow.country}}.svg">{{countryshow.country}}</h3>
+          <mat-expansion-panel *ngFor="let show of countryshow.shows" matTooltip="{{getToolTip(show)}}">
+            <mat-expansion-panel-header [ngClass]="{'panel-header-finished': show.regFlag==='finished'}">
+              <mat-panel-title [ngStyle]="{'width': '300px'}">
+                <img class="type-icon" src="assets/icons/showtype/{{show.type}}.svg">{{show.name}} / {{intToDateToString(show.date, 'll')}}
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon class="reg-open" *ngIf="show.regFlag==='open'">access_time</mat-icon>
+                <mat-icon class="reg-lastminute" *ngIf="show.regFlag==='lastminute'">av_timer</mat-icon>
+                <mat-icon class="reg-closed" *ngIf="show.regFlag==='closed'">timer_off</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div>
+              <table>
+                <tr>
+                  <td>{{"Place: " + show.place}}</td>
+                  <td>{{"Opening date: " + intToDateToString(show.date, 'll')}}</td>
+                </tr>
+                <tr>
                   <td>{{"Description: " + show.description}}</td>
-                  <td>{{"Registration from: " + show.regopen}}</td>
-              </tr>
-              <tr>
-                  <td>{{"Type: " + getTypeName(show.type)}}</td>
-                  <td>{{"Registration until: " + show.regclosed}}</td>
-              </tr>      
-            </table>
-          </div>
-          <mat-action-row *ngIf="admin>2">
-            <button mat-button>
-              <a routerLink="/show" [queryParams]="{show: show | json }">
-                <mat-icon>edit</mat-icon>
-              </a>
-            </button>
-          </mat-action-row>
-        </mat-expansion-panel>
-      </ng-container>
-    </mat-list>
+                  <td>{{"Registration from: " + intToDateToString(show.regopen, 'll')}}</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>{{"Registration until: " + intToDateToString(show.regclosed, 'll')}}</td>
+                </tr>
+              </table>
+            </div>
+            <mat-action-row *ngIf="admin>2">
+              <button mat-button>
+                <a routerLink="/show" [queryParams]="{show: show | json }">
+                  <mat-icon>edit</mat-icon>
+                </a>
+              </button>
+            </mat-action-row>
+          </mat-expansion-panel>
+        </ng-container>
+      </mat-list>
   </div>
   <div class="right">
     <div id="lmapa" class="lmapa"></div>
@@ -78,39 +78,39 @@
 </div>
 
 <ng-template #showByMonth>
-  <mat-list class="lista">
+  <mat-list>
     <ng-container *ngFor="let monthshow of monthshows">
-      <h3 mat-subheader>{{monthshow.month}}</h3>
+      <h3 mat-subheader>{{intToDateToString(+(monthshow.month + "01"), "MMMM/YY")}}</h3>
       <mat-expansion-panel *ngFor="let show of monthshow.shows" matTooltip="{{getToolTip(show)}}">
         <mat-expansion-panel-header [ngClass]="{'panel-header-finished': show.regFlag==='finished'}">
           <mat-panel-title>
-              <span class="panel-title">
-                  <img class="type-icon" src="assets/icons/showtype/{{show.type}}.svg">
-                  {{show.name}}
-                  <img class="flag-icon" src="assets/icons/flag/{{show.countrycode}}.svg">
-              </span> 
+            <span class="panel-title">
+              <img class="type-icon" src="assets/icons/showtype/{{show.type}}.svg">
+              {{show.name}} / {{intToDateToString(show.date, 'ddd, Do')}}
+              <img class="flag-icon" src="assets/icons/flag/{{show.countrycode}}.svg">
+            </span>
           </mat-panel-title>
           <mat-panel-description>
             <mat-icon class="reg-open" *ngIf="show.regFlag==='open'">access_time</mat-icon>
-            <mat-icon class="reg-lastminute" *ngIf="show.regFlag==='lastminute'" >av_timer</mat-icon>
+            <mat-icon class="reg-lastminute" *ngIf="show.regFlag==='lastminute'">av_timer</mat-icon>
             <mat-icon class="reg-closed" *ngIf="show.regFlag==='closed'">timer_off</mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <div>
-            <table>
-                <tr>
-                  <td>{{"Place: " + show.place}}</td>
-                  <td>{{"Opening date: " + show.date}}</td>
-                </tr> 
-                <tr>
-                    <td>{{"Description: " + show.description}}</td>
-                    <td>{{"Registration from: " + show.regopen}}</td>
-                </tr>
-                <tr>
-                    <td>{{"Type: " + getTypeName(show.type)}}</td>
-                    <td>{{"Registration until: " + show.regclosed}}</td>
-                </tr>      
-              </table>
+          <table>
+            <tr>
+              <td>{{"Place: " + show.place}}</td>
+              <td>{{"Opening date: " + intToDateToString(show.date, 'll')}}</td>
+            </tr>
+            <tr>
+              <td>{{"Description: " + show.description}}</td>
+              <td>{{"Registration from: " + intToDateToString(show.regopen, 'll')}}</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>{{"Registration until: " + intToDateToString(show.regclosed, 'll')}}</td>
+            </tr>
+          </table>
         </div>
         <mat-action-row *ngIf="admin>2">
           <button mat-button>

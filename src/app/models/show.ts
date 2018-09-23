@@ -5,11 +5,11 @@ export class Show {
     place: string;
     type: number;
     countrycode: string;
-    date: string;
+    date: number;
     lat: number;
     lon: number;
-    regopen: string;
-    regclosed: string;
+    regopen: number;
+    regclosed: number;
 
     constructor() {
         this.key = '';
