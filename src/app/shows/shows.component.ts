@@ -6,9 +6,9 @@ import { ShowsProvider } from './shows.provider';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import * as moment from 'moment';
-import { ShowType } from '../models/showtype';
+import { ShowLevel } from '../models/showLevel';
 
-interface ExtShowType extends ShowType {
+interface ExtShowLevel extends ShowLevel {
     count: number;
 }
 
@@ -32,8 +32,8 @@ export class ShowsComponent implements OnInit {
     monthshows: { month: string, shows: Show[] }[];
     admin = 0;
     markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 18 });
-    showTypes: ExtShowType[] = [];
-    selectedShowTypes: ExtShowType[] = [];
+    showLevels: ExtShowLevel[] = [];
+    selectedShowLevels: ExtShowLevel[] = [];
 
     mymap: L.Map;
     centar = L.latLng(45.57185, 19.640113);
@@ -58,13 +58,13 @@ export class ShowsComponent implements OnInit {
     ngOnInit() {
         this.createMap();
         this.authService.afAuth.authState.subscribe(() => this.loadData());
-        this.showsProvider.showtypes.subscribe(showtypes => {
-            for (let i = 0; i < showtypes.length; i++) {
-                this.showTypes.push({
+        this.showsProvider.showLevels.subscribe(showLevels => {
+            for (let i = 0; i < showLevels.length; i++) {
+                this.showLevels.push({
                     id: i,
-                    name: showtypes[i].name,
-                    description: showtypes[i].description,
-                    order: showtypes[i].order,
+                    name: showLevels[i].name,
+                    description: showLevels[i].description,
+                    order: showLevels[i].order,
                     count: 0
                 });
             }
@@ -111,25 +111,25 @@ export class ShowsComponent implements OnInit {
                         }
                     });
                 }
-                this.countTypes();
-                this.checkAllTypes();
+                this.countLevels();
+                this.checkAllLevels();
                 this.filtering();
                 this.setRegFlag();
             }, err => console.log('showsprovider err: ' + err));
         });
     }
 
-    countTypes() {
+    countLevels() {
         // console.log('Shows: ' + JSON.stringify(shows));
         for (let i = 0; i < this.shows.length; i++) {
-            this.showTypes.find(type => type.id === this.shows[i].type).count++;
+            // this.showLevels.find(level => level.id === this.shows[i].level).count++;
         }
     }
 
     filtering() {
         const filter = [];
-        this.selectedShowTypes.forEach(st => filter.push(st.id));
-        this.processShows(this.shows.filter(show => filter.includes(show.type)));
+        this.selectedShowLevels.forEach(st => filter.push(st.id));
+        this.processShows(this.shows.filter(show => filter.includes(show.level)));
     }
 
     processShows(shows: Show[]) {
@@ -146,30 +146,33 @@ export class ShowsComponent implements OnInit {
         this.mymap.addLayer(this.markerClusters);
         // console.log('countryshows: ' + JSON.stringify(this.countryshows));
         // console.log((new Date()).toISOString() + ' processShows ...');
-        this.mymap.fitBounds(this.markerClusters.getBounds());
+        // this.mymap.fitBounds(this.markerClusters.getBounds());
     }
 
-    checkAllTypes() {
-        this.selectedShowTypes = this.showTypes;
+    checkAllLevels() {
+        this.selectedShowLevels = this.showLevels;
     }
 
-    unCheckAllTypes() {
-        this.selectedShowTypes = [];
+    unCheckAllLevels() {
+        this.selectedShowLevels = [];
     }
 
-    getTypeName(id) {
-        const type = this.showTypes.find(t => t.id === id);
-        if (type) {
-            return type.description;
+    getLevelName(id) {
+        const level = this.showLevels.find(t => t.id === id);
+        if (level) {
+            return level.description;
         } else {
             return '';
         }
     }
 
     addMarker(show: Show) {
-        const icon = L.icon({ iconUrl: iconBaseUrl + 'showtype/' + show.type + '.svg' });
+        const icon = L.icon({ iconUrl: iconBaseUrl + 'showlevel/' + show.level + '.svg' });
         const marker = L.marker(new L.LatLng(show.lat, show.lon), { title: show.name, icon: icon });
-        marker.bindPopup('<div>' + show.name + '</div>');
+        marker.bindPopup('<div>' + show.name + '</div>' 
+                        + '<div>' + this.intToDateToString(show.date, 'LL') + '</div>'
+                        + '<div>' + show.place + '</div>'
+                        );
         this.markerClusters.addLayer(marker);
     }
 
@@ -194,7 +197,7 @@ export class ShowsComponent implements OnInit {
     }
 
     getFilterHeader() {
-        return 'Selected: ' + this.selectedShowTypes.map(type => type.name);
+        return 'Selected: ' + this.selectedShowLevels.map(level => level.name);
     }
 
     setRegFlag() {
@@ -243,13 +246,13 @@ export class ShowsComponent implements OnInit {
     getToolTip(show: ExtShow) {
         switch (show.regFlag) {
             case 'open':
-                return 'Registration opened until: '  + this.intToDateToString(show.regclosed, 'LL');
+                return 'Registration opened until: ' + this.intToDateToString(show.regclosed, 'LL');
             case 'lastminute':
-                return 'Registration opened until: '  + this.intToDateToString(show.regclosed, 'LL');
+                return 'Registration opened until: ' + this.intToDateToString(show.regclosed, 'LL');
             case 'closed':
-                return 'Registration closed on: '  + this.intToDateToString(show.regclosed, 'LL');
+                return 'Registration closed on: ' + this.intToDateToString(show.regclosed, 'LL');
             case 'willopen':
-                return 'Registration will be open on: '  + this.intToDateToString(show.regopen, 'LL');
+                return 'Registration will be open on: ' + this.intToDateToString(show.regopen, 'LL');
             default:
                 return '';
         }
@@ -257,9 +260,9 @@ export class ShowsComponent implements OnInit {
 
     intToDateToString(intDate: number, format: string) {
         if (moment('' + intDate, 'YYYYMMDD').isValid()) {
-          return  moment('' + intDate, 'YYYYMMDD').format(format);
+            return moment('' + intDate, 'YYYYMMDD').format(format);
         } else {
-          return '';
+            return '';
         }
     }
 }

@@ -1,4 +1,4 @@
-export class ShowType {
+export class ShowLevel {
     id: number;
     name: string;
     description: string;

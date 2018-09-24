@@ -5,7 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShowProvider } from './show.provider';
 import { LatValidator } from '../validators/lat';
 import { LonValidator } from '../validators/lon';
-import { ShowType } from '../models/showtype';
+import { ShowLevel } from '../models/showLevel';
 import { DateValidator } from '../validators/date';
 
 
@@ -18,14 +18,14 @@ import { DateValidator } from '../validators/date';
 export class ShowComponent implements OnInit {
   show: Show;
   showForm: FormGroup;
-  showTypes: ShowType[] = [];
+  showLevels: ShowLevel[] = [];
 
   constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private showProvider: ShowProvider) {
     this.showForm = this.fb.group({
       name: ['', Validators.compose([Validators.required,  Validators.maxLength(10)])],
       description: '',
       place: '',
-      type: null,
+      level: null,
       countrycode: '',
       date: [null, DateValidator.isValid],
       regopen: [null, DateValidator.isValid],
@@ -45,7 +45,7 @@ export class ShowComponent implements OnInit {
           'name': '',
           'description': '',
           'place': '',
-          'type': 3,
+          'level': 3,
           'countrycode': '',
           'date': null,
           'regopen': null,
@@ -59,7 +59,7 @@ export class ShowComponent implements OnInit {
         name: this.show.name || '',
         description: this.show.description || '',
         place: this.show.place || '',
-        type: this.show.type || 0, // nemoj null, jer ako je this.show.type == 0 bice null
+        level: this.show.level || 0, // nemoj null, jer ako je this.show.level == 0 bice null
         countrycode: this.show.countrycode || '',
         date: this.show.date || '',
         regopen: this.show.regopen || '',
@@ -68,9 +68,9 @@ export class ShowComponent implements OnInit {
         lon: this.show.lon || 0,
       });
     });
-    this.showProvider.showtypes.subscribe(showtypes => {
-      for (let i = 0; i < showtypes.length; i++) {
-        this.showTypes.push({ id: i, name: showtypes[i].name, description: showtypes[i].description, order: showtypes[i].order });
+    this.showProvider.showLevels.subscribe(showLevels => {
+      for (let i = 0; i < showLevels.length; i++) {
+        this.showLevels.push({ id: i, name: showLevels[i].name, description: showLevels[i].description, order: showLevels[i].order });
       }
     });
   }
@@ -79,8 +79,8 @@ export class ShowComponent implements OnInit {
     this.show.name = this.showForm.value.name;
     this.show.description = this.showForm.value.description;
     this.show.place = this.showForm.value.place;
-    this.show.type = this.showForm.value.type;
-    console.log('Type: ' + this.showForm.value.type);
+    this.show.level = this.showForm.value.level;
+    console.log('level: ' + this.showForm.value.level);
     this.show.countrycode = this.showForm.value.countrycode;
     this.show.date = this.showForm.value.date.slice(0, 10);
     this.show.regopen = this.showForm.value.regopen.slice(0, 10);

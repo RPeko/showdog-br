@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Show } from '../models/show';
 import { Observable } from 'rxjs';
-import { ShowType } from '../models/showtype';
+import { ShowLevel } from '../models/showLevel';
 
 
 @Injectable()
 export class ShowProvider {
     public showRef: any;
-    public showtypes: Observable<ShowType[]>;
+    public showLevels: Observable<ShowLevel[]>;
 
     constructor(public db: AngularFireDatabase) {
         this.showRef = db.database.ref('/shows/');
-        this.showtypes = db.list<ShowType>('/showtype').valueChanges();
+        this.showLevels = db.list<ShowLevel>('/showlevel').valueChanges();
     }
 
     upsertShow(show: Show){

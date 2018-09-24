@@ -1,22 +1,22 @@
 <div class="container">
   <div class="left">
     <div class="filter">
-      <mat-select placeholder="Click for filtering show types" [(value)]="selectedShowTypes" (selectionChange)="filtering()"
+      <mat-select placeholder="Click for filtering shows" [(value)]="selectedShowLevels" (selectionChange)="filtering()"
         multiple>
         <div class="check-uncheck">
-          <button class="check-uncheck-button" mat-raised-button (click)="checkAllTypes()">
+          <button class="check-uncheck-button" mat-raised-button (click)="checkAllLevels()">
             Select All
           </button>
-          <button class="check-uncheck-button" mat-raised-button (click)="unCheckAllTypes()">
+          <button class="check-uncheck-button" mat-raised-button (click)="unCheckAllLevels()">
             Deselect All
           </button>
         </div>
         <mat-select-trigger>
           {{getFilterHeader()}}
         </mat-select-trigger>
-        <mat-option *ngFor="let showType of showTypes" [value]="showType">
-          <img src="assets/icons/showtype/{{showType.id}}.svg">
-          <span>{{showType.description}} ({{showType.count}})</span>
+        <mat-option *ngFor="let showLevel of showLevels" [value]="showLevel">
+          <img src="assets/icons/showlevel/{{showLevel.id}}.svg">
+          <span>{{showLevel.description}} ({{showLevel.count}})</span>
         </mat-option>
       </mat-select>
     </div>
@@ -37,7 +37,7 @@
           <mat-expansion-panel *ngFor="let show of countryshow.shows" matTooltip="{{getToolTip(show)}}">
             <mat-expansion-panel-header [ngClass]="{'panel-header-finished': show.regFlag==='finished'}">
               <mat-panel-title [ngStyle]="{'width': '300px'}">
-                <img class="type-icon" src="assets/icons/showtype/{{show.type}}.svg">{{show.name}} / {{intToDateToString(show.date, 'll')}}
+                <img class="level-icon" src="assets/icons/showlevel/{{show.level}}.svg">{{show.name}} / {{intToDateToString(show.date, 'll')}}
               </mat-panel-title>
               <mat-panel-description>
                 <mat-icon class="reg-open" *ngIf="show.regFlag==='open'">access_time</mat-icon>
@@ -85,7 +85,7 @@
         <mat-expansion-panel-header [ngClass]="{'panel-header-finished': show.regFlag==='finished'}">
           <mat-panel-title>
             <span class="panel-title">
-              <img class="type-icon" src="assets/icons/showtype/{{show.type}}.svg">
+              <img class="level-icon" src="assets/icons/showlevel/{{show.level}}.svg">
               {{show.name}} / {{intToDateToString(show.date, 'ddd, Do')}}
               <img class="flag-icon" src="assets/icons/flag/{{show.countrycode}}.svg">
             </span>

@@ -17,8 +17,8 @@
     <div class="form-container">
         <mat-form-field>
             <mat-select placeholder="Show Type" formControlName="type">
-                <mat-option *ngFor="let showType of showTypes" [value]="showType.id">
-                    {{showType.description}}
+                <mat-option *ngFor="let showLevel of showLevels" [value]="showLevel.id">
+                    {{showLevel.description}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
