@@ -34,6 +34,8 @@ export class ShowsComponent implements OnInit {
     markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 18 });
     showLevels: ExtShowLevel[] = [];
     selectedShowLevels: ExtShowLevel[] = [];
+    types = ['General', 'Group', 'Single breed'];
+    selectedShowTypes = ['General', 'Group', 'Single breed'];
 
     mymap: L.Map;
     centar = L.latLng(45.57185, 19.640113);
@@ -122,14 +124,20 @@ export class ShowsComponent implements OnInit {
     countLevels() {
         // console.log('Shows: ' + JSON.stringify(shows));
         for (let i = 0; i < this.shows.length; i++) {
-            // this.showLevels.find(level => level.id === this.shows[i].level).count++;
+            let sl = this.showLevels.find(level => level.id === this.shows[i].level);
+            if (sl) {
+                sl.count++;
+            }
         }
     }
 
     filtering() {
-        const filter = [];
-        this.selectedShowLevels.forEach(st => filter.push(st.id));
-        this.processShows(this.shows.filter(show => filter.includes(show.level)));
+        const filterLevel = [];
+        this.selectedShowLevels.forEach(st => filterLevel.push(st.id));
+        this.processShows(this.shows.filter(show => 
+                filterLevel.includes(show.level) && this.selectedShowTypes.includes(show.type)
+                )
+            );
     }
 
     processShows(shows: Show[]) {
@@ -146,15 +154,11 @@ export class ShowsComponent implements OnInit {
         this.mymap.addLayer(this.markerClusters);
         // console.log('countryshows: ' + JSON.stringify(this.countryshows));
         // console.log((new Date()).toISOString() + ' processShows ...');
-        // this.mymap.fitBounds(this.markerClusters.getBounds());
+        this.mymap.fitBounds(this.markerClusters.getBounds());
     }
 
     checkAllLevels() {
         this.selectedShowLevels = this.showLevels;
-    }
-
-    unCheckAllLevels() {
-        this.selectedShowLevels = [];
     }
 
     getLevelName(id) {
@@ -196,7 +200,7 @@ export class ShowsComponent implements OnInit {
         }
     }
 
-    getFilterHeader() {
+    getFilterLevelHeader() {
         return 'Selected: ' + this.selectedShowLevels.map(level => level.name);
     }
 

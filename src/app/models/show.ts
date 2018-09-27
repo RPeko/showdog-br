@@ -1,9 +1,10 @@
 export class Show {
     key: string;
     name: string;
-    description: string;
+    organizer: string;
     place: string;
     level: number;
+    type: string;
     countrycode: string;
     date: number;
     lat: number;

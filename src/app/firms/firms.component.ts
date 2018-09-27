@@ -75,7 +75,10 @@ export class FirmsComponent implements OnInit {
 
   countTypes(firms: Firm[]) {
     for (let i = 0; i < firms.length; i++) {
-      this.firmTypes.find(type => type.id === firms[i].type).count++;
+      let ft = this.firmTypes.find(type => type.id === firms[i].type);
+      if (ft) {
+        ft.count++;
+      }
     }
   }
 

@@ -8,7 +8,6 @@ import { LonValidator } from '../validators/lon';
 import { ShowLevel } from '../models/showLevel';
 import { DateValidator } from '../validators/date';
 
-
 @Component({
   selector: 'app-show',
   templateUrl: './show.component.html',
@@ -19,13 +18,15 @@ export class ShowComponent implements OnInit {
   show: Show;
   showForm: FormGroup;
   showLevels: ShowLevel[] = [];
+  types = ['General', 'Group', 'Single breed'];
 
   constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private showProvider: ShowProvider) {
     this.showForm = this.fb.group({
-      name: ['', Validators.compose([Validators.required,  Validators.maxLength(10)])],
-      description: '',
+      name: ['', Validators.compose([Validators.required, Validators.maxLength(15)])],
+      organizer: '',
       place: '',
       level: null,
+      type: 'General',
       countrycode: '',
       date: [null, DateValidator.isValid],
       regopen: [null, DateValidator.isValid],
@@ -43,9 +44,10 @@ export class ShowComponent implements OnInit {
         this.show = {
           'key': '',
           'name': '',
-          'description': '',
+          'organizer': '',
           'place': '',
-          'level': 3,
+          'level': 2,
+          'type': 'General',
           'countrycode': '',
           'date': null,
           'regopen': null,
@@ -57,9 +59,10 @@ export class ShowComponent implements OnInit {
       }
       this.showForm.setValue({
         name: this.show.name || '',
-        description: this.show.description || '',
+        organizer: this.show.organizer || '',
         place: this.show.place || '',
         level: this.show.level || 0, // nemoj null, jer ako je this.show.level == 0 bice null
+        type: this.show.type || 'General',
         countrycode: this.show.countrycode || '',
         date: this.show.date || '',
         regopen: this.show.regopen || '',
@@ -77,10 +80,10 @@ export class ShowComponent implements OnInit {
 
   onSubmit() {
     this.show.name = this.showForm.value.name;
-    this.show.description = this.showForm.value.description;
+    this.show.organizer = this.showForm.value.organizer;
     this.show.place = this.showForm.value.place;
     this.show.level = this.showForm.value.level;
-    console.log('level: ' + this.showForm.value.level);
+    this.show.type = this.showForm.value.type;
     this.show.countrycode = this.showForm.value.countrycode;
     this.show.date = this.showForm.value.date.slice(0, 10);
     this.show.regopen = this.showForm.value.regopen.slice(0, 10);

@@ -6,7 +6,7 @@
     </div>
     <div class="form-container">
         <mat-form-field>
-            <input matInput formControlName="description" placeholder="Description">
+            <input matInput formControlName="organizer" placeholder="organizer">
         </mat-form-field>
     </div>
     <div class="form-container">
@@ -16,9 +16,18 @@
     </div>
     <div class="form-container">
         <mat-form-field>
-            <mat-select placeholder="Show Type" formControlName="type">
+            <mat-select placeholder="Show Level" formControlName="level">
                 <mat-option *ngFor="let showLevel of showLevels" [value]="showLevel.id">
-                    {{showLevel.description}}
+                    {{showLevel.organizer}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="form-container">
+        <mat-form-field>
+            <mat-select placeholder="Show Type" formControlName="type">
+                <mat-option *ngFor="let type of types" [value]="type">
+                    {{type}}
                 </mat-option>
             </mat-select>
         </mat-form-field>

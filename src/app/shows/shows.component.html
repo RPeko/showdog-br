@@ -1,25 +1,36 @@
 <div class="container">
   <div class="left">
-    <div class="filter">
-      <mat-select placeholder="Click for filtering shows" [(value)]="selectedShowLevels" (selectionChange)="filtering()"
-        multiple>
-        <div class="check-uncheck">
-          <button class="check-uncheck-button" mat-raised-button (click)="checkAllLevels()">
-            Select All
-          </button>
-          <button class="check-uncheck-button" mat-raised-button (click)="unCheckAllLevels()">
-            Deselect All
-          </button>
-        </div>
-        <mat-select-trigger>
-          {{getFilterHeader()}}
-        </mat-select-trigger>
-        <mat-option *ngFor="let showLevel of showLevels" [value]="showLevel">
-          <img src="assets/icons/showlevel/{{showLevel.id}}.svg">
-          <span>{{showLevel.description}} ({{showLevel.count}})</span>
-        </mat-option>
-      </mat-select>
-    </div>
+      <div class="filter-level">
+        <mat-select placeholder="Click for filtering level" [(value)]="selectedShowLevels" (selectionChange)="filtering()"
+          multiple>
+          <!-- <div class="check-uncheck">
+            <button class="check-uncheck-button" mat-raised-button (click)="checkAllLevels()">
+              Select All
+            </button>
+            <button class="check-uncheck-button" mat-raised-button (click)="unCheckAllLevels()">
+              Deselect All
+            </button>
+          </div> -->
+          <mat-select-trigger>
+            {{getFilterLevelHeader()}}
+          </mat-select-trigger>
+          <mat-option *ngFor="let showLevel of showLevels" [value]="showLevel">
+            <img src="assets/icons/showlevel/{{showLevel.id}}.svg">
+            <span>{{showLevel.description}} ({{showLevel.count}})</span>
+          </mat-option>
+        </mat-select>
+      </div>
+      <div class="filter-type">
+        <mat-select placeholder="Click for filtering types" [(value)]="selectedShowTypes" (selectionChange)="filtering()"
+          multiple>
+          <mat-select-trigger>
+              {{'Selected: ' + selectedShowTypes}}
+            </mat-select-trigger>
+          <mat-option *ngFor="let type of types" [value]="type">
+            <span>{{type}}</span>
+          </mat-option>
+        </mat-select>
+      </div>
     <div>
       <mat-button-toggle-group #groupBy="matButtonToggleGroup" value=1>
         <mat-button-toggle value=1>Group By Month</mat-button-toggle>
@@ -31,46 +42,47 @@
         </a>
       </button>
     </div>
-      <mat-list *ngIf="groupBy.value==2; else showByMonth">
-        <ng-container *ngFor="let countryshow of countryshows">
-          <h3 mat-subheader><img class="flag-icon" src="assets/icons/flag/{{countryshow.country}}.svg">{{countryshow.country}}</h3>
-          <mat-expansion-panel *ngFor="let show of countryshow.shows" matTooltip="{{getToolTip(show)}}">
-            <mat-expansion-panel-header [ngClass]="{'panel-header-finished': show.regFlag==='finished'}">
-              <mat-panel-title [ngStyle]="{'width': '300px'}">
-                <img class="level-icon" src="assets/icons/showlevel/{{show.level}}.svg">{{show.name}} / {{intToDateToString(show.date, 'll')}}
-              </mat-panel-title>
-              <mat-panel-description>
-                <mat-icon class="reg-open" *ngIf="show.regFlag==='open'">access_time</mat-icon>
-                <mat-icon class="reg-lastminute" *ngIf="show.regFlag==='lastminute'">av_timer</mat-icon>
-                <mat-icon class="reg-closed" *ngIf="show.regFlag==='closed'">timer_off</mat-icon>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <div>
-              <table>
-                <tr>
-                  <td>{{"Place: " + show.place}}</td>
-                  <td>{{"Opening date: " + intToDateToString(show.date, 'll')}}</td>
-                </tr>
-                <tr>
-                  <td>{{"Description: " + show.description}}</td>
-                  <td>{{"Registration from: " + intToDateToString(show.regopen, 'll')}}</td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td>{{"Registration until: " + intToDateToString(show.regclosed, 'll')}}</td>
-                </tr>
-              </table>
-            </div>
-            <mat-action-row *ngIf="admin>2">
-              <button mat-button>
-                <a routerLink="/show" [queryParams]="{show: show | json }">
-                  <mat-icon>edit</mat-icon>
-                </a>
-              </button>
-            </mat-action-row>
-          </mat-expansion-panel>
-        </ng-container>
-      </mat-list>
+    <mat-list *ngIf="groupBy.value==2; else showByMonth">
+      <ng-container *ngFor="let countryshow of countryshows">
+        <h3 mat-subheader><img class="flag-icon" src="assets/icons/flag/{{countryshow.country}}.svg">{{countryshow.country}}</h3>
+        <mat-expansion-panel *ngFor="let show of countryshow.shows" matTooltip="{{getToolTip(show)}}">
+          <mat-expansion-panel-header [ngClass]="{'panel-header-finished': show.regFlag==='finished'}">
+            <mat-panel-title [ngStyle]="{'width': '300px'}">
+              <img class="level-icon" src="assets/icons/showlevel/{{show.level}}.svg">{{show.name}} /
+              {{intToDateToString(show.date, 'll')}}
+            </mat-panel-title>
+            <mat-panel-description>
+              <mat-icon class="reg-open" *ngIf="show.regFlag==='open'">access_time</mat-icon>
+              <mat-icon class="reg-lastminute" *ngIf="show.regFlag==='lastminute'">av_timer</mat-icon>
+              <mat-icon class="reg-closed" *ngIf="show.regFlag==='closed'">timer_off</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div>
+            <table>
+              <tr>
+                <td>{{"Place: " + show.place}}</td>
+                <td>{{"Opening date: " + intToDateToString(show.date, 'll')}}</td>
+              </tr>
+              <tr>
+                <td>{{"Type: " + show.type + " Show"}}</td>
+                <td>{{"Registration from: " + intToDateToString(show.regopen, 'll')}}</td>
+              </tr>
+              <tr>
+                <td>{{"Organizer: " + show.organizer}}</td>
+                <td>{{"Registration until: " + intToDateToString(show.regclosed, 'll')}}</td>
+              </tr>
+            </table>
+          </div>
+          <mat-action-row *ngIf="admin>2">
+            <button mat-button>
+              <a routerLink="/show" [queryParams]="{show: show | json }">
+                <mat-icon>edit</mat-icon>
+              </a>
+            </button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </ng-container>
+    </mat-list>
   </div>
   <div class="right">
     <div id="lmapa" class="lmapa"></div>
@@ -103,11 +115,11 @@
               <td>{{"Opening date: " + intToDateToString(show.date, 'll')}}</td>
             </tr>
             <tr>
-              <td>{{"Description: " + show.description}}</td>
+              <td>{{"Type: " + show.type + " Show"}}</td>
               <td>{{"Registration from: " + intToDateToString(show.regopen, 'll')}}</td>
             </tr>
             <tr>
-              <td></td>
+              <td>{{"Organizer: " + show.organizer}}</td>
               <td>{{"Registration until: " + intToDateToString(show.regclosed, 'll')}}</td>
             </tr>
           </table>
