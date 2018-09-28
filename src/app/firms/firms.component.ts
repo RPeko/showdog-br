@@ -62,7 +62,6 @@ export class FirmsComponent implements OnInit {
       for (let i = 0; i < firmTypes.length; i++) {
         this.firmTypes.push({ id: i, name: firmTypes[i].name, order: firmTypes[i].order, count: 0 });
       }
-      // console.log(JSON.stringify(this.firmTypes));
       this.firmsProvider.firms.subscribe(firms => {
         // console.log('firms: ' + JSON.stringify(firms));
         this.firms = firms;

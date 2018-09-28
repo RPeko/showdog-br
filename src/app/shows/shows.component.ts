@@ -147,7 +147,7 @@ export class ShowsComponent implements OnInit {
         for (let i = 0; i < shows.length; i++) {
             this.groupByState(shows[i]);
             this.groupByMonth(shows[i]);
-            if ((typeof shows[i].lat === 'number') && (typeof shows[i].lon === 'number')) {
+            if ((typeof shows[i].lat === 'number') && (typeof shows[i].lon === 'number') && ((shows[i].lat + shows[i].lon) !== 0)) {
                 this.addMarker(shows[i]);
             }
         }
