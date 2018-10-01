@@ -1,9 +1,9 @@
 <div class="container">
   <div class="left">
-      <div class="filter-level">
-        <mat-select placeholder="Click for filtering level" [(value)]="selectedShowLevels" (selectionChange)="filtering()"
-          multiple>
-          <!-- <div class="check-uncheck">
+    <div class="filter-level">
+      <mat-select placeholder="Click for filtering level" [(value)]="selectedShowLevels" (selectionChange)="filtering()"
+        multiple>
+        <!-- <div class="check-uncheck">
             <button class="check-uncheck-button" mat-raised-button (click)="checkAllLevels()">
               Select All
             </button>
@@ -11,26 +11,26 @@
               Deselect All
             </button>
           </div> -->
-          <mat-select-trigger>
-            {{getFilterLevelHeader()}}
-          </mat-select-trigger>
-          <mat-option *ngFor="let showLevel of showLevels" [value]="showLevel">
-            <img src="assets/icons/showlevel/{{showLevel.id}}.svg">
-            <span>{{showLevel.description}} ({{showLevel.count}})</span>
-          </mat-option>
-        </mat-select>
-      </div>
-      <div class="filter-type">
-        <mat-select placeholder="Click for filtering types" [(value)]="selectedShowTypes" (selectionChange)="filtering()"
-          multiple>
-          <mat-select-trigger>
-              {{'Selected: ' + selectedShowTypes}}
-            </mat-select-trigger>
-          <mat-option *ngFor="let type of types" [value]="type">
-            <span>{{type}}</span>
-          </mat-option>
-        </mat-select>
-      </div>
+        <mat-select-trigger>
+          {{getFilterLevelHeader()}}
+        </mat-select-trigger>
+        <mat-option *ngFor="let showLevel of showLevels" [value]="showLevel">
+          <img src="assets/icons/showlevel/{{showLevel.id}}.svg">
+          <span>{{showLevel.description}} ({{showLevel.count}})</span>
+        </mat-option>
+      </mat-select>
+    </div>
+    <div class="filter-type">
+      <mat-select placeholder="Click for filtering types" [(value)]="selectedShowTypes" (selectionChange)="filtering()"
+        multiple>
+        <mat-select-trigger>
+          {{'Selected: ' + selectedShowTypes}}
+        </mat-select-trigger>
+        <mat-option *ngFor="let type of types" [value]="type">
+          <span>{{type}}</span>
+        </mat-option>
+      </mat-select>
+    </div>
     <div>
       <mat-button-toggle-group #groupBy="matButtonToggleGroup" value=1>
         <mat-button-toggle value=1>Group By Month</mat-button-toggle>
@@ -70,6 +70,12 @@
               <tr>
                 <td>{{"Organizer: " + show.organizer}}</td>
                 <td>{{"Registration until: " + intToDateToString(show.regclosed, 'll')}}</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td><span *ngIf="show.link">
+                  <a href={{show.link}} target="_blank">Entry info link</a>
+                </span></td>
               </tr>
             </table>
           </div>
@@ -121,6 +127,12 @@
             <tr>
               <td>{{"Organizer: " + show.organizer}}</td>
               <td>{{"Registration until: " + intToDateToString(show.regclosed, 'll')}}</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td><span *ngIf="show.link">
+                <a href={{show.link}} target="_blank">Entry info link</a>
+              </span></td>
             </tr>
           </table>
         </div>

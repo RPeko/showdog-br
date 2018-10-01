@@ -211,15 +211,15 @@ export class ShowsComponent implements OnInit {
     getRegFlag(show: Show) {
         let flag = '';
 
-        if (show.regopen === null) {
+        if ( !show.regopen ) {
             return '';
         }
 
-        if (show.regclosed === null) {
+        if ( !show.regclosed ) {
             return '';
         }
 
-        if (show.date === null) {
+        if ( !show.date ) {
             return '';
         }
 

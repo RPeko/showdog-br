@@ -28,6 +28,7 @@ export class ShowComponent implements OnInit {
       level: null,
       type: 'General',
       countrycode: '',
+      link: '',
       date: [null, DateValidator.isValid],
       regopen: [null, DateValidator.isValid],
       regclosed: [null, DateValidator.isValid],
@@ -46,9 +47,10 @@ export class ShowComponent implements OnInit {
           'name': '',
           'organizer': '',
           'place': '',
-          'level': 2,
+          'level': 1,
           'type': 'General',
           'countrycode': '',
+          'link': '',
           'date': null,
           'regopen': null,
           'regclosed': null,
@@ -61,9 +63,10 @@ export class ShowComponent implements OnInit {
         name: this.show.name || '',
         organizer: this.show.organizer || '',
         place: this.show.place || '',
-        level: this.show.level || 0, // nemoj null, jer ako je this.show.level == 0 bice null
+        level: this.show.level || 1, // nemoj null, jer ako je this.show.level == 0 bice null
         type: this.show.type || 'General',
         countrycode: this.show.countrycode || '',
+        link: this.show.link || '',
         date: this.show.date || '',
         regopen: this.show.regopen || '',
         regclosed: this.show.regclosed || '',
@@ -85,6 +88,7 @@ export class ShowComponent implements OnInit {
     this.show.level = this.showForm.value.level;
     this.show.type = this.showForm.value.type;
     this.show.countrycode = this.showForm.value.countrycode;
+    this.show.link = this.showForm.value.link;
     this.show.date = this.showForm.value.date.slice(0, 10);
     this.show.regopen = this.showForm.value.regopen.slice(0, 10);
     this.show.regclosed = this.showForm.value.regclosed.slice(0, 10);
