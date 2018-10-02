@@ -22,7 +22,7 @@ export class ShowComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private showProvider: ShowProvider) {
     this.showForm = this.fb.group({
-      name: ['', Validators.compose([Validators.required, Validators.maxLength(15)])],
+      name: ['', Validators.compose([Validators.required, Validators.maxLength(17)])],
       organizer: '',
       place: '',
       level: null,

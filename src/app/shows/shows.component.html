@@ -65,17 +65,13 @@
               </tr>
               <tr>
                 <td>{{"Type: " + show.type + " Show"}}</td>
-                <td>{{"Registration from: " + intToDateToString(show.regopen, 'll')}}</td>
-              </tr>
-              <tr>
-                <td>{{"Organizer: " + show.organizer}}</td>
                 <td>{{"Registration until: " + intToDateToString(show.regclosed, 'll')}}</td>
               </tr>
               <tr>
-                <td></td>
+                <td>{{"Organizer: " + show.organizer}}</td>
                 <td><span *ngIf="show.link">
-                  <a href={{show.link}} target="_blank">Entry info link</a>
-                </span></td>
+                    <a href={{show.link}} target="_blank">Entry info link</a>
+                  </span></td>
               </tr>
             </table>
           </div>
@@ -122,17 +118,13 @@
             </tr>
             <tr>
               <td>{{"Type: " + show.type + " Show"}}</td>
-              <td>{{"Registration from: " + intToDateToString(show.regopen, 'll')}}</td>
-            </tr>
-            <tr>
-              <td>{{"Organizer: " + show.organizer}}</td>
               <td>{{"Registration until: " + intToDateToString(show.regclosed, 'll')}}</td>
             </tr>
             <tr>
-              <td></td>
+              <td>{{"Organizer: " + show.organizer}}</td>
               <td><span *ngIf="show.link">
-                <a href={{show.link}} target="_blank">Entry info link</a>
-              </span></td>
+                  <a href={{show.link}} target="_blank">Entry info link</a>
+                </span></td>
             </tr>
           </table>
         </div>

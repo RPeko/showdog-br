@@ -94,12 +94,14 @@ export class ShowsComponent implements OnInit {
                     if (userdata.admin) {
                         this.admin = userdata.admin;
                         // console.log("admin: " + this.admin);
+                    } else {
+                        this.admin = 0;
                     }
                     if (userdata.usercountries) {
                         // if logged then display only shows for user selected states
                         this.allshows.forEach(show => {
                             if (userdata.usercountries.findIndex(country => country === show.countrycode) > -1) {
-                                if ((show.date + 3 > intNow) || (this.admin > 2)) {
+                                if ((show.date > (intNow - 7)) || (this.admin > 2)) {
                                     this.shows.push(<ExtShow>show);
                                 }
                             }
@@ -108,7 +110,7 @@ export class ShowsComponent implements OnInit {
                 } else {
                     // if not logged display all shows
                     this.allshows.forEach(show => {
-                        if ((show.date + 3 > intNow) || (this.admin > 2)) {
+                        if (show.date > (intNow - 7)) {
                             this.shows.push(<ExtShow>show);
                         }
                     });
@@ -211,16 +213,16 @@ export class ShowsComponent implements OnInit {
     getRegFlag(show: Show) {
         let flag = '';
 
-        if ( !show.regopen ) {
-            return '';
-        }
-
         if ( !show.regclosed ) {
             return '';
         }
 
         if ( !show.date ) {
             return '';
+        }
+
+        if ( !show.regopen ) {
+            show.regopen = (show.regclosed < intNow)?show.regclosed:intNow;
         }
 
         if (show.regclosed < show.regopen) {
