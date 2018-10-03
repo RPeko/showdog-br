@@ -18,8 +18,8 @@ import { LoginComponent } from './login/login.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule, MatSelectModule } from '@angular/material';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule, MatSelectModule } from '@angular/material';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,28 +29,30 @@ import { MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { AgmCoreModule } from '@agm/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SettingsComponent } from './settings/settings.component';
 import { ShowComponent } from './show/show.component';
 import { ShowProvider } from './show/show.provider';
 import { RegistrationComponent } from './registration/registration.component';
 import { RegistrationProvider } from './registration/registration.provider';
 import { FirmsComponent } from './firms/firms.component';
 import { FirmsProvider } from './firms/firms.provider';
-import { SettingsProvider } from './settings/settings.provider';
+import { CountriesDialog } from './countries.dialog/countries.dialog.component';
+import { CountriesDialogProvider } from './countries.dialog/countries.dialog.provider';
 
 @NgModule({
   declarations: [
     AppComponent,
     ShowsComponent,
     ShowComponent,
-    SettingsComponent,
+    CountriesDialog,
     LoginComponent,
     ShowComponent,
     RegistrationComponent,
     FirmsComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -76,17 +78,21 @@ import { SettingsProvider } from './settings/settings.provider';
     MatSlideToggleModule,
     MatSelectModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule
   ],
   providers: [
     ShowsProvider,
     ShowProvider,
-    SettingsProvider,
+    CountriesDialogProvider,
     RegistrationProvider,
     FirmsProvider,
     AuthService,
     AngularFireAuth,
     AngularFireDatabase,
+  ],
+  entryComponents: [
+    CountriesDialog,
   ],
   bootstrap: [AppComponent]
 })

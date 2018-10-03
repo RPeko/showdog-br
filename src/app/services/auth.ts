@@ -22,11 +22,11 @@ export class AuthService {
 		return this.db.database.ref('/userdata/' + (this.getUid() || 0));		
 	}
 
-	getusercountries() {
+	getUserCountries() {
 		return this.db.database.ref('/userdata/' + (this.getUid() || 0) + '/usercountries/');
 	}
 
-	updateusercountries(usercountries: string[]) {
+	updateUserCountries(usercountries: string[]) {
 		if (this.user){
 			const usercountriesRef = this.db.object('/userdata/' + this.getUid() + '/usercountries');
 			usercountriesRef.set(usercountries);

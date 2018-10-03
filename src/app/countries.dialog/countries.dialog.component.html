@@ -1,0 +1,12 @@
+<div class="list">
+  <mat-list *ngFor="let country of countries">
+    <mat-slide-toggle class="toggle-margin" [(ngModel)]="country.checked" (ngModelChange)="updateUserCountries(country)">
+      {{country.name}}
+    </mat-slide-toggle>
+</mat-list>
+</div>
+
+<div>
+  <button mat-raised-button (click)="close()">Close</button>
+</div>
+

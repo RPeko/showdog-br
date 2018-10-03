@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { Country } from '../models/country';
 
 @Injectable()
-export class SettingsProvider {
+export class CountriesDialogProvider {
     public countries: Observable<Country[]>;
 
     constructor(public db: AngularFireDatabase) {

@@ -14,7 +14,6 @@ export class AppComponent {
                {title: 'Dog Shows',  routerLink: 'shows'},
                {title: 'Dog Related Businesses',  routerLink: 'firms'},
                {title: 'Register your bussiness',  routerLink: 'registration'},
-               {title: 'Settings',  routerLink: 'settings'},
                {title: 'Login',  routerLink: 'login'}
               ];
 

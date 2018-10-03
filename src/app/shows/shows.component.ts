@@ -7,6 +7,8 @@ import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import * as moment from 'moment';
 import { ShowLevel } from '../models/showLevel';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { CountriesDialog } from '../countries.dialog/countries.dialog.component';
 
 interface ExtShowLevel extends ShowLevel {
     count: number;
@@ -28,6 +30,7 @@ const intNow = +moment().format('YYYYMMDD');
 export class ShowsComponent implements OnInit {
     allshows: Show[];
     shows: ExtShow[];
+    countries: string[];
     countryshows: { country: string, shows: Show[] }[];
     monthshows: { month: string, shows: Show[] }[];
     admin = 0;
@@ -53,6 +56,7 @@ export class ShowsComponent implements OnInit {
     constructor(
         public showsProvider: ShowsProvider,
         public authService: AuthService,
+        public dialog: MatDialog
     ) {
 
     }
@@ -87,37 +91,20 @@ export class ShowsComponent implements OnInit {
             this.countryshows = [];
             this.monthshows = [];
             userdata = data.val();
-
+            if (userdata && userdata.usercountries){
+                this.countries = userdata.usercountries;
+            }
             this.showsProvider.shows.subscribe(allshows => {
                 this.allshows = allshows;
-                if (userdata) {
-                    if (userdata.admin) {
-                        this.admin = userdata.admin;
-                        // console.log("admin: " + this.admin);
-                    } else {
-                        this.admin = 0;
-                    }
-                    if (userdata.usercountries) {
-                        // if logged then display only shows for user selected states
-                        this.allshows.forEach(show => {
-                            if (userdata.usercountries.findIndex(country => country === show.countrycode) > -1) {
-                                if ((show.date > (intNow - 7)) || (this.admin > 2)) {
-                                    this.shows.push(<ExtShow>show);
-                                }
-                            }
-                        });
-                    }
+                if (userdata && userdata.admin) {
+                    this.admin = userdata.admin;
                 } else {
-                    // if not logged display all shows
-                    this.allshows.forEach(show => {
-                        if (show.date > (intNow - 7)) {
-                            this.shows.push(<ExtShow>show);
-                        }
-                    });
+                    this.admin = 0;
                 }
+                this.addShowsByCountries();
                 this.countLevels();
                 this.checkAllLevels();
-                this.filtering();
+                this.filterLevels();
                 this.setRegFlag();
             }, err => console.log('showsprovider err: ' + err));
         });
@@ -133,7 +120,33 @@ export class ShowsComponent implements OnInit {
         }
     }
 
-    filtering() {
+    addShowsByCountries(){
+        if (this.countries !== []) {
+            // if logged then display only shows for user selected states
+            this.allshows.forEach(show => {
+                if (this.countries.findIndex(country => country === show.countrycode) > -1) {
+                    if ((show.date > (intNow - 7)) || (this.admin > 2)) {
+                        this.shows.push(<ExtShow>show);
+                    }
+                }
+            });
+        } else {
+            // if this.countries = [] than add all shows
+            this.allshows.forEach(show => {
+                if (show.date > (intNow - 7)) {
+                    this.shows.push(<ExtShow>show);
+                }
+            });
+        }
+    }
+
+    openCountriesDialog(): void {
+        this.dialog.open(CountriesDialog);
+      }
+    
+    
+
+    filterLevels() {
         const filterLevel = [];
         this.selectedShowLevels.forEach(st => filterLevel.push(st.id));
         this.processShows(this.shows.filter(show => 
