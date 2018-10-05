@@ -39,15 +39,12 @@ import { RegistrationComponent } from './registration/registration.component';
 import { RegistrationProvider } from './registration/registration.provider';
 import { FirmsComponent } from './firms/firms.component';
 import { FirmsProvider } from './firms/firms.provider';
-import { CountriesDialog } from './countries.dialog/countries.dialog.component';
-import { CountriesDialogProvider } from './countries.dialog/countries.dialog.provider';
 
 @NgModule({
   declarations: [
     AppComponent,
     ShowsComponent,
     ShowComponent,
-    CountriesDialog,
     LoginComponent,
     ShowComponent,
     RegistrationComponent,
@@ -84,15 +81,11 @@ import { CountriesDialogProvider } from './countries.dialog/countries.dialog.pro
   providers: [
     ShowsProvider,
     ShowProvider,
-    CountriesDialogProvider,
     RegistrationProvider,
     FirmsProvider,
     AuthService,
     AngularFireAuth,
     AngularFireDatabase,
-  ],
-  entryComponents: [
-    CountriesDialog,
   ],
   bootstrap: [AppComponent]
 })

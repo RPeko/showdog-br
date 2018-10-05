@@ -1,8 +1,10 @@
 <div class="container">
   <div class="left">
     <div class="filter-level">
-      <mat-select placeholder="Click for filtering level" [(value)]="selectedShowLevels" (selectionChange)="filtering()"
-        multiple>
+      <mat-select placeholder="Click for filtering level" 
+                  [(value)]="selectedShowLevels" 
+                  (selectionChange)="filterLevelsAndTypes()"
+                  multiple>
         <!-- <div class="check-uncheck">
             <button class="check-uncheck-button" mat-raised-button (click)="checkAllLevels()">
               Select All
@@ -12,7 +14,7 @@
             </button>
           </div> -->
         <mat-select-trigger>
-          {{getFilterLevelHeader()}}
+            {{getFilterLevelHeader()}}
         </mat-select-trigger>
         <mat-option *ngFor="let showLevel of showLevels" [value]="showLevel">
           <img src="assets/icons/showlevel/{{showLevel.id}}.svg">
@@ -21,13 +23,28 @@
       </mat-select>
     </div>
     <div class="filter-type">
-      <mat-select placeholder="Click for filtering types" [(value)]="selectedShowTypes" (selectionChange)="filtering()"
+      <mat-select placeholder="Click for filtering types" 
+                  [(value)]="selectedShowTypes" 
+                  (selectionChange)="filterLevelsAndTypes()"
         multiple>
         <mat-select-trigger>
           {{'Selected: ' + selectedShowTypes}}
         </mat-select-trigger>
         <mat-option *ngFor="let type of types" [value]="type">
           <span>{{type}}</span>
+        </mat-option>
+      </mat-select>
+    </div>
+    <div class="filter-type">
+      <mat-select placeholder="Click for filtering countries" 
+                  [(value)]="countries" 
+                  (selectionChange)="filterCountries()"
+                  multiple>
+        <mat-select-trigger>
+          {{'Selected: ' + countries}}
+        </mat-select-trigger>
+        <mat-option *ngFor="let country of allCountries" [value]="country.code">
+          <span>{{country.name}} ({{country.count}})</span>
         </mat-option>
       </mat-select>
     </div>
@@ -42,9 +59,6 @@
         </a>
       </button>
     </div> -->
-    <div>
-      <button mat-raised-button (click)="openCountriesDialog()">Select countries</button>
-    </div>
     <mat-list>
       <ng-container *ngFor="let monthshow of monthshows">
         <h3 mat-subheader>{{intToDateToString(+(monthshow.month + "01"), "MMMM/YY")}}</h3>

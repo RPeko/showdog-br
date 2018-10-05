@@ -7,10 +7,13 @@ import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import * as moment from 'moment';
 import { ShowLevel } from '../models/showLevel';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { CountriesDialog } from '../countries.dialog/countries.dialog.component';
+import { Country } from '../models/country';
 
 interface ExtShowLevel extends ShowLevel {
+    count: number;
+}
+
+interface ExtCountry extends Country {
     count: number;
 }
 
@@ -30,8 +33,8 @@ const intNow = +moment().format('YYYYMMDD');
 export class ShowsComponent implements OnInit {
     allshows: Show[];
     shows: ExtShow[];
-    countries: string[];
-    countryshows: { country: string, shows: Show[] }[];
+    allCountries: ExtCountry[] = [];
+    countries: string[] = [];
     monthshows: { month: string, shows: Show[] }[];
     admin = 0;
     markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 18 });
@@ -56,7 +59,6 @@ export class ShowsComponent implements OnInit {
     constructor(
         public showsProvider: ShowsProvider,
         public authService: AuthService,
-        public dialog: MatDialog
     ) {
 
     }
@@ -74,6 +76,7 @@ export class ShowsComponent implements OnInit {
                     count: 0
                 });
             }
+            this.selectedShowLevels = this.showLevels;
         });
     }
 
@@ -88,79 +91,109 @@ export class ShowsComponent implements OnInit {
             let userdata: Userdata;
             this.allshows = [];
             this.shows = [];
-            this.countryshows = [];
             this.monthshows = [];
             userdata = data.val();
             if (userdata && userdata.usercountries){
                 this.countries = userdata.usercountries;
             }
+            if (userdata && userdata.admin) {
+                this.admin = userdata.admin;
+            } else {
+                this.admin = 0;
+            }
             this.showsProvider.shows.subscribe(allshows => {
                 this.allshows = allshows;
-                if (userdata && userdata.admin) {
-                    this.admin = userdata.admin;
-                } else {
-                    this.admin = 0;
-                }
-                this.addShowsByCountries();
-                this.countLevels();
-                this.checkAllLevels();
-                this.filterLevels();
-                this.setRegFlag();
-            }, err => console.log('showsprovider err: ' + err));
+                this.allshows.forEach(show => {
+                    if (show.date > (intNow - 7)) {
+                        this.shows.push(<ExtShow>show);
+                    }
+                });
+                this.showsProvider.allCountries.subscribe(allcountries => {
+                    this.allCountries = [];
+                    allcountries.forEach(c => 
+                        this.allCountries.push({
+                        code: c.code,
+                        name: c.name,
+                        count: 0
+                        }));
+                    this.filterCountries(); // filterLevels() and countLevels() are inside filterCountries()
+                    this.setRegFlag();
+                    this.countCountries();
+                    this.countLevels();
+                }, err => console.log('Countries provider err: ' + err));    
+            }, err => console.log('Shows provider err: ' + err));
         });
+
     }
 
     countLevels() {
         // console.log('Shows: ' + JSON.stringify(shows));
-        for (let i = 0; i < this.shows.length; i++) {
-            let sl = this.showLevels.find(level => level.id === this.shows[i].level);
+        for (let i = 0; i < this.allshows.length; i++) {
+            let sl = this.showLevels.find(level => level.id === this.allshows[i].level);
             if (sl) {
                 sl.count++;
             }
         }
     }
 
+    countCountries() {
+        // console.log('Shows: ' + JSON.stringify(shows));
+        for (let i = 0; i < this.allshows.length; i++) {
+            let c = this.allCountries.find(country => country.code === this.allshows[i].countrycode);
+            if (c) {
+                c.count++;
+            }
+        }
+    }
+
+    updateCountries() {
+        // this.authService.updateUserCountries(this.countries);
+      }
+
+    filterCountries() {
+        // this.updateCountries();
+        // this.addShowsByCountries();
+        this.filterLevelsAndTypes();
+    }
+
+    filterLevelsAndTypes() {
+        const filterLevel = [];
+        this.selectedShowLevels.forEach(st => filterLevel.push(st.id));
+        this.processShows(this.shows.filter(show => 
+                filterLevel.includes(show.level) && 
+                this.selectedShowTypes.includes(show.type) && 
+                this.countries.includes(show.countrycode)
+                )
+            );
+    }
+
+
     addShowsByCountries(){
-        if (this.countries !== []) {
-            // if logged then display only shows for user selected states
-            this.allshows.forEach(show => {
-                if (this.countries.findIndex(country => country === show.countrycode) > -1) {
-                    if ((show.date > (intNow - 7)) || (this.admin > 2)) {
-                        this.shows.push(<ExtShow>show);
-                    }
-                }
-            });
-        } else {
-            // if this.countries = [] than add all shows
+        // console.log(JSON.stringify(this.countries));
+        this.shows = [];
+        if (this.countries.length == this.allCountries.length) {
+            console.log('a joj');
             this.allshows.forEach(show => {
                 if (show.date > (intNow - 7)) {
                     this.shows.push(<ExtShow>show);
                 }
             });
+        } else {
+               // if logged then display only shows for user selected states
+               this.allshows.forEach(show => {
+                if (this.countries.findIndex(country => country === show.countrycode) > -1) {
+                    if ((show.date > (intNow - 7)) || (this.admin > 2)) {
+                        this.shows.push(<ExtShow>show);
+                    }
+                }
+            });            
         }
     }
-
-    openCountriesDialog(): void {
-        this.dialog.open(CountriesDialog);
-      }
-    
-    
-
-    filterLevels() {
-        const filterLevel = [];
-        this.selectedShowLevels.forEach(st => filterLevel.push(st.id));
-        this.processShows(this.shows.filter(show => 
-                filterLevel.includes(show.level) && this.selectedShowTypes.includes(show.type)
-                )
-            );
-    }
-
+      
     processShows(shows: Show[]) {
-        this.countryshows = [];
         this.monthshows = [];
         this.markerClusters.clearLayers();
         for (let i = 0; i < shows.length; i++) {
-            this.groupByState(shows[i]);
             this.groupByMonth(shows[i]);
             if ((typeof shows[i].lat === 'number') && (typeof shows[i].lon === 'number') && ((shows[i].lat + shows[i].lon) !== 0)) {
                 this.addMarker(shows[i]);
@@ -169,12 +202,11 @@ export class ShowsComponent implements OnInit {
         this.mymap.addLayer(this.markerClusters);
         // console.log('countryshows: ' + JSON.stringify(this.countryshows));
         // console.log((new Date()).toISOString() + ' processShows ...');
-        this.mymap.fitBounds(this.markerClusters.getBounds());
+        if (this.shows.length > 0){
+            // this.mymap.fitBounds(this.markerClusters.getBounds());
+        }
     }
 
-    checkAllLevels() {
-        this.selectedShowLevels = this.showLevels;
-    }
 
     getLevelName(id) {
         const level = this.showLevels.find(t => t.id === id);
@@ -193,16 +225,6 @@ export class ShowsComponent implements OnInit {
                         + '<div>' + show.place + '</div>'
                         );
         this.markerClusters.addLayer(marker);
-    }
-
-    groupByState(show: Show) {
-        const index = this.countryshows.findIndex(ss => ss.country === show.countrycode);
-        // console.log("stateshow index: " + index);
-        if (index > -1) {
-            this.countryshows[index].shows.push(show);
-        } else {
-            this.countryshows.push({ country: show.countrycode, shows: [show] });
-        }
     }
 
     groupByMonth(show: Show) {
