@@ -3,7 +3,7 @@
     <div class="filter-level">
       <mat-select placeholder="Click for filtering level" 
                   [(value)]="selectedShowLevels" 
-                  (selectionChange)="filterLevelsAndTypes()"
+                  (selectionChange)="runFilter()"
                   multiple>
         <!-- <div class="check-uncheck">
             <button class="check-uncheck-button" mat-raised-button (click)="checkAllLevels()">
@@ -25,7 +25,7 @@
     <div class="filter-type">
       <mat-select placeholder="Click for filtering types" 
                   [(value)]="selectedShowTypes" 
-                  (selectionChange)="filterLevelsAndTypes()"
+                  (selectionChange)="runFilter()"
         multiple>
         <mat-select-trigger>
           {{'Selected: ' + selectedShowTypes}}
@@ -38,7 +38,7 @@
     <div class="filter-type">
       <mat-select placeholder="Click for filtering countries" 
                   [(value)]="countries" 
-                  (selectionChange)="filterCountries()"
+                  (selectionChange)="runFilter()"
                   multiple>
         <mat-select-trigger>
           {{'Selected: ' + countries}}
@@ -48,17 +48,6 @@
         </mat-option>
       </mat-select>
     </div>
-    <!-- <div>
-      <mat-button-toggle-group #groupBy="matButtonToggleGroup" value=1>
-        <mat-button-toggle value=1>Group By Month</mat-button-toggle>
-        <mat-button-toggle value=2>Group By Country</mat-button-toggle>
-      </mat-button-toggle-group>
-      <button mat-button *ngIf="admin>2">
-        <a routerLink="/show">
-          <mat-icon>add</mat-icon>
-        </a>
-      </button>
-    </div> -->
     <mat-list>
       <ng-container *ngFor="let monthshow of monthshows">
         <h3 mat-subheader>{{intToDateToString(+(monthshow.month + "01"), "MMMM/YY")}}</h3>

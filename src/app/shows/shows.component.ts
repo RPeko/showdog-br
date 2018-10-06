@@ -19,6 +19,7 @@ interface ExtCountry extends Country {
 
 interface ExtShow extends Show {
     regFlag?: string;
+    past?: boolean;
 }
 
 const iconBaseUrl = 'assets/icons/';
@@ -31,7 +32,6 @@ const intNow = +moment().format('YYYYMMDD');
 })
 
 export class ShowsComponent implements OnInit {
-    allshows: Show[];
     shows: ExtShow[];
     allCountries: ExtCountry[] = [];
     countries: string[] = [];
@@ -89,11 +89,10 @@ export class ShowsComponent implements OnInit {
     loadData() {
         this.authService.getUserdata().on('value', data => {
             let userdata: Userdata;
-            this.allshows = [];
             this.shows = [];
             this.monthshows = [];
             userdata = data.val();
-            if (userdata && userdata.usercountries){
+            if (userdata && userdata.usercountries) {
                 this.countries = userdata.usercountries;
             }
             if (userdata && userdata.admin) {
@@ -102,94 +101,78 @@ export class ShowsComponent implements OnInit {
                 this.admin = 0;
             }
             this.showsProvider.shows.subscribe(allshows => {
-                this.allshows = allshows;
-                this.allshows.forEach(show => {
-                    if (show.date > (intNow - 7)) {
-                        this.shows.push(<ExtShow>show);
+                allshows.forEach(show => {
+                    const extShow = <ExtShow>show;
+                    if (show.date > (intNow - 7) || (this.admin > 2)) {
+                        if (show.date > intNow) {
+                            extShow.past = false;
+                        } else {
+                            extShow.past = true;
+                        }
+                        this.shows.push(extShow);
                     }
                 });
                 this.showsProvider.allCountries.subscribe(allcountries => {
                     this.allCountries = [];
-                    allcountries.forEach(c => 
+                    allcountries.forEach(c =>
                         this.allCountries.push({
-                        code: c.code,
-                        name: c.name,
-                        count: 0
+                            code: c.code,
+                            name: c.name,
+                            count: 0
                         }));
-                    this.filterCountries(); // filterLevels() and countLevels() are inside filterCountries()
+                    if (this.countries.length === 0) {
+                        console.log('prazna');
+                        this.allCountries.forEach(c => this.countries.push(c.code));
+                    }
+                    this.runFilter();
                     this.setRegFlag();
-                    this.countCountries();
-                    this.countLevels();
-                }, err => console.log('Countries provider err: ' + err));    
+                }, err => console.log('Countries provider err: ' + err));
             }, err => console.log('Shows provider err: ' + err));
         });
 
     }
 
-    countLevels() {
-        // console.log('Shows: ' + JSON.stringify(shows));
-        for (let i = 0; i < this.allshows.length; i++) {
-            let sl = this.showLevels.find(level => level.id === this.allshows[i].level);
-            if (sl) {
-                sl.count++;
-            }
-        }
-    }
-
-    countCountries() {
-        // console.log('Shows: ' + JSON.stringify(shows));
-        for (let i = 0; i < this.allshows.length; i++) {
-            let c = this.allCountries.find(country => country.code === this.allshows[i].countrycode);
-            if (c) {
-                c.count++;
-            }
-        }
-    }
-
     updateCountries() {
-        // this.authService.updateUserCountries(this.countries);
-      }
-
-    filterCountries() {
-        // this.updateCountries();
-        // this.addShowsByCountries();
-        this.filterLevelsAndTypes();
+        if (this.authService.authenticated) {
+            this.authService.updateUserCountries(this.countries);
+        }
     }
 
-    filterLevelsAndTypes() {
+    runFilter() {
         const filterLevel = [];
         this.selectedShowLevels.forEach(st => filterLevel.push(st.id));
-        this.processShows(this.shows.filter(show => 
-                filterLevel.includes(show.level) && 
-                this.selectedShowTypes.includes(show.type) && 
-                this.countries.includes(show.countrycode)
-                )
-            );
+        this.processShows(this.shows.filter(show =>
+            filterLevel.includes(show.level) &&
+            this.selectedShowTypes.includes(show.type) &&
+            this.countries.includes(show.countrycode)
+        )
+        );
+        this.updateCountries();
+        this.countCountries();
+        this.countLevels();
     }
 
+    // addShowsByCountries() {
+    //     // console.log(JSON.stringify(this.countries));
+    //     this.shows = [];
+    //     if (this.countries.length === this.allCountries.length) {
+    //         this.shows.forEach(show => {
+    //             if (show.date > (intNow - 7)) {
+    //                 this.shows.push(<ExtShow>show);
+    //             }
+    //         });
+    //     } else {
+    //         // if logged then display only shows for user selected states
+    //         this.allshows.forEach(show => {
+    //             if (this.countries.findIndex(country => country === show.countrycode) > -1) {
+    //                 if ((show.date > (intNow - 7)) || (this.admin > 2)) {
+    //                     this.shows.push(<ExtShow>show);
+    //                 }
+    //             }
+    //         });
+    //     }
+    // }
 
-    addShowsByCountries(){
-        // console.log(JSON.stringify(this.countries));
-        this.shows = [];
-        if (this.countries.length == this.allCountries.length) {
-            console.log('a joj');
-            this.allshows.forEach(show => {
-                if (show.date > (intNow - 7)) {
-                    this.shows.push(<ExtShow>show);
-                }
-            });
-        } else {
-               // if logged then display only shows for user selected states
-               this.allshows.forEach(show => {
-                if (this.countries.findIndex(country => country === show.countrycode) > -1) {
-                    if ((show.date > (intNow - 7)) || (this.admin > 2)) {
-                        this.shows.push(<ExtShow>show);
-                    }
-                }
-            });            
-        }
-    }
-      
     processShows(shows: Show[]) {
         this.monthshows = [];
         this.markerClusters.clearLayers();
@@ -200,13 +183,33 @@ export class ShowsComponent implements OnInit {
             }
         }
         this.mymap.addLayer(this.markerClusters);
-        // console.log('countryshows: ' + JSON.stringify(this.countryshows));
-        // console.log((new Date()).toISOString() + ' processShows ...');
-        if (this.shows.length > 0){
-            // this.mymap.fitBounds(this.markerClusters.getBounds());
+        if (this.markerClusters.getBounds().isValid()) {
+            this.mymap.fitBounds(this.markerClusters.getBounds());
         }
     }
 
+
+    countLevels() {
+        // console.log('Shows: ' + JSON.stringify(shows));
+        this.showLevels.forEach(sl => sl.count = 0);
+        for (let i = 0; i < this.shows.length; i++) {
+            const sl = this.showLevels.find(level => level.id === this.shows[i].level);
+            if (sl) {
+                sl.count++;
+            }
+        }
+    }
+
+    countCountries() {
+        // console.log('Shows: ' + JSON.stringify(shows));
+        this.allCountries.forEach(c => c.count = 0);
+        for (let i = 0; i < this.shows.length; i++) {
+            const c = this.allCountries.find(country => country.code === this.shows[i].countrycode);
+            if (c) {
+                c.count++;
+            }
+        }
+    }
 
     getLevelName(id) {
         const level = this.showLevels.find(t => t.id === id);
@@ -220,10 +223,10 @@ export class ShowsComponent implements OnInit {
     addMarker(show: Show) {
         const icon = L.icon({ iconUrl: iconBaseUrl + 'showlevel/' + show.level + '.svg' });
         const marker = L.marker(new L.LatLng(show.lat, show.lon), { title: show.name, icon: icon });
-        marker.bindPopup('<div>' + show.name + '</div>' 
-                        + '<div>' + this.intToDateToString(show.date, 'LL') + '</div>'
-                        + '<div>' + show.place + '</div>'
-                        );
+        marker.bindPopup('<div>' + show.name + '</div>'
+            + '<div>' + this.intToDateToString(show.date, 'LL') + '</div>'
+            + '<div>' + show.place + '</div>'
+        );
         this.markerClusters.addLayer(marker);
     }
 
@@ -248,16 +251,8 @@ export class ShowsComponent implements OnInit {
     getRegFlag(show: Show) {
         let flag = '';
 
-        if ( !show.regclosed ) {
-            return '';
-        }
-
-        if ( !show.date ) {
-            return '';
-        }
-
-        if ( !show.regopen ) {
-            show.regopen = (show.regclosed < intNow)?show.regclosed:intNow;
+        if (!show.regopen) {
+            show.regopen = (show.regclosed < intNow) ? show.regclosed : intNow;
         }
 
         if (show.regclosed < show.regopen) {
@@ -266,6 +261,14 @@ export class ShowsComponent implements OnInit {
 
         if (show.date < intNow) {
             return 'finished';
+        }
+
+        if (!show.date) {
+            return '';
+        }
+
+        if (!show.regclosed) {
+            return '';
         }
 
         if (show.regopen <= intNow) {
