@@ -1,13 +1,5 @@
 @import '~@angular/material/theming';
 
-.lmapa {
-    position: relative;
-    /* height: 50vh; */
-    /* width:500px; */
-}
-
-#lmapa { height: 85vh; }
-
 .container {
     display: flex;
 }
@@ -22,6 +14,18 @@
     float:left;
     width: 50vw;
 }
+
+.main-list {
+    
+}
+
+.lmapa {
+    position: relative;
+    /* height: 50vh; */
+    /* width:500px; */
+}
+
+#lmapa { height: 85vh; }
 
 .filter-level {
     padding-bottom: 1vh;
@@ -53,6 +57,10 @@ td {
 
 .panel-header-finished {
     background-color: mat-color($mat-grey, 200);
+}
+
+.check-uncheck-button {
+    width: 50%;
 }
 
 .reg-open {

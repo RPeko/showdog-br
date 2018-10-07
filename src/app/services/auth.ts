@@ -8,18 +8,18 @@ import { auth } from 'firebase';
 export class AuthService {
 	private user: firebase.User;
 
-	constructor(public afAuth: AngularFireAuth,  public db: AngularFireDatabase) {
+	constructor(public afAuth: AngularFireAuth, public db: AngularFireDatabase) {
 		afAuth.authState.subscribe(user => {
 			this.user = user;
 		});
 	}
 
 	getUid(): string {
-		return this.user?this.user.uid:'';
+		return this.user ? this.user.uid : '';
 	}
 
-	getUserdata(){
-		return this.db.database.ref('/userdata/' + (this.getUid() || 0));		
+	getUserdata() {
+		return this.db.database.ref('/userdata/' + (this.getUid() || 0));
 	}
 
 	getUserCountries() {
@@ -27,11 +27,11 @@ export class AuthService {
 	}
 
 	updateUserCountries(usercountries: string[]) {
-		if (this.user){
+		if (this.user) {
 			const usercountriesRef = this.db.object('/userdata/' + this.getUid() + '/usercountries');
 			usercountriesRef.set(usercountries);
 		}
-    }
+	}
 
 	signInWithEmail(credentials) {
 		console.log('Sign in with email');
@@ -48,7 +48,7 @@ export class AuthService {
 	}
 
 	get anonymous(): boolean {
-		if (this.user){
+		if (this.user) {
 			return this.user.isAnonymous;
 		} else {
 			return false;

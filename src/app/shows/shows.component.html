@@ -1,31 +1,7 @@
 <div class="container">
   <div class="left">
-    <div class="filter-level">
-      <mat-select placeholder="Click for filtering level" 
-                  [(value)]="selectedShowLevels" 
-                  (selectionChange)="runFilter()"
-                  multiple>
-        <!-- <div class="check-uncheck">
-            <button class="check-uncheck-button" mat-raised-button (click)="checkAllLevels()">
-              Select All
-            </button>
-            <button class="check-uncheck-button" mat-raised-button (click)="unCheckAllLevels()">
-              Deselect All
-            </button>
-          </div> -->
-        <mat-select-trigger>
-            {{getFilterLevelHeader()}}
-        </mat-select-trigger>
-        <mat-option *ngFor="let showLevel of showLevels" [value]="showLevel">
-          <img src="assets/icons/showlevel/{{showLevel.id}}.svg">
-          <span>{{showLevel.description}} ({{showLevel.count}})</span>
-        </mat-option>
-      </mat-select>
-    </div>
     <div class="filter-type">
-      <mat-select placeholder="Click for filtering types" 
-                  [(value)]="selectedShowTypes" 
-                  (selectionChange)="runFilter()"
+      <mat-select placeholder="Click for filtering types" [(value)]="selectedShowTypes" (selectionChange)="runFilter()"
         multiple>
         <mat-select-trigger>
           {{'Selected: ' + selectedShowTypes}}
@@ -35,20 +11,38 @@
         </mat-option>
       </mat-select>
     </div>
-    <div class="filter-type">
-      <mat-select placeholder="Click for filtering countries" 
-                  [(value)]="countries" 
-                  (selectionChange)="runFilter()"
-                  multiple>
+    <div>
+      <div class="filter-level">
+        <mat-select placeholder="Click for filtering level" [(value)]="selectedShowLevels" (selectionChange)="runFilter()"
+          multiple>
+          <mat-select-trigger>
+            {{getFilterLevelHeader()}}
+          </mat-select-trigger>
+          <mat-option *ngFor="let showLevel of showLevels" [value]="showLevel">
+            <img src="assets/icons/showlevel/{{showLevel.id}}.svg">
+            <span>{{showLevel.description}} ({{showLevel.count}}/{{showLevel.all}})</span>
+          </mat-option>
+        </mat-select>
+      </div>
+      <mat-select placeholder="Click for filtering countries" [(value)]="countries" (selectionChange)="runFilter();updateCountries()"
+        multiple>
+        <div>
+          <button class="check-uncheck-button" mat-raised-button (click)="checkAllCountries(); runFilter();updateCountries()">
+            Select All
+          </button>
+          <button class="check-uncheck-button" mat-raised-button (click)="uncheckAllCountries(); runFilter();updateCountries()">
+            Deselect All
+          </button>
+        </div>
         <mat-select-trigger>
           {{'Selected: ' + countries}}
         </mat-select-trigger>
         <mat-option *ngFor="let country of allCountries" [value]="country.code">
-          <span>{{country.name}} ({{country.count}})</span>
+          <span>{{country.name}} ({{country.count}}/{{country.all}})</span>
         </mat-option>
       </mat-select>
     </div>
-    <mat-list>
+    <mat-list class="main-list">
       <ng-container *ngFor="let monthshow of monthshows">
         <h3 mat-subheader>{{intToDateToString(+(monthshow.month + "01"), "MMMM/YY")}}</h3>
         <mat-expansion-panel *ngFor="let show of monthshow.shows" matTooltip="{{getToolTip(show)}}">
@@ -56,8 +50,8 @@
             <mat-panel-title>
               <span class="panel-title">
                 <img class="level-icon" src="assets/icons/showlevel/{{show.level}}.svg">
-                {{show.name}} / {{intToDateToString(show.date, 'ddd, Do')}}
                 <img class="flag-icon" src="assets/icons/flag/{{show.countrycode}}.svg">
+                {{show.name}} / {{intToDateToString(show.date, 'ddd, Do')}}
               </span>
             </mat-panel-title>
             <mat-panel-description>
