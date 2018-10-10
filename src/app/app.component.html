@@ -3,8 +3,18 @@
 </button>
 <mat-menu #menu="matMenu">
   <button mat-menu-item *ngFor="let item of menuItems" routerLink="{{item.routerLink}}">{{item.title}}</button>
+  <div *ngIf="authService.afAuth.user | async as user; else showLogin">
+      <button mat-menu-item (click)="logout()" routerLink="login">Logout</button>
+      
+  </div>
+ 
+
 </mat-menu>
 
 <div class="router-outlet">
     <router-outlet></router-outlet>
 </div>
+
+<ng-template #showLogin>
+    <button  mat-menu-item routerLink="login">Login</button>
+</ng-template>

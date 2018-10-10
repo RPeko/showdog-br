@@ -15,8 +15,8 @@
     width: 50vw;
 }
 
-.main-list {
-    
+.admin {
+    padding-bottom: 7px;
 }
 
 .lmapa {
@@ -32,12 +32,17 @@
 }
 
 .filter-type {
-    padding-bottom: 2vh;
+    padding-bottom: 1vh;
 }
 
 td {
     width: 50%;
     padding-right: 10px;
+}
+
+.checkbox-icon {
+    height: 18px;
+    padding-right: 15px;
 }
 
 .level-icon {

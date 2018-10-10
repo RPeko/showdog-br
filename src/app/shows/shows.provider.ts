@@ -20,4 +20,9 @@ export class ShowsProvider {
           this.allCountries = db.list<Country>('/countries').valueChanges();
     }
 
+    public getShows(param: number){
+        
+        return this.db.list<Show>('/shows', ref => ref.orderByChild('date').startAt('' + param)).valueChanges();
+    }
+
 }

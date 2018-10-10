@@ -37,15 +37,15 @@ export class ShowsComponent implements OnInit {
     shows: ExtShow[];
     allCountries: ExtCountry[] = [];
     countries: string[] = [];
+    allLevels: ExtShowLevel[] = [];
+    selectedLevels: ExtShowLevel[] = [];
+    allTypes = [{'name':'General', 'all': 0, 'count': 0}, {'name':'Group', 'all': 0,'count': 0}, {'name':'Single breed', 'all': 0,'count': 0}];
+    selectedTypes = ['General', 'Group', 'Single breed'];
+
     monthshows: { month: string, shows: Show[] }[];
     admin = 0;
-    markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 18 });
-    showLevels: ExtShowLevel[] = [];
-    selectedShowLevels: ExtShowLevel[] = [];
-    types = ['General', 'Group', 'Single breed'];
-    selectedShowTypes = ['General', 'Group', 'Single breed'];
-
     mymap: L.Map;
+    markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 18 });
     centar = L.latLng(45.57185, 19.640113);
     zoom = 8;
     baselayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
@@ -67,7 +67,7 @@ export class ShowsComponent implements OnInit {
 
     ngOnInit() {
         this.createMap();
-        this.loadData();
+        this.loadData(intNow-7);
     }
 
     createMap() {
@@ -76,52 +76,51 @@ export class ShowsComponent implements OnInit {
         this.baselayer.addTo(this.mymap);
     }
 
-    loadData() {
+    loadData(paramStartAt: number) {
         this.shows = [];
         this.monthshows = [];
-        this.showsProvider.shows.subscribe(allshows => {
-            allshows.forEach(show => {
-                const extShow = <ExtShow>show;
-                if (show.date > (intNow - 7) || (this.admin > 2)) {
+        this.showsProvider.showLevels.subscribe(showLevels => {
+            this.allLevels = [];
+            for (let i = 0; i < showLevels.length; i++) {
+                this.allLevels.push({
+                    id: i,
+                    name: showLevels[i].name,
+                    description: showLevels[i].description,
+                    order: showLevels[i].order,
+                    count: 0,
+                    all: 0
+                });
+            }
+            this.showsProvider.getShows(paramStartAt).subscribe(allshows => {
+                allshows.forEach(show => {
+                    const extShow = <ExtShow>show;
                     if (show.date > intNow) {
                         extShow.past = false;
                     } else {
                         extShow.past = true;
                     }
                     this.shows.push(extShow);
-                }
-            });
-            this.showsProvider.showLevels.subscribe(showLevels => {
-                this.showLevels = [];
-                for (let i = 0; i < showLevels.length; i++) {
-                    this.showLevels.push({
-                        id: i,
-                        name: showLevels[i].name,
-                        description: showLevels[i].description,
-                        order: showLevels[i].order,
-                        count: 0,
-                        all: 0
-                    });
-                }
-                this.selectedShowLevels = this.showLevels;
-                this.countLevels_all();
-                this.showsProvider.allCountries.subscribe(allcountries => {
-                    this.allCountries = [];
-                    allcountries.forEach(c =>
-                        this.allCountries.push({
-                            code: c.code,
-                            name: c.name,
-                            count: 0,
-                            all: 0
-                        }));
-                    this.checkAllCountries();
-                    this.runFilter();
-                    this.userDataSubscription();
-                    this.setRegFlag();
-                    this.countCountries_all();
-                }, err => console.log('Countries provider err: ' + err));
-            }, err => console.log('Show levels provider err: ' + err));
-        }, err => console.log('Shows provider err: ' + err))
+                });
+                   this.showsProvider.allCountries.subscribe(allcountries => {
+                        this.allCountries = [];
+                        allcountries.forEach(c =>
+                            this.allCountries.push({
+                                code: c.code,
+                                name: c.name,
+                                count: 0,
+                                all: 0
+                            }));
+                        this.selectedLevels = this.allLevels;
+                        this.checkAllCountries();
+                        this.runFilter();
+                        this.userDataSubscription();
+                        this.setRegFlag();
+                        this.countCountries_all();
+                        this.countLevels_all();
+                        this.countTypes_all();
+                    }, err => console.log('Countries provider err: ' + err));
+            }, err => console.log('Shows provider err: ' + err));
+        }, err => console.log('Show levels provider err: ' + err));
     }
 
     userDataSubscription() {
@@ -155,10 +154,10 @@ export class ShowsComponent implements OnInit {
 
     runFilter() {
         const filterLevel = [];
-        this.selectedShowLevels.forEach(st => filterLevel.push(st.id));
+        this.selectedLevels.forEach(st => filterLevel.push(st.id));
         this.processShows(this.shows.filter(show =>
             filterLevel.includes(show.level) &&
-            this.selectedShowTypes.includes(show.type) &&
+            this.selectedTypes.includes(show.type) &&
             this.countries.includes(show.countrycode)
         )
         );
@@ -177,56 +176,92 @@ export class ShowsComponent implements OnInit {
         if (this.markerClusters.getBounds().isValid()) {
             this.mymap.fitBounds(this.markerClusters.getBounds());
         }
-        this.countCountries(shows);
-        this.countLevels(shows);
+        this.countForSelectedTypes(shows);
+        this.countForSelectedLevels(shows);
+        this.countForSelectedCountries(shows);
     }
 
-    countLevels_all() {
+    countTypes_all() {
         for (let i = 0; i < this.shows.length; i++) {
-            const sl = this.showLevels.find(level => level.id === this.shows[i].level);
-            if (sl) {
-                sl.all++;
+            if (!this.shows[i].past) {
+                const c = this.allTypes.find(type => type.name === this.shows[i].type);
+                if (c) {
+                    c.all++;
+                }
             }
         }
     }
 
-    countLevels(shows: Show[]) {
-        this.showLevels.forEach(sl => sl.count = 0);
+    countForSelectedTypes(shows: ExtShow[]) {
+        this.allTypes.forEach(c => c.count = 0);
         for (let i = 0; i < shows.length; i++) {
-            const sl = this.showLevels.find(level => level.id === shows[i].level);
-            if (sl) {
-                sl.count++;
+            if (!shows[i].past) {
+                const c = this.allTypes.find(type => type.name === this.shows[i].type);
+                if (c) {
+                    console.log(JSON.stringify( c.name + ': ' + this.shows[i].type));
+                    c.count++;
+                }
+            }
+        }
+    }
+
+    countLevels_all() {
+        for (let i = 0; i < this.shows.length; i++) {
+            if (!this.shows[i].past) {
+                const sl = this.allLevels.find(level => level.id === this.shows[i].level);
+                if (sl) {
+                    sl.all++;
+                }
+            }
+        }    
+    }
+
+    countForSelectedLevels(shows: ExtShow[]) {
+        this.allLevels.forEach(sl => sl.count = 0);
+        for (let i = 0; i < shows.length; i++) {
+            if (!shows[i].past) {
+                const sl = this.allLevels.find(level => level.id === shows[i].level);
+                if (sl) {
+                    sl.count++;
+                }
             }
         }
     }
 
     countCountries_all() {
         for (let i = 0; i < this.shows.length; i++) {
-            const c = this.allCountries.find(country => country.code === this.shows[i].countrycode);
-            if (c) {
-                c.all++;
+            if (!this.shows[i].past) {
+                const c = this.allCountries.find(country => country.code === this.shows[i].countrycode);
+                if (c) {
+                    c.all++;
+                }
             }
         }
     }
 
-    countCountries(shows: Show[]) {
+    countForSelectedCountries(shows: ExtShow[]) {
         this.allCountries.forEach(c => c.count = 0);
         for (let i = 0; i < shows.length; i++) {
-            const c = this.allCountries.find(country => country.code === shows[i].countrycode);
-            if (c) {
-                c.count++;
+            if (!shows[i].past) {
+                const c = this.allCountries.find(country => country.code === shows[i].countrycode);
+                if (c) {
+                    c.count++;
+                }
             }
         }
     }
 
+    
     getLevelName(id) {
-        const level = this.showLevels.find(t => t.id === id);
+        const level = this.allLevels.find(t => t.id === id);
         if (level) {
             return level.description;
         } else {
             return '';
         }
     }
+
+    
 
     addMarker(show: Show) {
         const icon = L.icon({ iconUrl: iconBaseUrl + 'showlevel/' + show.level + '.svg' });
@@ -249,15 +284,19 @@ export class ShowsComponent implements OnInit {
     }
 
     getFilterLevelHeader() {
-        return 'Selected: ' + this.selectedShowLevels.map(level => level.name);
+        return 'Selected: ' + this.selectedLevels.map(level => level.name);
     }
 
     setRegFlag() {
         this.shows.forEach(show => show.regFlag = this.getRegFlag(show));
     }
 
-    getRegFlag(show: Show) {
+    getRegFlag(show: ExtShow) {
         let flag = '';
+
+        if (show.past) {
+            return 'finished';
+        }
 
         if (!show.regopen) {
             show.regopen = (show.regclosed < intNow) ? show.regclosed : intNow;
@@ -265,10 +304,6 @@ export class ShowsComponent implements OnInit {
 
         if (show.regclosed < show.regopen) {
             show.regclosed = show.regopen;
-        }
-
-        if (show.date < intNow) {
-            return 'finished';
         }
 
         if (!show.date) {
