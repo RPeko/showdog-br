@@ -196,9 +196,8 @@ export class ShowsComponent implements OnInit {
         this.allTypes.forEach(c => c.count = 0);
         for (let i = 0; i < shows.length; i++) {
             if (!shows[i].past) {
-                const c = this.allTypes.find(type => type.name === this.shows[i].type);
+                const c = this.allTypes.find(type => type.name === shows[i].type);
                 if (c) {
-                    console.log(JSON.stringify( c.name + ': ' + this.shows[i].type));
                     c.count++;
                 }
             }
@@ -266,6 +265,8 @@ export class ShowsComponent implements OnInit {
     addMarker(show: Show) {
         const icon = L.icon({ iconUrl: iconBaseUrl + 'showlevel/' + show.level + '.svg' });
         const marker = L.marker(new L.LatLng(show.lat, show.lon), { title: show.name, icon: icon });
+        marker.bindTooltip(this.intToDateToString(show.date, 'MMM YY'),
+         {permanent: true, offset: [0, 0], opacity: 0.4});
         marker.bindPopup('<div>' + show.name + '</div>'
             + '<div>' + this.intToDateToString(show.date, 'LL') + '</div>'
             + '<div>' + show.place + '</div>'
