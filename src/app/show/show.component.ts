@@ -25,6 +25,7 @@ export class ShowComponent implements OnInit {
       name: ['', Validators.compose([Validators.required, Validators.maxLength(17)])],
       organizer: '',
       place: '',
+      manifestation: '',
       level: null,
       type: 'General',
       countrycode: '',
@@ -41,12 +42,14 @@ export class ShowComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params.show) {
         this.show = JSON.parse(params.show);
+        console.log(JSON.stringify(params.show));
       } else {
         this.show = {
           'key': '',
           'name': '',
           'organizer': '',
           'place': '',
+          'manifestation':'',
           'level': 1,
           'type': 'General',
           'countrycode': '',
@@ -63,6 +66,7 @@ export class ShowComponent implements OnInit {
         name: this.show.name || '',
         organizer: this.show.organizer || '',
         place: this.show.place || '',
+        manifestation: this.show.manifestation || '',
         level: this.show.level || 1, // nemoj null, jer ako je this.show.level == 0 bice null
         type: this.show.type || 'General',
         countrycode: this.show.countrycode || '',
@@ -85,6 +89,7 @@ export class ShowComponent implements OnInit {
     this.show.name = this.showForm.value.name;
     this.show.organizer = this.showForm.value.organizer;
     this.show.place = this.showForm.value.place;
+    this.show.manifestation = this.showForm.value.manifestation;
     this.show.level = this.showForm.value.level;
     this.show.type = this.showForm.value.type;
     this.show.countrycode = this.showForm.value.countrycode;

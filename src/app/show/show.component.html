@@ -16,6 +16,11 @@
     </div>
     <div class="form-container">
         <mat-form-field>
+            <input matInput formControlName="manifestation" placeholder="Manifestation (more than 1)">
+        </mat-form-field>
+    </div>
+    <div class="form-container">
+        <mat-form-field>
             <mat-select placeholder="Show Level" formControlName="level">
                 <mat-option *ngFor="let showLevel of showLevels" [value]="showLevel.id">
                     {{showLevel.name}}

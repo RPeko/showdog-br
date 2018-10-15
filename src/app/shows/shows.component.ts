@@ -8,6 +8,7 @@ import 'leaflet.markercluster';
 import * as moment from 'moment';
 import { ShowLevel } from '../models/showLevel';
 import { Country } from '../models/country';
+import { Router } from '@angular/router';
 
 interface ExtShowLevel extends ShowLevel {
     count: number;
@@ -42,7 +43,7 @@ export class ShowsComponent implements OnInit {
     allTypes = [{'name':'General', 'all': 0, 'count': 0}, {'name':'Group', 'all': 0,'count': 0}, {'name':'Single breed', 'all': 0,'count': 0}];
     selectedTypes = ['General', 'Group', 'Single breed'];
 
-    monthshows: { month: string, shows: Show[] }[];
+    monthshows: { month: string, manifestations: { name:string, shows: Show[]}[] }[];
     admin = 0;
     mymap: L.Map;
     markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 18 });
@@ -61,6 +62,7 @@ export class ShowsComponent implements OnInit {
     constructor(
         public showsProvider: ShowsProvider,
         public authService: AuthService,
+        public router: Router
     ) {
 
     }
@@ -181,6 +183,32 @@ export class ShowsComponent implements OnInit {
         this.countForSelectedCountries(shows);
     }
 
+    groupByMonth(show: Show) {
+        const indexMnth = this.monthshows.findIndex(ms => ms.month === ('' + show.date).slice(0, 6));
+        if (indexMnth > -1) {
+            const indexMnf = this.monthshows[indexMnth].manifestations.findIndex(mnf => mnf.name === show.manifestation);
+            if (indexMnf > -1) {
+                this.monthshows[indexMnth].manifestations[indexMnf].shows.push(show);
+            } else {
+                this.monthshows[indexMnth].manifestations.push({name: show.manifestation, shows: [show]});
+            }
+        } else {
+            this.monthshows.push({ month: ('' + show.date).slice(0, 6), manifestations: [{name: show.manifestation, shows: [show]}]});
+        }
+    }
+
+    addMarker(show: Show) {
+        const icon = L.icon({ iconUrl: iconBaseUrl + 'showlevel/' + show.level + '.svg' });
+        const marker = L.marker(new L.LatLng(show.lat, show.lon), { title: show.name, icon: icon });
+        marker.bindTooltip(this.intToDateToString(show.date, 'MMM YY'),
+         {permanent: true, offset: [0, 0], opacity: 0.4});
+        marker.bindPopup('<div>' + show.name + '</div>'
+            + '<div>' + this.intToDateToString(show.date, 'LL') + '</div>'
+            + '<div>' + show.place + '</div>'
+        );
+        this.markerClusters.addLayer(marker);
+    }
+
     countTypes_all() {
         for (let i = 0; i < this.shows.length; i++) {
             if (!this.shows[i].past) {
@@ -249,7 +277,6 @@ export class ShowsComponent implements OnInit {
             }
         }
     }
-
     
     getLevelName(id) {
         const level = this.allLevels.find(t => t.id === id);
@@ -257,30 +284,6 @@ export class ShowsComponent implements OnInit {
             return level.description;
         } else {
             return '';
-        }
-    }
-
-    
-
-    addMarker(show: Show) {
-        const icon = L.icon({ iconUrl: iconBaseUrl + 'showlevel/' + show.level + '.svg' });
-        const marker = L.marker(new L.LatLng(show.lat, show.lon), { title: show.name, icon: icon });
-        marker.bindTooltip(this.intToDateToString(show.date, 'MMM YY'),
-         {permanent: true, offset: [0, 0], opacity: 0.4});
-        marker.bindPopup('<div>' + show.name + '</div>'
-            + '<div>' + this.intToDateToString(show.date, 'LL') + '</div>'
-            + '<div>' + show.place + '</div>'
-        );
-        this.markerClusters.addLayer(marker);
-    }
-
-    groupByMonth(show: Show) {
-        const index = this.monthshows.findIndex(ms => ms.month === ('' + show.date).slice(0, 6));
-        // console.log("monthshow index: " + index);
-        if (index > -1) {
-            this.monthshows[index].shows.push(show);
-        } else {
-            this.monthshows.push({ month: ('' + show.date).slice(0, 6), shows: [show] });
         }
     }
 
@@ -351,6 +354,28 @@ export class ShowsComponent implements OnInit {
             return moment('' + intDate, 'YYYYMMDD').format(format);
         } else {
             return '';
+        }
+    }
+
+    addToManifestation(manifestation:  { name:string, shows: Show[]}) {
+        if (manifestation.shows[0]){
+            const show = {
+                'key': '',
+                'name': '',
+                'organizer': '',
+                'place': '',
+                'manifestation': manifestation.name,
+                'level': 1,
+                'type': 'General',
+                'countrycode': manifestation.shows[0].countrycode,
+                'link': '',
+                'date': manifestation.shows[0].date,
+                'regopen': manifestation.shows[0].regopen,
+                'regclosed': manifestation.shows[0].regclosed,
+                'lat':  manifestation.shows[0].lat,
+                'lon':  manifestation.shows[0].lon
+              };
+              this.router.navigate(['show'], { queryParams: { show: JSON.stringify(show)}});
         }
     }
 }

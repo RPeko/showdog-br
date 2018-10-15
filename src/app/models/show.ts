@@ -6,6 +6,7 @@ export class Show {
     level: number;
     type: string;
     countrycode: string;
+    manifestation: string;
     link: string;
     date: number;
     lat: number;
