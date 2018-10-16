@@ -47,19 +47,21 @@
     <mat-list class="main-list">
       <ng-container *ngFor="let monthshow of monthshows">
         <h3 mat-subheader>{{intToDateToString(+(monthshow.month + "01"), "MMMM/YY")}}</h3>
-        <ng-container  *ngFor="let manifestation of monthshow.manifestations">
-            <div class="manifestation" *ngIf="manifestation.name">
+        <div class="mnf"  *ngFor="let manifestation of monthshow.manifestations">
+            <div class="mnf-header" *ngIf="manifestation.name">
                 <h3 mat-subheader>
-                    <img class="level-icon" src="assets/icons/manifestation.svg">
+                    <img class="show-icon" src="assets/icons/manifestation.svg">
                     {{manifestation.name}}
-                    <button type="button" mat-button (click)="addToManifestation(manifestation)">Add to manifestation</button>
+                    <button type="button" mat-button (click)="addToManifestation(manifestation)">
+                      <mat-icon>add</mat-icon>
+                    </button>
                 </h3>
             </div>
             <mat-expansion-panel *ngFor="let show of manifestation.shows" matTooltip="{{getToolTip(show)}}">
                 <mat-expansion-panel-header [ngClass]="{'panel-header-finished': show.past}">
                   <mat-panel-title>
                     <span class="panel-title">
-                      <img class="level-icon" src="assets/icons/showlevel/{{show.level}}.svg">
+                      <img class="show-icon" src="assets/icons/show/{{show.level}}.svg">
                       <img class="flag-icon" src="assets/icons/flag/{{show.countrycode}}.svg">
                       {{show.name}} / {{intToDateToString(show.date, 'ddd, Do')}}
                     </span>
@@ -96,7 +98,7 @@
                   </button>
                 </mat-action-row>
               </mat-expansion-panel>
-        </ng-container>
+            </div>
       </ng-container>
     </mat-list>
   </div>

@@ -4,12 +4,16 @@
     display: flex;
 }
 
-.manifestation {
-        margin-left: 10px;
+.mnf-header {
+    margin-left: 10px;
+}
+
+.mnf {
+    padding-bottom: 15px;
 }
 
 .left {
-    float:left;
+    float: left;
     width: 40vw;
     margin-right: 2vw;
 }
@@ -49,7 +53,7 @@ td {
     padding-right: 15px;
 }
 
-.level-icon {
+.show-icon {
     height: 18px;
     padding-right: 15px;
 }

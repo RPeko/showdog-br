@@ -7,6 +7,7 @@ import { LatValidator } from '../validators/lat';
 import { LonValidator } from '../validators/lon';
 import { ShowLevel } from '../models/showLevel';
 import { DateValidator } from '../validators/date';
+import { Country } from '../models/country';
 
 @Component({
   selector: 'app-show',
@@ -19,10 +20,11 @@ export class ShowComponent implements OnInit {
   showForm: FormGroup;
   showLevels: ShowLevel[] = [];
   types = ['General', 'Group', 'Single breed'];
+  countries: Country[];
 
   constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private showProvider: ShowProvider) {
     this.showForm = this.fb.group({
-      name: ['', Validators.compose([Validators.required, Validators.maxLength(17)])],
+      name: ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
       organizer: '',
       place: '',
       manifestation: '',
@@ -83,6 +85,8 @@ export class ShowComponent implements OnInit {
         this.showLevels.push({ id: i, name: showLevels[i].name, description: showLevels[i].description, order: showLevels[i].order });
       }
     });
+    this.showProvider.countries.subscribe(countries => this.countries = countries);
+
   }
 
   onSubmit() {
