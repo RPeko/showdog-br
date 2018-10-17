@@ -22,7 +22,7 @@
             <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{getFilterLevelHeader()}}
           </mat-select-trigger>
           <mat-option *ngFor="let level of allLevels" [value]="level">
-            <img src="assets/icons/showlevel/{{level.id}}.svg">
+            <img src="assets/icons/show/{{level.id}}.svg">
             <span>{{level.description}} ({{level.count}}/{{level.all}})</span>
           </mat-option>
         </mat-select>
@@ -52,13 +52,13 @@
                 <h3 mat-subheader>
                     <img class="show-icon" src="assets/icons/manifestation.svg">
                     {{manifestation.name}}
-                    <button type="button" mat-button (click)="addToManifestation(manifestation)">
+                    <button  *ngIf="admin>2" type="button" mat-button (click)="addToManifestation(manifestation)">
                       <mat-icon>add</mat-icon>
                     </button>
                 </h3>
             </div>
             <mat-expansion-panel *ngFor="let show of manifestation.shows" matTooltip="{{getToolTip(show)}}">
-                <mat-expansion-panel-header [ngClass]="{'panel-header-finished': show.past}">
+                <mat-expansion-panel-header class="panel-header" [ngClass]="{'panel-header-finished': show.past}">
                   <mat-panel-title>
                     <span class="panel-title">
                       <img class="show-icon" src="assets/icons/show/{{show.level}}.svg">

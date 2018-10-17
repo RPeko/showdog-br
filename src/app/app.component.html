@@ -3,11 +3,13 @@
 </button>
 <mat-menu #menu="matMenu">
   <button mat-menu-item *ngFor="let item of menuItems" routerLink="{{item.routerLink}}">{{item.title}}</button>
+  <div *ngIf="authService.afAuth.user | async as user; else showRegister">
+        <button mat-menu-item routerLink="registration">Register your bussiness</button>
+  </div>
+  
   <div *ngIf="authService.afAuth.user | async as user; else showLogin">
       <button mat-menu-item (click)="logout()" routerLink="login">Logout</button>
-      
-  </div>
- 
+  </div> 
 
 </mat-menu>
 
@@ -17,4 +19,11 @@
 
 <ng-template #showLogin>
     <button  mat-menu-item routerLink="login">Login</button>
+</ng-template>
+
+<ng-template #showRegister>
+    <div matTooltip="You have to be logged in if want to register you business.">
+        <button mat-menu-item disabled>Register your bussiness</button>
+   </div>
+  
 </ng-template>

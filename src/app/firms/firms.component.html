@@ -13,11 +13,11 @@
     </div>
     <mat-list class="lista">
       <ng-container *ngFor="let countryFirm of countryFirms">
-        <h3 mat-subheader>{{countryFirm.country}}</h3>
+        <h3 mat-subheader>  <img class="flag-icon" src="assets/icons/flag/{{countryFirm.country}}.svg">{{countryFirm.country}}</h3>
         <mat-expansion-panel *ngFor="let firm of countryFirm.firms">
-          <mat-expansion-panel-header>
+          <mat-expansion-panel-header class="panel-header">
             <mat-panel-title>
-              {{firm.name}}
+                <img class="flag-icon" src="assets/icons/firmtype/{{firm.type}}.svg"> {{firm.name}}
             </mat-panel-title>
             <mat-panel-description>
               {{firm.date}}

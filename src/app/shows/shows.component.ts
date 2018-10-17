@@ -198,7 +198,7 @@ export class ShowsComponent implements OnInit {
     }
 
     addMarker(show: Show) {
-        const icon = L.icon({ iconUrl: iconBaseUrl + 'showlevel/' + show.level + '.svg' });
+        const icon = L.icon({ iconUrl: iconBaseUrl + 'show/' + show.level + '.svg' });
         const marker = L.marker(new L.LatLng(show.lat, show.lon), { title: show.name, icon: icon });
         marker.bindTooltip(this.intToDateToString(show.date, 'MMM YY'),
          {permanent: true, offset: [0, 0], opacity: 0.4});

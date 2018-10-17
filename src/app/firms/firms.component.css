@@ -21,3 +21,13 @@
     float:left;
     width: 50vw;
 }
+
+.panel-header {
+    height: 35px!important;
+}
+
+.flag-icon {
+    height: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}

@@ -15,7 +15,6 @@ export class AppComponent {
   menuItems = [
                {title: 'Dog Shows',  routerLink: 'shows'},
                {title: 'Dog Related Businesses',  routerLink: 'firms'},
-               {title: 'Register your bussiness',  routerLink: 'registration'},
               ];
 
               constructor(public authService: AuthService) {
@@ -23,4 +22,11 @@ export class AppComponent {
               logout() {
                 this.authService.signOut();
               }
-            }
+    public registrationInfo() {
+      if (this.authService.authenticated) {
+        return "You have to be logged in if want to register you business.";
+      }
+    }
+  
+  }
+
