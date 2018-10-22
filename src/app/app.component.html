@@ -1,6 +1,9 @@
-<button mat-icon-button [matMenuTriggerFor]="menu" class="menu-button">
-  <mat-icon>menu</mat-icon>
-</button>
+
+<div class="menu">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+    </button>
+</div>
 <mat-menu #menu="matMenu">
   <button mat-menu-item *ngFor="let item of menuItems" routerLink="{{item.routerLink}}">{{item.title}}</button>
   <div *ngIf="authService.afAuth.user | async as user; else showRegister">
@@ -25,5 +28,4 @@
     <div matTooltip="You have to be logged in if want to register you business.">
         <button mat-menu-item disabled>Register your bussiness</button>
    </div>
-  
 </ng-template>

@@ -287,8 +287,16 @@ export class ShowsComponent implements OnInit {
         }
     }
 
+    getFilterTypeHeader() {
+        return 'Types: ' + this.selectedTypes.length + ' of ' + this.allTypes.length;
+    }
+
     getFilterLevelHeader() {
-        return 'Selected: ' + this.selectedLevels.map(level => level.name);
+        return 'Levels: ' + this.selectedLevels.length + ' of ' + this.allLevels.length;
+    }
+
+    getFilterCountryHeader() {
+        return 'Countries: ' + this.countries.length + ' of ' + this.allCountries.length;
     }
 
     setRegFlag() {

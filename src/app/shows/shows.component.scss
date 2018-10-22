@@ -4,8 +4,13 @@
     display: flex;
 }
 
-.mnf-header {
+.mnth-subheader {
+    justify-content: center;
+}
+
+.mnf-subheader {
     margin-left: 10px;
+    // justify-content: center;
 }
 
 .mnf {
@@ -14,13 +19,15 @@
 
 .left {
     float: left;
-    width: 40vw;
+    width: 45vw;
+    // padding-top: 50px;
     margin-right: 2vw;
+    position: fixed;
 }
 
 .right {
-    float:left;
-    width: 50vw;
+    padding-left: 47vw;
+    width: 47vw;
 }
 
 .admin {
@@ -35,12 +42,21 @@
 
 #lmapa { height: 85vh; }
 
-.filter-level {
-    padding-bottom: 1vh;
+.filter {
+    display: inline-block;
+    padding-bottom: 2vh;
 }
 
 .filter-type {
-    padding-bottom: 1vh;
+    max-width: 12vw;
+}
+
+.filter-level {
+    max-width: 12vw;
+}
+
+.filter-country {
+    max-width: 18vw;
 }
 
 td {
