@@ -117,9 +117,7 @@ export class ShowsComponent implements OnInit {
                         this.runFilter();
                         this.userDataSubscription();
                         this.setRegFlag();
-                        this.countCountries_all();
-                        this.countLevels_all();
-                        this.countTypes_all();
+                        this.countAll();
                     }, err => console.log('Countries provider err: ' + err));
             }, err => console.log('Shows provider err: ' + err));
         }, err => console.log('Show levels provider err: ' + err));
@@ -165,14 +163,16 @@ export class ShowsComponent implements OnInit {
         );
     }
 
-    processShows(shows: Show[]) {
+    processShows(shows: ExtShow[]) {
         this.monthshows = [];
         this.markerClusters.clearLayers();
         for (let i = 0; i < shows.length; i++) {
-            this.groupByMonth(shows[i]);
-            if ((typeof shows[i].lat === 'number') && (typeof shows[i].lon === 'number') && ((shows[i].lat + shows[i].lon) !== 0)) {
-                this.addMarker(shows[i]);
-            }
+                this.groupByMonth(shows[i]);
+                if ((typeof shows[i].lat === 'number') && (typeof shows[i].lon === 'number') && ((shows[i].lat + shows[i].lon) !== 0)) {
+                    if (!shows[i].past){
+                        this.addMarker(shows[i]);
+                    }
+              }       
         }
         this.mymap.addLayer(this.markerClusters);
         if (this.markerClusters.getBounds().isValid()) {
@@ -197,22 +197,36 @@ export class ShowsComponent implements OnInit {
         }
     }
 
-    addMarker(show: Show) {
-        const icon = L.icon({ iconUrl: iconBaseUrl + 'show/' + show.level + '.svg' });
-        const marker = L.marker(new L.LatLng(show.lat, show.lon), { title: show.name, icon: icon });
-        marker.bindTooltip(this.intToDateToString(show.date, 'MMM YY'),
-         {permanent: true, offset: [0, 0], opacity: 0.4});
-        marker.bindPopup('<div>' + show.name + '</div>'
-            + '<div>' + this.intToDateToString(show.date, 'LL') + '</div>'
-            + '<div>' + show.place + '</div>'
-        );
-        this.markerClusters.addLayer(marker);
+    addMarker(show: ExtShow) {
+        if (!show.past){
+            const icon = L.icon({ iconUrl: iconBaseUrl + 'show/' + show.level + '.svg' });
+            const marker = L.marker(new L.LatLng(show.lat, show.lon), { title: show.name, icon: icon });
+            marker.bindTooltip(this.intToDateToString(show.date, 'MMM YY'),
+             {permanent: true, offset: [0, 0], opacity: 0.4});
+            marker.bindPopup('<div>' + show.name + '</div>'
+                + '<div>' + this.intToDateToString(show.date, 'LL') + '</div>'
+                + '<div>' + show.place + '</div>'
+            );
+            this.markerClusters.addLayer(marker);
+        } else {
+            
+        }
+        
     }
 
-    countTypes_all() {
+    countAll() {
         for (let i = 0; i < this.shows.length; i++) {
+            console.log(JSON.stringify(this.shows[i]));
             if (!this.shows[i].past) {
-                const c = this.allTypes.find(type => type.name === this.shows[i].type);
+                const type = this.allTypes.find(type => type.name === this.shows[i].type);
+                if (type) {
+                    type.all++;
+                }
+                const sl = this.allLevels.find(level => level.id === this.shows[i].level);
+                if (sl) {
+                    sl.all++;
+                }
+                const c = this.allCountries.find(country => country.code === this.shows[i].countrycode);
                 if (c) {
                     c.all++;
                 }
@@ -232,17 +246,6 @@ export class ShowsComponent implements OnInit {
         }
     }
 
-    countLevels_all() {
-        for (let i = 0; i < this.shows.length; i++) {
-            if (!this.shows[i].past) {
-                const sl = this.allLevels.find(level => level.id === this.shows[i].level);
-                if (sl) {
-                    sl.all++;
-                }
-            }
-        }    
-    }
-
     countForSelectedLevels(shows: ExtShow[]) {
         this.allLevels.forEach(sl => sl.count = 0);
         for (let i = 0; i < shows.length; i++) {
@@ -250,17 +253,6 @@ export class ShowsComponent implements OnInit {
                 const sl = this.allLevels.find(level => level.id === shows[i].level);
                 if (sl) {
                     sl.count++;
-                }
-            }
-        }
-    }
-
-    countCountries_all() {
-        for (let i = 0; i < this.shows.length; i++) {
-            if (!this.shows[i].past) {
-                const c = this.allCountries.find(country => country.code === this.shows[i].countrycode);
-                if (c) {
-                    c.all++;
                 }
             }
         }
@@ -276,6 +268,7 @@ export class ShowsComponent implements OnInit {
                 }
             }
         }
+
     }
     
     getLevelName(id) {

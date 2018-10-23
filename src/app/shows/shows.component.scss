@@ -48,15 +48,18 @@
 }
 
 .filter-type {
-    max-width: 12vw;
+    padding-left: 30px;
+    max-width: 10vw;
 }
 
 .filter-level {
-    max-width: 12vw;
+    padding-left: 20px;
+    max-width: 10vw;
 }
 
 .filter-country {
-    max-width: 18vw;
+    padding-left: 20px;
+    max-width: 14vw;
 }
 
 td {
@@ -89,7 +92,8 @@ td {
 }
 
 .panel-header-finished {
-    background-color: mat-color($mat-grey, 200);
+    background-color: mat-color($mat-grey, 100);
+    color: mat-color($mat-grey, 400); 
 }
 
 .check-uncheck-button {

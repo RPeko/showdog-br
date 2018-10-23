@@ -1,8 +1,11 @@
 <div class="container">
   <div class="left">
     <div class="filter">
-
-      <mat-select class="filter-type" placeholder="Click for filtering types" [(value)]="selectedTypes" (selectionChange)="runFilter()"
+      <span class="mat-h3">Filters:</span>
+      <mat-select class="filter-type" 
+        placeholder="Click for filtering types" 
+        [(value)]="selectedTypes" 
+        (selectionChange)="runFilter()"
         multiple>
         <mat-select-trigger>
           <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{getFilterTypeHeader()}}
@@ -64,9 +67,10 @@
               </button>
             </h3>
           </div>
-          <mat-expansion-panel *ngFor="let show of manifestation.shows" matTooltip="{{getToolTip(show)}}">
-            <mat-expansion-panel-header class="panel-header" [ngClass]="{'panel-header-finished': show.past}">
-              <mat-panel-title>
+          <mat-expansion-panel [ngClass]="{'panel-header-finished': show.past}"
+           *ngFor="let show of manifestation.shows" matTooltip="{{getToolTip(show)}}">
+            <mat-expansion-panel-header class="panel-header">
+              <mat-panel-title [ngClass]="{'panel-header-finished': show.past}">
                 <span class="panel-title">
                   <img class="show-icon" src="assets/icons/show/{{show.level}}.svg">
                   <img class="flag-icon" src="assets/icons/flag/{{show.countrycode}}.svg">
