@@ -1,5 +1,8 @@
 <div class="container">
-  <div class="left">
+    <div class="left">
+        <div id="lmapa" class="lmapa"></div>
+      </div>
+  <div class="right">
     <div class="filter">
           <mat-select 
             placeholder="Click for filtering business types" 
@@ -25,16 +28,13 @@
           </mat-expansion-panel-header>
           <div>
             <table>
-              <tr>{{"Place: " + firm.place}}</tr>
-              <tr>{{"Description: " + firm.description}}</tr>
-              <tr>{{"Type: " + firm.type}}</tr>
+                <tr>{{"Place: " + firm.place}}</tr>
+                <tr>{{"Description: " + firm.description}}</tr>
+                <tr>{{"Type: " + getTypeName(firm.type)}}</tr>
             </table>
           </div>
         </mat-expansion-panel>
       </ng-container>
     </mat-list>
-  </div>
-  <div class="right">
-    <div id="lmapa" class="lmapa"></div>
   </div>
 </div>

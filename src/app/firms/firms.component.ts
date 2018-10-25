@@ -42,7 +42,6 @@ export class FirmsComponent implements OnInit {
     public firmsProvider: FirmsProvider,
     public authService: AuthService,
   ) {
-
   }
 
   ngOnInit() {

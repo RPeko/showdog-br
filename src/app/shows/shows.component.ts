@@ -216,7 +216,7 @@ export class ShowsComponent implements OnInit {
 
     countAll() {
         for (let i = 0; i < this.shows.length; i++) {
-            console.log(JSON.stringify(this.shows[i]));
+            // console.log(JSON.stringify(this.shows[i]));
             if (!this.shows[i].past) {
                 const type = this.allTypes.find(type => type.name === this.shows[i].type);
                 if (type) {

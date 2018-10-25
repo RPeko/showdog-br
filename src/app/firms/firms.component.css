@@ -13,13 +13,13 @@
 }
 .left {
     float:left;
-    width: 40vw;
+    width: 50vw;
     margin-right: 2vw;
 }
 
 .right {
     float:left;
-    width: 50vw;
+    width: 45vw;
 }
 
 .panel-header {

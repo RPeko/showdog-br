@@ -65,15 +65,19 @@ export class RegistrationComponent implements OnInit {
       }
       // console.log(JSON.stringify(this.firmtypes));
     });
-    this.registrationProvider.firms.subscribe(firms => this.firms = firms);
+    this.authService.afAuth.authState.subscribe(user => {
+      let userId = '';
+      if (user){
+        userId = user.uid;
+      }
+      this.registrationProvider.getFirms(userId).subscribe(firms => this.firms = firms);
+		});
     this.registrationProvider.states.subscribe(states => this.states = states);
-
   }
 
   populateForm(firm: Firm) {
     if (firm) {
       this.firm = firm;
-      // console.log("saved firm: " + JSON.stringify(firm));
       this.submitButtonText = 'Save edits';
     } else {
       this.firm = {
@@ -97,7 +101,7 @@ export class RegistrationComponent implements OnInit {
       description: this.firm.description || '',
       place: this.firm.place || '',
       address: this.firm.address || '',
-      type: +this.firm.type || null,
+      type: (this.firm.type==null)? '': +this.firm.type,
       countrycode: this.firm.countrycode || '',
       lat: +this.firm.lat || null,
       lon: +this.firm.lon || null,
