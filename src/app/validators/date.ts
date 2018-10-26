@@ -1,4 +1,5 @@
 import { FormControl } from '@angular/forms';
+// import { AbstractControl } from '@angular/forms';
 import * as moment from 'moment';
 
 export class DateValidator {
@@ -10,3 +11,10 @@ export class DateValidator {
     return null;
 }
 }
+
+// export function DateValidator(control: AbstractControl) {
+//     if (moment(control.value, 'YYYYMMDD').isValid()){
+//       return { validDate: true };}
+//     return null;
+//   }
+

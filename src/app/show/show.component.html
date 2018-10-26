@@ -4,6 +4,9 @@
             <input matInput formControlName="name" placeholder="Name">
         </mat-form-field>
     </div>
+    <div>
+        <mat-error *ngIf="name.invalid">Invalid name: {{name.hasError('maxLength')?' max length error!':' required!'}}</mat-error>
+    </div>
     <div class="form-container">
         <mat-form-field>
             <input matInput formControlName="organizer" placeholder="organizer">
@@ -51,20 +54,32 @@
             <input matInput formControlName="link" placeholder="entry info link">
         </mat-form-field>
     </div>
+    <div>
+        <mat-error *ngIf="showForm.get('link').errors">Invalid link!</mat-error>
+    </div>
     <div class="form-container">
         <mat-form-field>
             <input matInput formControlName="date" placeholder="Opening Date(YYYYMMDD)">
         </mat-form-field>
+    </div>
+    <div>
+       
     </div>
     <div class="form-container">
         <mat-form-field>
             <input matInput formControlName="regopen" placeholder="Registration open (YYYYMMDD)">
         </mat-form-field>
     </div>
+    <div>
+        <mat-error *ngIf="showForm.get('regopen').errors">Invalid date of registration open!</mat-error>
+    </div>
     <div class="form-container">
         <mat-form-field>
             <input matInput formControlName="regclosed" placeholder="Registration closed (YYYYMMDD)">
         </mat-form-field>
+    </div>
+    <div>
+        <mat-error *ngIf="showForm.get('regclosed').errors">Invalid date of registration closed!</mat-error>
     </div>
     <div class="form-container">
         <mat-form-field>
@@ -76,6 +91,6 @@
             <input matInput formControlName="lon" placeholder="Longitude">
         </mat-form-field>
     </div>
-    <button type="submit" mat-raised-button color="primary">Save</button>
+    <button type="submit" mat-raised-button disabled="showForm.invalid" color="primary">Save</button>
     <button type="button" mat-button (click)="back()">Cancel</button>
 </form>

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Show } from '../models/show';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ShowProvider } from './show.provider';
 import { LatValidator } from '../validators/lat';
 import { LonValidator } from '../validators/lon';
 import { ShowLevel } from '../models/showLevel';
 import { DateValidator } from '../validators/date';
 import { Country } from '../models/country';
+import { ValidateUrl } from '../validators/url';
 
 @Component({
   selector: 'app-show',
@@ -21,6 +22,12 @@ export class ShowComponent implements OnInit {
   showLevels: ShowLevel[] = [];
   types = ['General', 'Group', 'Single breed'];
   countries: Country[];
+  nameC: FormControl;
+  dateC: FormControl;
+  regopenC: FormControl;
+  regclosedC: FormControl;
+  latC: FormControl;
+  lonC: FormControl;
 
   constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private showProvider: ShowProvider) {
     this.showForm = this.fb.group({
@@ -31,7 +38,7 @@ export class ShowComponent implements OnInit {
       level: null,
       type: 'General',
       countrycode: '',
-      link: '',
+      link: ['', [ValidateUrl]],
       date: [null, DateValidator.isValid],
       regopen: [null, DateValidator.isValid],
       regclosed: [null, DateValidator.isValid],
@@ -44,7 +51,7 @@ export class ShowComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params.show) {
         this.show = JSON.parse(params.show);
-        console.log(JSON.stringify(params.show));
+        // console.log(JSON.stringify(params.show));
       } else {
         this.show = {
           'key': '',
@@ -98,9 +105,9 @@ export class ShowComponent implements OnInit {
     this.show.type = this.showForm.value.type;
     this.show.countrycode = this.showForm.value.countrycode;
     this.show.link = this.showForm.value.link;
-    this.show.date = this.showForm.value.date.slice(0, 10);
-    this.show.regopen = this.showForm.value.regopen.slice(0, 10);
-    this.show.regclosed = this.showForm.value.regclosed.slice(0, 10);
+    this.show.date = +('' + this.showForm.value.date).slice(0, 10);
+    this.show.regopen = +('' + this.showForm.value.regopen).slice(0, 10);
+    this.show.regclosed = +('' + this.showForm.value.regclosed).slice(0, 10);
     this.show.lat = +this.showForm.value.lat;
     this.show.lon = +this.showForm.value.lon;
     this.showProvider.upsertShow(this.show)
@@ -111,5 +118,14 @@ export class ShowComponent implements OnInit {
   back() {
     this.router.navigate(['/shows']);
   }
+
+  
+  get name() { return this.showForm.get('name'); }
+  get link() { return this.showForm.get('link'); }
+  get date() { return this.showForm.get('date'); }
+  get regopen() { return this.showForm.get('regopen'); }
+  get regclosed() { return this.showForm.get('regclosed'); }
+  get lat() { return this.showForm.get('lat'); }
+  get lon() { return this.showForm.get('lon'); }
 
 }
