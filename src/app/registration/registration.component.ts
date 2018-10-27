@@ -67,11 +67,10 @@ export class RegistrationComponent implements OnInit {
     });
     this.authService.afAuth.authState.subscribe(user => {
       let userId = '';
-      if (user){
+      if (user) {
         userId = user.uid;
       }
-      this.registrationProvider.getFirms(userId).subscribe(firms => this.firms = firms);
-		});
+      this.registrationProvider.getFirms(userId).subscribe(firms => this.firms = firms);});
     this.registrationProvider.states.subscribe(states => this.states = states);
   }
 
@@ -101,7 +100,7 @@ export class RegistrationComponent implements OnInit {
       description: this.firm.description || '',
       place: this.firm.place || '',
       address: this.firm.address || '',
-      type: (this.firm.type==null)? '': +this.firm.type,
+      type: (this.firm.type == null) ? '' : +this.firm.type,
       countrycode: this.firm.countrycode || '',
       lat: +this.firm.lat || null,
       lon: +this.firm.lon || null,

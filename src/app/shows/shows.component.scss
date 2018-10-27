@@ -1,33 +1,20 @@
 @import '~@angular/material/theming';
 
 .container {
-    display: flex;
-}
-
-.mnth-subheader {
-    justify-content: center;
-}
-
-.mnf-subheader {
-    margin-left: 10px;
-    // justify-content: center;
-}
-
-.mnf {
-    padding-bottom: 15px;
 }
 
 .left {
     float: left;
-    width: 45vw;
+    width: 47vw;
     // padding-top: 50px;
     margin-right: 2vw;
     position: fixed;
 }
 
 .right {
-    padding-left: 47vw;
-    width: 47vw;
+    float: left;
+    padding-left: 49vw;
+    width: 48vw;
 }
 
 .admin {
@@ -40,7 +27,7 @@
     /* width:500px; */
 }
 
-#lmapa { height: 85vh; }
+#lmapa { height: 83vh; }
 
 .filter {
     display: inline-block;
@@ -59,13 +46,27 @@
 
 .filter-country {
     padding-left: 20px;
-    max-width: 14vw;
+    max-width: 12vw;
 }
 
 td {
     width: 50%;
     padding-right: 10px;
 }
+
+.mnth-subheader {
+    justify-content: center;
+}
+
+.mnf-subheader {
+    margin-left: 10px;
+    // justify-content: center;
+}
+
+.mnf {
+    padding-bottom: 15px;
+}
+
 
 .checkbox-icon {
     height: 15px;

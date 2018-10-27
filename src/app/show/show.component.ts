@@ -9,6 +9,7 @@ import { ShowLevel } from '../models/showLevel';
 import { DateValidator } from '../validators/date';
 import { Country } from '../models/country';
 import { ValidateUrl } from '../validators/url';
+import { MyErrorStateMatcher } from '../validators/matcher';
 
 @Component({
   selector: 'app-show',
@@ -28,6 +29,7 @@ export class ShowComponent implements OnInit {
   regclosedC: FormControl;
   latC: FormControl;
   lonC: FormControl;
+  matcher = new MyErrorStateMatcher();
 
   constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private showProvider: ShowProvider) {
     this.showForm = this.fb.group({

@@ -1,96 +1,109 @@
-<form [formGroup]="showForm" (ngSubmit)="onSubmit()">
-    <div class="form-container">
-        <mat-form-field>
-            <input matInput formControlName="name" placeholder="Name">
-        </mat-form-field>
-    </div>
-    <div>
-        <mat-error *ngIf="name.invalid">Invalid name: {{name.hasError('maxLength')?' max length error!':' required!'}}</mat-error>
-    </div>
-    <div class="form-container">
-        <mat-form-field>
-            <input matInput formControlName="organizer" placeholder="organizer">
-        </mat-form-field>
-    </div>
-    <div class="form-container">
-        <mat-form-field>
-            <input matInput formControlName="place" placeholder="Place">
-        </mat-form-field>
-    </div>
-    <div class="form-container">
-        <mat-form-field>
-            <input matInput formControlName="manifestation" placeholder="Manifestation (more than 1)">
-        </mat-form-field>
-    </div>
-    <div class="form-container">
-        <mat-form-field>
-            <mat-select placeholder="Show Level" formControlName="level">
-                <mat-option *ngFor="let showLevel of showLevels" [value]="showLevel.id">
-                    {{showLevel.name}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
-    <div class="form-container">
-        <mat-form-field>
-            <mat-select placeholder="Show Type" formControlName="type">
-                <mat-option *ngFor="let type of types" [value]="type">
-                    {{type}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
-    <div class="form-container">
-        <mat-form-field>
-            <mat-select placeholder="Country Code" formControlName="countrycode">
-                <mat-option *ngFor="let country of countries" [value]="country.code">
-                    {{country.code}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
-    <div class="form-container">
-        <mat-form-field>
-            <input matInput formControlName="link" placeholder="entry info link">
-        </mat-form-field>
-    </div>
-    <div>
-        <mat-error *ngIf="showForm.get('link').errors">Invalid link!</mat-error>
-    </div>
-    <div class="form-container">
-        <mat-form-field>
-            <input matInput formControlName="date" placeholder="Opening Date(YYYYMMDD)">
-        </mat-form-field>
-    </div>
-    <div>
-       
-    </div>
-    <div class="form-container">
-        <mat-form-field>
-            <input matInput formControlName="regopen" placeholder="Registration open (YYYYMMDD)">
-        </mat-form-field>
-    </div>
-    <div>
-        <mat-error *ngIf="showForm.get('regopen').errors">Invalid date of registration open!</mat-error>
-    </div>
-    <div class="form-container">
-        <mat-form-field>
-            <input matInput formControlName="regclosed" placeholder="Registration closed (YYYYMMDD)">
-        </mat-form-field>
-    </div>
-    <div>
-        <mat-error *ngIf="showForm.get('regclosed').errors">Invalid date of registration closed!</mat-error>
-    </div>
-    <div class="form-container">
-        <mat-form-field>
-            <input matInput formControlName="lat" placeholder="Latitude">
-        </mat-form-field>
-    </div>
-    <div class="form-container">
-        <mat-form-field>
-            <input matInput formControlName="lon" placeholder="Longitude">
-        </mat-form-field>
-    </div>
-    <button type="submit" mat-raised-button disabled="showForm.invalid" color="primary">Save</button>
-    <button type="button" mat-button (click)="back()">Cancel</button>
-</form>
+<div class="main">
+    <form [formGroup]="showForm" (ngSubmit)="onSubmit()">
+        <div class="left">
+            <div class="form-container">
+                <mat-form-field>
+                    <input matInput formControlName="name" placeholder="Name">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-error *ngIf="name.invalid">Invalid name: {{name.hasError('maxLength')?' max length error!':'
+                    required!'}}</mat-error>
+            </div>
+            <div class="form-container">
+                <mat-form-field>
+                    <input matInput formControlName="organizer" placeholder="organizer">
+                </mat-form-field>
+            </div>
+            <div class="form-container">
+                <mat-form-field>
+                    <input matInput formControlName="place" placeholder="Place">
+                </mat-form-field>
+            </div>
+            <div class="form-container">
+                <mat-form-field>
+                    <input matInput formControlName="manifestation" placeholder="Manifestation (more than 1)">
+                </mat-form-field>
+            </div>
+            <div class="form-container">
+                <mat-form-field>
+                    <mat-select placeholder="Show Level" formControlName="level">
+                        <mat-option *ngFor="let showLevel of showLevels" [value]="showLevel.id">
+                            {{showLevel.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="form-container">
+                <mat-form-field>
+                    <mat-select placeholder="Show Type" formControlName="type">
+                        <mat-option *ngFor="let type of types" [value]="type">
+                            {{type}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="form-container">
+                <mat-form-field>
+                    <mat-select placeholder="Country Code" formControlName="countrycode">
+                        <mat-option *ngFor="let country of countries" [value]="country.code">
+                            {{country.code}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="form-container">
+                <mat-form-field>
+                    <input matInput formControlName="link" placeholder="entry info link">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-error *ngIf="showForm.get('link').errors">Invalid link!</mat-error>
+            </div>
+        </div>
+        <div class="right">
+            <div class="form-container">
+                <mat-form-field>
+                    <input matInput formControlName="date" placeholder="Opening Date(YYYYMMDD)" [errorStateMatcher]="matcher">
+                    <mat-error *ngIf="date && date.hasError('bad format')">
+                            Please enter a valid date format: YYYYMMDD, like 20201231
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-container">
+                <mat-form-field>
+                    <input matInput formControlName="regopen" placeholder="Registration open (YYYYMMDD)" [errorStateMatcher]="matcher">
+                    <mat-error *ngIf="regopen && regopen.hasError('bad format')">
+                            Please enter a valid date format: YYYYMMDD, like 20201231
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-container">
+                <mat-form-field>
+                    <input matInput formControlName="regclosed" placeholder="Registration closed (YYYYMMDD)" [errorStateMatcher]="matcher">
+                    <mat-error *ngIf="regclosed && regclosed.hasError('bad format')">
+                            Please enter a valid date format: YYYYMMDD, like 20201231
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-container">
+                <mat-form-field>
+                    <input matInput formControlName="lat" placeholder="Latitude">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-error *ngIf="showForm.get('lat').errors">Invalid lat format!</mat-error>
+            </div>
+            <div class="form-container">
+                <mat-form-field>
+                    <input matInput formControlName="lon" placeholder="Longitude">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-error *ngIf="showForm.get('lon').errors">Invalid lon format!</mat-error>
+            </div>
+            <button type="submit" mat-raised-button [disabled]="showForm.invalid" color="primary">Save</button>
+            <button type="button" mat-button (click)="back()">Cancel</button>
+        </div>
+    </form>
+</div>
