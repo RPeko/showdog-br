@@ -65,25 +65,34 @@
             <div class="form-container">
                 <mat-form-field>
                     <input matInput formControlName="date" placeholder="Opening Date(YYYYMMDD)" [errorStateMatcher]="matcher">
-                    <mat-error *ngIf="date && date.hasError('bad format')">
+                    <mat-error *ngIf="date && date.hasError('invalid format')">
                             Please enter a valid date format: YYYYMMDD, like 20201231
+                    </mat-error>
+                    <mat-error *ngIf="date && date.hasError('invalid year')">
+                        Please enter a valid year: between 2018-2040
                     </mat-error>
                 </mat-form-field>
             </div>
             <div class="form-container">
                 <mat-form-field>
                     <input matInput formControlName="regopen" placeholder="Registration open (YYYYMMDD)" [errorStateMatcher]="matcher">
-                    <mat-error *ngIf="regopen && regopen.hasError('bad format')">
-                            Please enter a valid date format: YYYYMMDD, like 20201231
+                    <mat-error *ngIf="date && date.hasError('invalid format')">
+                        Please enter a valid date format: YYYYMMDD, like 20201231
                     </mat-error>
+                    <mat-error *ngIf="date && date.hasError('invalid year')">
+                        Please enter a valid year: between 2018-2040
+                     </mat-error>
                 </mat-form-field>
             </div>
             <div class="form-container">
                 <mat-form-field>
                     <input matInput formControlName="regclosed" placeholder="Registration closed (YYYYMMDD)" [errorStateMatcher]="matcher">
-                    <mat-error *ngIf="regclosed && regclosed.hasError('bad format')">
-                            Please enter a valid date format: YYYYMMDD, like 20201231
+                    <mat-error *ngIf="date && date.hasError('invalid format')">
+                        Please enter a valid date format: YYYYMMDD, like 20201231
                     </mat-error>
+                    <mat-error *ngIf="date && date.hasError('invalid year')">
+                        Please enter a valid year: between 2018-2040
+                     </mat-error>
                 </mat-form-field>
             </div>
             <div class="form-container">
