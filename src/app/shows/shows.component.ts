@@ -42,7 +42,7 @@ export class ShowsComponent implements OnInit {
     selectedLevels: ExtShowLevel[] = [];
     allTypes = [{'name':'General', 'all': 0, 'count': 0}, {'name':'Group', 'all': 0,'count': 0}, {'name':'Single breed', 'all': 0,'count': 0}];
     selectedTypes = ['General', 'Group', 'Single breed'];
-
+    paramStartAt = intNow-7;
     monthshows: { month: string, manifestations: { name:string, shows: Show[]}[] }[];
     admin = 0;
     mymap: L.Map;
@@ -69,7 +69,7 @@ export class ShowsComponent implements OnInit {
 
     ngOnInit() {
         this.createMap();
-        this.loadData(intNow-7);
+        this.loadData();
     }
 
     createMap() {
@@ -78,7 +78,7 @@ export class ShowsComponent implements OnInit {
         this.baselayer.addTo(this.mymap);
     }
 
-    loadData(paramStartAt: number) {
+    loadData() {
         this.shows = [];
         this.monthshows = [];
         this.showsProvider.showLevels.subscribe(showLevels => {
@@ -93,7 +93,7 @@ export class ShowsComponent implements OnInit {
                     all: 0
                 });
             }
-            this.showsProvider.getShows(paramStartAt).subscribe(allshows => {
+            this.showsProvider.getShows(this.paramStartAt).subscribe(allshows => {
                 allshows.forEach(show => {
                     const extShow = <ExtShow>show;
                     if (show.date > intNow) {
@@ -121,6 +121,40 @@ export class ShowsComponent implements OnInit {
                     }, err => console.log('Countries provider err: ' + err));
             }, err => console.log('Shows provider err: ' + err));
         }, err => console.log('Show levels provider err: ' + err));
+    }
+
+    loadAll(){
+        if (this.paramStartAt > 0){
+            this.paramStartAt = 0;
+        } else {
+            this.paramStartAt = intNow-7;
+        }
+        this.showsProvider.getShows(this.paramStartAt).subscribe(allshows => {
+            this.shows = [];
+            allshows.forEach(show => {
+                const extShow = <ExtShow>show;
+                if (show.date > intNow) {
+                    extShow.past = false;
+                } else {
+                    extShow.past = true;
+                }
+                this.shows.push(extShow);
+            });
+            this.runFilter();
+            this.setRegFlag();
+            this.allTypes.forEach(type => type.all = 0);
+            this.allLevels.forEach(lvl => lvl.all = 0);
+            this.allCountries.forEach(country => country.all = 0);
+            this.countAll();
+        }, err => console.log('Shows provider err: ' + err));
+    }
+
+    txtLoad(){
+        if (this.paramStartAt > 0){
+            return "load all";
+        } else {
+            return "load only from 7 days earlier";
+        }
     }
 
     userDataSubscription() {
