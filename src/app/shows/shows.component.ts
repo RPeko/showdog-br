@@ -103,6 +103,7 @@ export class ShowsComponent implements OnInit {
                     }
                     this.shows.push(extShow);
                 });
+                console.log(JSON.stringify(this.shows));
                    this.showsProvider.allCountries.subscribe(allcountries => {
                         this.allCountries = [];
                         allcountries.forEach(c =>
@@ -331,18 +332,10 @@ export class ShowsComponent implements OnInit {
     }
 
     getRegFlag(show: ExtShow) {
-        let flag = '';
+        let flag = 'open';
 
         if (show.past) {
             return 'finished';
-        }
-
-        if (!show.regopen) {
-            show.regopen = (show.regclosed < intNow) ? show.regclosed : intNow;
-        }
-
-        if (show.regclosed < show.regopen) {
-            show.regclosed = show.regopen;
         }
 
         if (!show.date) {
@@ -353,19 +346,16 @@ export class ShowsComponent implements OnInit {
             return '';
         }
 
-        if (show.regopen <= intNow) {
-            if (show.regclosed >= intNow) {
-                if (show.regclosed > intNow + 2) {
-                    flag = 'open';
-                } else {
-                    flag = 'lastminute';
-                }
+        if (show.regclosed >= intNow) {
+            if (show.regclosed > intNow + 2) {
+                flag = 'open';
             } else {
-                flag = 'closed';
+                flag = 'lastminute';
             }
         } else {
-            flag = 'willopen';
+            flag = 'closed';
         }
+
         return flag;
     }
 
@@ -377,8 +367,6 @@ export class ShowsComponent implements OnInit {
                 return 'Registration opened until: ' + this.intToDateToString(show.regclosed, 'LL');
             case 'closed':
                 return 'Registration closed on: ' + this.intToDateToString(show.regclosed, 'LL');
-            case 'willopen':
-                return 'Registration will be open on: ' + this.intToDateToString(show.regopen, 'LL');
             default:
                 return '';
         }
@@ -397,7 +385,7 @@ export class ShowsComponent implements OnInit {
             const show = {
                 'key': '',
                 'name': '',
-                'organizer': '',
+                'organizer': manifestation.shows[0].organizer,
                 'place': manifestation.shows[0].place,
                 'manifestation': manifestation.name,
                 'level': 1,
@@ -405,7 +393,6 @@ export class ShowsComponent implements OnInit {
                 'countrycode': manifestation.shows[0].countrycode,
                 'link': manifestation.shows[0].link,
                 'date': manifestation.shows[0].date,
-                'regopen': manifestation.shows[0].regopen,
                 'regclosed': manifestation.shows[0].regclosed,
                 'lat':  manifestation.shows[0].lat,
                 'lon':  manifestation.shows[0].lon

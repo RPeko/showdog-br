@@ -22,7 +22,7 @@ export class ShowsProvider {
 
     public getShows(param: number){
         
-        return this.db.list<Show>('/shows', ref => ref.orderByChild('date').startAt('' + param)).valueChanges();
+        return this.db.list<Show>('/shows', ref => ref.orderByChild('date').startAt(param)).valueChanges();
     }
 
 }

@@ -11,7 +11,6 @@ export class Show {
     date: number;
     lat: number;
     lon: number;
-    regopen: number;
     regclosed: number;
 
     constructor() {

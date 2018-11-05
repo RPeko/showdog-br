@@ -33,7 +33,7 @@ export class ShowComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private showProvider: ShowProvider) {
     this.showForm = this.fb.group({
-      name: ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
+      name: ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
       organizer: '',
       place: '',
       manifestation: '',
@@ -42,7 +42,6 @@ export class ShowComponent implements OnInit {
       countrycode: '',
       link: ['', [ValidateUrl]],
       date: [null, DateValidator.isValid],
-      regopen: [null, DateValidator.isValid],
       regclosed: [null, DateValidator.isValid],
       lat: [0, LatValidator.isValid],
       lon: [0, LonValidator.isValid]
@@ -66,7 +65,6 @@ export class ShowComponent implements OnInit {
           'countrycode': '',
           'link': '',
           'date': null,
-          'regopen': null,
           'regclosed': null,
           'lat': null,
           'lon': null
@@ -83,7 +81,6 @@ export class ShowComponent implements OnInit {
         countrycode: this.show.countrycode || '',
         link: this.show.link || '',
         date: this.show.date || '',
-        regopen: this.show.regopen || '',
         regclosed: this.show.regclosed || '',
         lat: this.show.lat || 0,
         lon: this.show.lon || 0,
@@ -108,7 +105,6 @@ export class ShowComponent implements OnInit {
     this.show.countrycode = this.showForm.value.countrycode;
     this.show.link = this.showForm.value.link;
     this.show.date = +('' + this.showForm.value.date).slice(0, 10);
-    this.show.regopen = +('' + this.showForm.value.regopen).slice(0, 10);
     this.show.regclosed = +('' + this.showForm.value.regclosed).slice(0, 10);
     this.show.lat = +this.showForm.value.lat;
     this.show.lon = +this.showForm.value.lon;
@@ -125,7 +121,6 @@ export class ShowComponent implements OnInit {
   get name() { return this.showForm.get('name'); }
   get link() { return this.showForm.get('link'); }
   get date() { return this.showForm.get('date'); }
-  get regopen() { return this.showForm.get('regopen'); }
   get regclosed() { return this.showForm.get('regclosed'); }
   get lat() { return this.showForm.get('lat'); }
   get lon() { return this.showForm.get('lon'); }
