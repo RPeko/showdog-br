@@ -103,7 +103,7 @@ export class ShowsComponent implements OnInit {
                     }
                     this.shows.push(extShow);
                 });
-                console.log(JSON.stringify(this.shows));
+                // console.log(JSON.stringify(this.shows));
                    this.showsProvider.allCountries.subscribe(allcountries => {
                         this.allCountries = [];
                         allcountries.forEach(c =>
@@ -115,7 +115,6 @@ export class ShowsComponent implements OnInit {
                             }));
                         this.selectedLevels = this.allLevels;
                         this.checkAllCountries();
-                        this.runFilter();
                         this.userDataSubscription();
                         this.setRegFlag();
                         this.countAll();
@@ -166,6 +165,7 @@ export class ShowsComponent implements OnInit {
             if (userdata && userdata.usercountries) {
                 this.countries = userdata.usercountries;
             }
+            this.runFilter();
             if (userdata && userdata.admin) {
                 this.admin = userdata.admin;
             } else {
