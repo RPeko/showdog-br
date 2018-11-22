@@ -85,6 +85,11 @@
                 </mat-form-field>
             </div>
             <div class="form-container">
+                    <mat-form-field>
+                        <input matInput formControlName="latlon" placeholder="Latitude,Longitude">
+                    </mat-form-field>
+                </div>
+            <div class="form-container">
                 <mat-form-field>
                     <input matInput formControlName="lat" placeholder="Latitude">
                 </mat-form-field>
@@ -104,4 +109,5 @@
             <button type="button" mat-button (click)="back()">Cancel</button>
         </div>
     </form>
+ 
 </div>

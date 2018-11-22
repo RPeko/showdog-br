@@ -43,6 +43,7 @@ export class ShowComponent implements OnInit {
       link: ['', [ValidateUrl]],
       date: [null, DateValidator.isValid],
       regclosed: [null, DateValidator.isValid],
+      latlon: null,
       lat: [0, LatValidator.isValid],
       lon: [0, LonValidator.isValid]
     });
@@ -82,6 +83,7 @@ export class ShowComponent implements OnInit {
         link: this.show.link || '',
         date: this.show.date || '',
         regclosed: this.show.regclosed || '',
+        latlon: null,
         lat: this.show.lat || 0,
         lon: this.show.lon || 0,
       });
@@ -92,7 +94,7 @@ export class ShowComponent implements OnInit {
       }
     });
     this.showProvider.countries.subscribe(countries => this.countries = countries);
-
+    this.showForm.controls['latlon'].valueChanges.subscribe(val => this.populateLatLon("" + val));
   }
 
   onSubmit() {
@@ -112,11 +114,23 @@ export class ShowComponent implements OnInit {
       .then(() => this.router.navigate(['shows']))
       .catch(err => console.log('err: ' + err));
   }
+  
+  populateLatLon(latlon: any){
+    let pattern=new RegExp("[0-9]+(,[0-9]+)*");
+    if (pattern.test(latlon)){
+      const [lat, lon] = latlon.split(',');
+      if (this.showForm.controls['lat'].pristine){
+        this.showForm.controls['lat'].setValue(lat);
+      }
+      if (this.showForm.controls['lon'].pristine){
+        this.showForm.controls['lon'].setValue(lon);
+      }
+    }
+  }
 
   back() {
     this.router.navigate(['/shows']);
   }
-
   
   get name() { return this.showForm.get('name'); }
   get link() { return this.showForm.get('link'); }
