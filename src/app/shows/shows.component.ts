@@ -36,13 +36,15 @@ const intNow = +moment().format('YYYYMMDD');
 
 export class ShowsComponent implements OnInit {
     shows: ExtShow[];
+    loadingMonths = 3;
     allCountries: ExtCountry[] = [];
     countries: string[] = [];
     allLevels: ExtShowLevel[] = [];
     selectedLevels: ExtShowLevel[] = [];
     allTypes = [{'name':'General', 'all': 0, 'count': 0}, {'name':'Group', 'all': 0,'count': 0}, {'name':'Single breed', 'all': 0,'count': 0}];
     selectedTypes = ['General', 'Group', 'Single breed'];
-    paramStartAt = intNow-7;
+    paramStartAt = +moment('' + intNow, 'YYYYMMDD').add(-1, 'weeks').format('YYYYMMDD');
+    paramEndAt = +moment('' + intNow, 'YYYYMMDD').add(this.loadingMonths, 'months').format('YYYYMMDD');
     monthshows: { month: string, manifestations: { name:string, shows: Show[]}[] }[];
     admin = 0;
     mymap: L.Map;
@@ -93,7 +95,7 @@ export class ShowsComponent implements OnInit {
                     all: 0
                 });
             }
-            this.showsProvider.getShows(this.paramStartAt).subscribe(allshows => {
+            this.showsProvider.getShows(this.paramStartAt, this.paramEndAt).subscribe(allshows => {
                 allshows.forEach(show => {
                     const extShow = <ExtShow>show;
                     if (show.date > intNow) {
@@ -123,13 +125,38 @@ export class ShowsComponent implements OnInit {
         }, err => console.log('Show levels provider err: ' + err));
     }
 
+    loadPeriod(){
+        console.log("months: " + this.loadingMonths);
+        this.paramEndAt = +moment('' + intNow, 'YYYYMMDD').add(this.loadingMonths, 'months').format('YYYYMMDD');    
+        this.showsProvider.getShows(this.paramStartAt, this.paramEndAt).subscribe(allshows => {
+            this.shows = [];
+            allshows.forEach(show => {
+                const extShow = <ExtShow>show;
+                if (show.date > intNow) {
+                    extShow.past = false;
+                } else {
+                    extShow.past = true;
+                }
+                this.shows.push(extShow);
+            });
+            this.runFilter();
+            this.setRegFlag();
+            this.allTypes.forEach(type => type.all = 0);
+            this.allLevels.forEach(lvl => lvl.all = 0);
+            this.allCountries.forEach(country => country.all = 0);
+            this.countAll();
+        }, err => console.log('Shows provider err: ' + err));
+    }
+
     loadAll(){
         if (this.paramStartAt > 0){
             this.paramStartAt = 0;
+            this.paramEndAt = 99999999;
         } else {
-            this.paramStartAt = intNow-7;
+            this.paramStartAt = +moment('' + intNow, 'YYYYMMDD').add(-1, 'weeks').format('YYYYMMDD');
+            this.paramEndAt = +moment('' + intNow, 'YYYYMMDD').add(this.loadingMonths, 'months').format('YYYYMMDD');    
         }
-        this.showsProvider.getShows(this.paramStartAt).subscribe(allshows => {
+        this.showsProvider.getShows(this.paramStartAt, this.paramEndAt).subscribe(allshows => {
             this.shows = [];
             allshows.forEach(show => {
                 const extShow = <ExtShow>show;
@@ -153,7 +180,7 @@ export class ShowsComponent implements OnInit {
         if (this.paramStartAt > 0){
             return "load all";
         } else {
-            return "load only from 7 days earlier";
+            return "load only range";
         }
     }
 

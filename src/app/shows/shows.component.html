@@ -54,6 +54,19 @@
       <button mat-raised-button (click)="loadAll()">{{txtLoad()}}</button>
       <button mat-button><a routerLink="/show">Add Show</a></button>
     </div>
+    <div>
+      Months to load:
+      <mat-slider
+      class="period-slider"
+      [max]="12"
+      [min]="1"
+      [step]="1"
+      [thumbLabel]="true"
+      [tickInterval]="1"
+      (change)="loadPeriod()"
+      [(ngModel)]="loadingMonths">
+  </mat-slider>
+    </div>
     <mat-list class="main-list">
       <ng-container *ngFor="let monthshow of monthshows">
         <h3 mat-subheader class="mnth-subheader">{{intToDateToString(+(monthshow.month + "01"), "MMMM/YY")}}</h3>

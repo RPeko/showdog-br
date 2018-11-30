@@ -30,6 +30,7 @@ import { MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatSliderModule} from '@angular/material/slider';
 
 import { AgmCoreModule } from '@agm/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -76,7 +77,8 @@ import { FirmsProvider } from './firms/firms.provider';
     MatSelectModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSliderModule
   ],
   providers: [
     ShowsProvider,
