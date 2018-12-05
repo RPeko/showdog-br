@@ -126,8 +126,10 @@ export class ShowsComponent implements OnInit {
     }
 
     loadPeriod(){
+        this.paramEndAt = +moment('' + intNow, 'YYYYMMDD').add(this.loadingMonths, 'months').format('YYYYMMDD');
         console.log("months: " + this.loadingMonths);
-        this.paramEndAt = +moment('' + intNow, 'YYYYMMDD').add(this.loadingMonths, 'months').format('YYYYMMDD');    
+        console.log("start at: " + this.paramStartAt); 
+        console.log("end at: " + this.paramEndAt);
         this.showsProvider.getShows(this.paramStartAt, this.paramEndAt).subscribe(allshows => {
             this.shows = [];
             allshows.forEach(show => {
@@ -144,6 +146,7 @@ export class ShowsComponent implements OnInit {
             this.allTypes.forEach(type => type.all = 0);
             this.allLevels.forEach(lvl => lvl.all = 0);
             this.allCountries.forEach(country => country.all = 0);
+            console.log(JSON.stringify(this.shows));
             this.countAll();
         }, err => console.log('Shows provider err: ' + err));
     }

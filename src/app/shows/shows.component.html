@@ -54,11 +54,11 @@
       <button mat-raised-button (click)="loadAll()">{{txtLoad()}}</button>
       <button mat-button><a routerLink="/show">Add Show</a></button>
     </div>
-    <div>
-      Months to load:
+    <div class="period">
+      <span class="mat-h3">Months to load:</span>
       <mat-slider
       class="period-slider"
-      [max]="12"
+      [max]="6"
       [min]="1"
       [step]="1"
       [thumbLabel]="true"
