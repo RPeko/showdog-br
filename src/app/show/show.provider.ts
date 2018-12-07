@@ -15,7 +15,7 @@ export class ShowProvider {
     constructor(public db: AngularFireDatabase) {
         this.showRef = db.database.ref('/shows/');
         this.showLevels = db.list<ShowLevel>('/showlevel').valueChanges();
-        this.countries = db.list<Country>('countries').valueChanges();
+        this.countries = db.list<Country>('/countries', ref => ref.orderByChild('name')).valueChanges();
 
     }
 
