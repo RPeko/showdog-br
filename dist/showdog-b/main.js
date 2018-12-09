@@ -1565,7 +1565,8 @@ var ShowsComponent = /** @class */ (function () {
         this.countries = [];
         this.allLevels = [];
         this.selectedLevels = [];
-        this.allTypes = [{ 'name': 'General', 'all': 0, 'count': 0 }, { 'name': 'Group', 'all': 0, 'count': 0 }, { 'name': 'Single breed', 'all': 0, 'count': 0 }];
+        this.allTypes = [{ 'name': 'General', 'all': 0, 'count': 0 },
+            { 'name': 'Group', 'all': 0, 'count': 0 }, { 'name': 'Single breed', 'all': 0, 'count': 0 }];
         this.selectedTypes = ['General', 'Group', 'Single breed'];
         this.paramStartAt = +moment__WEBPACK_IMPORTED_MODULE_5__('' + intNow, 'YYYYMMDD').add(-1, 'weeks').format('YYYYMMDD');
         this.paramEndAt = +moment__WEBPACK_IMPORTED_MODULE_5__('' + intNow, 'YYYYMMDD').add(this.loadingMonths, 'months').format('YYYYMMDD');

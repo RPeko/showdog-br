@@ -5,7 +5,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ShowProvider } from './show.provider';
 import { LatValidator } from '../validators/lat';
 import { LonValidator } from '../validators/lon';
-import { ShowLevel } from '../models/showLevel';
+import { ShowLevel } from '../models/showlevel';
 import { DateValidator } from '../validators/date';
 import { Country } from '../models/country';
 import { ValidateUrl } from '../validators/url';

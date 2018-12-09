@@ -3,7 +3,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject, forkJoin } from 'rxjs';
 import { Show } from '../models/show';
-import { ShowLevel } from '../models/showLevel';
+import { ShowLevel } from '../models/showlevel';
 import { Country } from '../models/country';
 
 @Injectable()
