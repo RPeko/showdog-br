@@ -17,7 +17,7 @@ import { MyErrorStateMatcher } from '../validators/matcher';
 export class RegistrationComponent implements OnInit {
   firm: Firm;
   firms: Firm[] = [];
-  states: Country[] = [];
+  countries: Country[] = [];
   firmtypes: FirmType[] = [];
   admin = 0;
   firmForm: FormGroup;
@@ -70,11 +70,12 @@ export class RegistrationComponent implements OnInit {
       if (user) {
         userId = user.uid;
       }
-      this.registrationProvider.getFirms(userId).subscribe(firms => this.firms = firms);});
-    this.registrationProvider.states.subscribe(states => this.states = states);
+      this.registrationProvider.getFirms(userId).subscribe(firms => this.firms = firms);
+    });
+    this.registrationProvider.countries.subscribe(states => this.countries = states);
   }
 
-  populateForm(firm: Firm) {
+  populateForm(firm?: Firm) {
     if (firm) {
       this.firm = firm;
       this.submitButtonText = 'Save edits';
