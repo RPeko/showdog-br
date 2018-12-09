@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Show } from '../models/show';
 import { Observable } from 'rxjs';
-import { ShowLevel } from '../models/showLevel';
+import { ShowLevel } from '../models/showlevel';
 import { Country } from '../models/country';
 
 
