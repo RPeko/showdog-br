@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgModule } from '@angular/core';
+import {TranslateModule} from '@ngx-translate/core';
 
 import { AppComponent } from './app.component';
 import { AngularFireModule } from 'angularfire2';
@@ -59,6 +60,7 @@ import { FirmsProvider } from './firms/firms.provider';
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapConfig.apiKey
     }),
+    TranslateModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
