@@ -1,8 +1,5 @@
 @import '~@angular/material/theming';
 
-.container {
-}
-
 .left {
     float: left;
     width: 47vw;
@@ -67,7 +64,6 @@ td {
     padding-bottom: 15px;
 }
 
-
 .checkbox-icon {
     height: 15px;
     padding-right: 15px;
@@ -84,6 +80,7 @@ td {
 
 .flag-icon {
     height: 15px;
+    width: 40px;
     padding-left: 15px;
     padding-right: 15px;
 }

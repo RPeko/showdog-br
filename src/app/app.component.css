@@ -1,8 +1,26 @@
 .menu{
-    width: 30vw;
+    width: 40vw;
     position: fixed;
     padding-bottom: 5px;
     padding-right: 5px;
+    display: inline-block!important;
+}
+
+.menu-btn {
+    width: 5vw;
+}
+
+
+.lang {
+    padding-left: 25vw;
+    width: 10vw;
+}
+
+.flag-icon {
+    height: 25px;
+    width: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .menu-icon {

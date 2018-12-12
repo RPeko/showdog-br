@@ -11,14 +11,17 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class AppComponent {
   title = 'Show Dog';
+  currentLang = 'ENG';
 
   menuItems = [
     { title: 'Dog Shows', routerLink: 'shows' },
     { title: 'Dog Related Businesses', routerLink: 'firms' },
   ];
 
-  constructor(public authService: AuthService, translate: TranslateService) {
-    translate.setDefaultLang('en');
+  languages = [{"name":"English", "code": "ENG"}, {"name":"Deutchland", "code": "DEU"} ,{"name":"Srpski", "code": "SRB"}];
+
+  constructor(public authService: AuthService, public translate: TranslateService) {
+    translate.setDefaultLang('ENG');
   }
 
   logout() {
@@ -31,6 +34,10 @@ export class AppComponent {
     }
   }
 
-  
+  changeLang(lang) {
+    this.translate.use(lang);
+    this.currentLang = lang;
+  }
+
 }
 
