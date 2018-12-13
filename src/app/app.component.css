@@ -1,19 +1,18 @@
 .menu{
-    width: 40vw;
+    width: 100%;
     position: fixed;
-    padding-bottom: 5px;
-    padding-right: 5px;
-    display: inline-block!important;
+    background: white;
 }
 
 .menu-btn {
+    float: left;
     width: 5vw;
 }
 
-
 .lang {
-    padding-left: 25vw;
-    width: 10vw;
+    float: right;
+    padding-right: 2vw;
+    width: 5vw;
 }
 
 .flag-icon {

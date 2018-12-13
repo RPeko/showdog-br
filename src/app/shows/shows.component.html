@@ -44,75 +44,78 @@
     <div id="lmapa" class="lmapa"></div>
   </div>
   <div class="right">
-    <div class="admin" *ngIf="admin>2">
-      <button mat-raised-button (click)="loadAll()">{{txtLoad()}}</button>
-      <button mat-button><a routerLink="/show">Add Show</a></button>
+    <div class="right-fixed">
+      <div class="admin" *ngIf="admin>2">
+        <button mat-raised-button (click)="loadAll()">{{txtLoad()}}</button>
+        <button mat-button><a routerLink="/show">Add Show</a></button>
+      </div>
+      <div class="period">
+        <span class="mat-h3">Months to load:</span>
+        <mat-slider class="period-slider" [max]="6" [min]="1" [step]="1" [thumbLabel]="true" [tickInterval]="1"
+          (change)="loadPeriod()" [(ngModel)]="loadingMonths">
+        </mat-slider>
+      </div>
     </div>
-    <div class="period">
-      <span class="mat-h3">Months to load:</span>
-      <mat-slider class="period-slider" [max]="6" [min]="1" [step]="1" [thumbLabel]="true" [tickInterval]="1" (change)="loadPeriod()"
-        [(ngModel)]="loadingMonths">
-      </mat-slider>
-    </div>
-    <mat-list class="main-list">
-      <ng-container *ngFor="let monthshow of monthshows">
-        <h3 mat-subheader class="mnth-subheader">{{intToDateToString(+(monthshow.month + "01"), "MMMM YYYY")}}</h3>
-        <div class="mnf" *ngFor="let manifestation of monthshow.manifestations">
-          <div *ngIf="manifestation.name">
-            <h3 mat-subheader class="mnf-subheader">
-              <img class="show-icon" src="assets/icons/manifestation.svg">
-              {{manifestation.name}}
-              <button *ngIf="admin>2" type="button" mat-button (click)="addToManifestation(manifestation)">
-                <mat-icon>add</mat-icon>
-              </button>
-            </h3>
-          </div>
-          <div class="show" *ngFor="let show of manifestation.shows">
-            <mat-expansion-panel [ngClass]="{'panel-header-finished': show.past}" 
-              matTooltip="{{getToolTip(show)}}">
-              <mat-expansion-panel-header class="panel-header">
-                <mat-panel-title [ngClass]="{'panel-header-finished': show.past}">
-                  <span class="panel-title">
-                    <img class="show-icon" src="assets/icons/show/{{show.level}}.svg">
-                    <img class="flag-icon" src="assets/icons/flag/{{show.countrycode}}.svg">
-                    {{show.name}}, {{show.place}} / {{intToDateToString(show.date, 'ddd, Do')}}
-                  </span>
-                </mat-panel-title>
-                <mat-panel-description>
-                  <mat-icon class="reg-open" *ngIf="show.regFlag==='open'">access_time</mat-icon>
-                  <mat-icon class="reg-lastminute" *ngIf="show.regFlag==='lastminute'">av_timer</mat-icon>
-                  <mat-icon class="reg-closed" *ngIf="show.regFlag==='closed'">timer_off</mat-icon>
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <div>
-                <table>
-                  <tr>
-                    <td>{{"Place: " + show.place}}</td>
-                    <td>{{"Opening date: " + intToDateToString(show.date, 'll')}}</td>
-                  </tr>
-                  <tr>
-                    <td>{{"Type: " + show.type + " Show"}}</td>
-                    <td>{{"Registration until: " + intToDateToString(show.regclosed, 'll')}}</td>
-                  </tr>
-                  <tr>
-                    <td>{{"Organizer: " + show.organizer}}</td>
-                    <td><span *ngIf="show.link">
-                        <a href={{show.link}} target="_blank">Entry info link</a>
-                      </span></td>
-                  </tr>
-                </table>
-              </div>
-              <mat-action-row *ngIf="admin>2">
-                <button mat-button>
-                  <a routerLink="/show" [queryParams]="{show: show | json }">
-                    <mat-icon>edit</mat-icon>
-                  </a>
+    <div class="main-list">
+      <mat-list>
+        <ng-container *ngFor="let monthshow of monthshows">
+          <h3 mat-subheader class="mnth-subheader">{{intToDateToString(+(monthshow.month + "01"), "MMMM YYYY")}}</h3>
+          <div class="mnf" *ngFor="let manifestation of monthshow.manifestations">
+            <div *ngIf="manifestation.name">
+              <h3 mat-subheader class="mnf-subheader">
+                <img class="show-icon" src="assets/icons/manifestation.svg">
+                {{manifestation.name}}
+                <button *ngIf="admin>2" type="button" mat-button (click)="addToManifestation(manifestation)">
+                  <mat-icon>add</mat-icon>
                 </button>
-              </mat-action-row>
-            </mat-expansion-panel>
+              </h3>
+            </div>
+            <div class="show" *ngFor="let show of manifestation.shows">
+              <mat-expansion-panel [ngClass]="{'panel-header-finished': show.past}" matTooltip="{{getToolTip(show)}}">
+                <mat-expansion-panel-header class="panel-header">
+                  <mat-panel-title [ngClass]="{'panel-header-finished': show.past}">
+                    <span class="panel-title">
+                      <img class="show-icon" src="assets/icons/show/{{show.level}}.svg">
+                      <img class="flag-icon" src="assets/icons/flag/{{show.countrycode}}.svg">
+                      {{show.name}}, {{show.place}} / {{intToDateToString(show.date, 'ddd, Do')}}
+                    </span>
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    <mat-icon class="reg-open" *ngIf="show.regFlag==='open'">access_time</mat-icon>
+                    <mat-icon class="reg-lastminute" *ngIf="show.regFlag==='lastminute'">av_timer</mat-icon>
+                    <mat-icon class="reg-closed" *ngIf="show.regFlag==='closed'">timer_off</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div>
+                  <table>
+                    <tr>
+                      <td>{{"Place: " + show.place}}</td>
+                      <td>{{"Opening date: " + intToDateToString(show.date, 'll')}}</td>
+                    </tr>
+                    <tr>
+                      <td>{{"Type: " + show.type + " Show"}}</td>
+                      <td>{{"Registration until: " + intToDateToString(show.regclosed, 'll')}}</td>
+                    </tr>
+                    <tr>
+                      <td>{{"Organizer: " + show.organizer}}</td>
+                      <td><span *ngIf="show.link">
+                          <a href={{show.link}} target="_blank">Entry info link</a>
+                        </span></td>
+                    </tr>
+                  </table>
+                </div>
+                <mat-action-row *ngIf="admin>2">
+                  <button mat-button>
+                    <a routerLink="/show" [queryParams]="{show: show | json }">
+                      <mat-icon>edit</mat-icon>
+                    </a>
+                  </button>
+                </mat-action-row>
+              </mat-expansion-panel>
+            </div>
           </div>
-        </div>
-      </ng-container>
-    </mat-list>
+        </ng-container>
+      </mat-list>
+    </div>
   </div>
 </div>

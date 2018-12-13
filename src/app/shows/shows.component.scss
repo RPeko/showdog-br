@@ -123,12 +123,21 @@ td {
     padding-left: 15px;
 }
 
+.right-fixed {
+    position: sticky;
+}
+
 .period {
-    display: inline-block;
-    // padding-bottom: 2vh;
+    position: fixed;
+    width: 100%;
+    background: white;
 }
 
 .period-slider {
     width: 40vw;
     padding-left: 15px;
+}
+
+.main-list {
+    padding-top: 50px;
 }
