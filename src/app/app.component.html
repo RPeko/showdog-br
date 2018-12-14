@@ -2,23 +2,23 @@
     <button class="menu-btn" mat-icon-button matTooltip="Menu" [matMenuTriggerFor]="menu">
         <mat-icon class="menu-icon">menu</mat-icon>
     </button>
-    <mat-select class="lang" placeholder="Select language" (selectionChange)="changeLang($event.value)">
+    <mat-select class="lang" placeholder="Select language" [(value)]="currentLang" (selectionChange)="changeLang($event.value)">
         <mat-select-trigger>
-            <img class="flag-icon" src="assets/icons/flag/{{currentLang}}.svg">
+            <img class="flag-icon" src="assets/icons/langflag/{{currentLang}}.svg">
         </mat-select-trigger>
         <mat-option *ngFor="let lang of languages" [value]="lang.code">
-         <img class="flag-icon" src="assets/icons/flag/{{lang.code}}.svg">
+         <img class="flag-icon" src="assets/icons/langflag/{{lang.code}}.svg">
             {{lang.name}}
         </mat-option>
     </mat-select>
 </div>
 <mat-menu #menu="matMenu">
-    <button mat-menu-item *ngFor="let item of menuItems" routerLink="{{item.routerLink}}">{{item.title}}</button>
+    <button mat-menu-item *ngFor="let item of menuItems" routerLink="{{item.routerLink}}">{{ item.title | translate }}</button>
     <div *ngIf="authService.afAuth.user | async as user; else showRegister">
         <button mat-menu-item routerLink="registration">Register your bussiness</button>
     </div>
     <div *ngIf="authService.afAuth.user | async as user; else showLogin">
-        <button mat-menu-item (click)="logout()" routerLink="login">Logout</button>
+        <button mat-menu-item (click)="logout()" routerLink="login">{{"Logout" | translate }}</button>
     </div>
 </mat-menu>
 
@@ -27,11 +27,11 @@
 </div>
 
 <ng-template #showLogin>
-    <button mat-menu-item routerLink="login">Login</button>
+    <button mat-menu-item routerLink="login">{{ "Login" | translate }}</button>
 </ng-template>
 
 <ng-template #showRegister>
-    <div matTooltip="You have to be logged in if want to register you business.">
-        <button mat-menu-item disabled>Register your bussiness</button>
+    <div matTooltip="{{ 'You have to be logged in if want to register your business.' | translate}}">
+        <button mat-menu-item disabled>{{ "Register your bussiness" | translate }}</button>
     </div>
 </ng-template>

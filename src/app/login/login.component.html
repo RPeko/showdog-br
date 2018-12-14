@@ -1,7 +1,7 @@
 <mat-grid-list cols="2">
         <mat-grid-tile>
                 <div style="text-align:center">
-                    <img class="front-image" alt="Dog exhibitors heper app!" src="/assets/images/welcome.jpg">
+                    <img class="front-image" alt="Dog exhibitors helper app!" src="/assets/images/welcome.jpg">
                 </div>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -12,13 +12,13 @@
                     <ng-template #showLogin>
                         <mat-list [ngClass]="login-lista">
                             <mat-list-item>
-                                <button class="login-button" mat-raised-button color="primary" (click)="loginWithGoogle()">Login with Google</button>
+                                <button class="login-button" mat-raised-button color="primary" (click)="loginWithGoogle()">{{"Login" | translate}} {{"with" | translate}}  Google</button>
                             </mat-list-item>
                             <mat-list-item>
-                                <button class="login-button" mat-raised-button color="primary" (click)="loginWithFB()">Login with Facebook</button>
+                                <button class="login-button" mat-raised-button color="primary" (click)="loginWithFB()">{{"Login" | translate}} {{"with" | translate}} Facebook</button>
                             </mat-list-item>
                             <mat-list-item>
-                                <button class="login-button" mat-raised-button color="secondary" (click)="loginAsGuest()">Login as Guest</button>
+                                <button class="login-button" mat-raised-button color="secondary" (click)="loginAsGuest()">{{"Login as Guest" | translate}}</button>
                             </mat-list-item>
                         </mat-list>
                     </ng-template>
