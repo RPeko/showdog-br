@@ -5,12 +5,14 @@
 #lmapa { height: 80vh; }
 
 .container {
+    padding-top: 20px;
     display: flex;
 }
 
 .lista {
     height: 50vh!important;
 }
+
 .left {
     float:left;
     width: 50vw;

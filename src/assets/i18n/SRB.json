@@ -6,5 +6,11 @@
     "Register your bussiness": "Registruj svoju delatnost",
     "You have to be logged in if want to register your business.": "Morate biti registrovani, ako želite da registrujete svoju delatnost.",
     "with": "sa",
-    "Login as Guest": "Uloguj se kao gost"
+    "Login as Guest": "Uloguj se kao gost",
+    "Filter shows": "Filter izložbi",
+    "Types": "Tipovi",
+    "Levels": "Nivoi",
+    "Countries": "Države",
+    "Months to load": "Učitaj meseci",
+    "Click for filtering business types": "Klikni za filter tipova delatnosti"
 }

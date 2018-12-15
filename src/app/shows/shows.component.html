@@ -1,11 +1,11 @@
 <div class="container">
   <div class="left">
     <div class="filter">
-      <span class="mat-h3">Filter shows:</span>
+      <span class="mat-h3">{{"Filter shows" | translate }}:</span>
       <mat-select class="filter-type" placeholder="Click for filtering types" [(value)]="selectedTypes"
         (selectionChange)="runFilter()" multiple>
         <mat-select-trigger>
-          <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{getFilterTypeHeader()}}
+          <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{"Types" | translate}}: {{getFilterTypeHeader()}}
         </mat-select-trigger>
         <mat-option *ngFor="let type of allTypes" [value]="type.name">
           <span>{{type.name}} ({{type.count}}/{{type.all}})</span>
@@ -15,7 +15,7 @@
       <mat-select class="filter-level" placeholder="Click for filtering level" [(value)]="selectedLevels"
         (selectionChange)="runFilter()" multiple>
         <mat-select-trigger>
-          <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{getFilterLevelHeader()}}
+          <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{"Levels" | translate}}:{{getFilterLevelHeader()}}
         </mat-select-trigger>
         <mat-option *ngFor="let level of allLevels" [value]="level">
           <img src="assets/icons/show/{{level.id}}.svg">
@@ -34,7 +34,7 @@
           </button>
         </div>
         <mat-select-trigger>
-          <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{getFilterCountryHeader()}}
+          <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{"Countries" | translate}}:{{getFilterCountryHeader()}}
         </mat-select-trigger>
         <mat-option *ngFor="let country of allCountries" [value]="country.code">
           <span>{{country.name}} ({{country.count}}/{{country.all}})</span>
@@ -50,7 +50,7 @@
         <button mat-button><a routerLink="/show">Add Show</a></button>
       </div>
       <div class="period">
-        <span class="mat-h3">Months to load:</span>
+        <span class="mat-h3">{{"Months to load" | translate }}:</span>
         <mat-slider class="period-slider" [max]="6" [min]="1" [step]="1" [thumbLabel]="true" [tickInterval]="1"
           (change)="loadPeriod()" [(ngModel)]="loadingMonths">
         </mat-slider>

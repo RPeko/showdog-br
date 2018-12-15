@@ -5,7 +5,7 @@
   <div class="right">
     <div class="filter">
           <mat-select 
-            placeholder="Click for filtering business types" 
+            [placeholder]="'Click for filtering business types' | translate"
             [(value)]="selectedFirmTypes" 
             (selectionChange)="filtering()" 
             multiple>
