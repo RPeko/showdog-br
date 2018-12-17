@@ -5,6 +5,7 @@ import 'leaflet.markercluster';
 import { AuthService } from '../services/auth';
 import { FirmsProvider } from './firms.provider';
 import { FirmType } from '../models/firmtype';
+import { TranslateService } from '@ngx-translate/core';
 
 
 const iconBaseUrl = 'assets/icons/';
@@ -41,6 +42,7 @@ export class FirmsComponent implements OnInit {
   constructor(
     public firmsProvider: FirmsProvider,
     public authService: AuthService,
+    public translate: TranslateService
   ) {
   }
 
@@ -57,9 +59,17 @@ export class FirmsComponent implements OnInit {
 
   loadData() {
     this.countryFirms = [];
+    let name = "";
     this.firmsProvider.firmTypes.subscribe(firmTypes => {
       for (let i = 0; i < firmTypes.length; i++) {
-        this.firmTypes.push({ id: i, name: firmTypes[i].name, order: firmTypes[i].order, count: 0 });
+        this.translate.get(firmTypes[i].name).subscribe((respname: string) => {
+          if (respname) {
+            name = respname;
+          } else {
+            name = firmTypes[i].name;
+          }
+          this.firmTypes.push({ id: i, name: name, order: firmTypes[i].order, count: 0 });
+      });
       }
       this.firmsProvider.firms.subscribe(firms => {
         // console.log('firms: ' + JSON.stringify(firms));

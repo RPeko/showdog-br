@@ -89,17 +89,17 @@
                 <div>
                   <table>
                     <tr>
-                      <td>{{"Place: " + show.place}}</td>
-                      <td>{{"Opening date: " + intToDateToString(show.date, 'll')}}</td>
+                      <td>{{"Place" | translate}} {{"Place: " + show.place}}</td>
+                      <td>{{"Opening date" | translate}} {{": " + intToDateToString(show.date, 'll')}}</td>
                     </tr>
                     <tr>
-                      <td>{{"Type: " + show.type + " Show"}}</td>
-                      <td>{{"Registration until: " + intToDateToString(show.regclosed, 'll')}}</td>
+                      <td>{{"Type" | translate}} {{": " + show.type + " Show"}}</td>
+                      <td>{{"Registration until" | translate}} {{": " + intToDateToString(show.regclosed, 'll')}}</td>
                     </tr>
                     <tr>
-                      <td>{{"Organizer: " + show.organizer}}</td>
+                      <td>{{"Organizer" | translate}} {{": " + show.organizer}}</td>
                       <td><span *ngIf="show.link">
-                          <a href={{show.link}} target="_blank">Entry info link</a>
+                          <a href={{show.link}} target="_blank">{{ "Entry info link" | translate }}</a>
                         </span></td>
                     </tr>
                   </table>

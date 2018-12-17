@@ -12,5 +12,11 @@
     "Levels": "Levels",
     "Countries": "Countries",
     "Months to load": "Months to load",
-    "Click for filtering business types": "Click for filtering business types"
+    "Click for filtering business types": "Click for filtering business types",
+    "Place": "Place",
+    "Opening date": "Opening date",
+    "Type": "Type",
+    "Registration until": "Registration until",
+    "Organizer": "Organizer",
+    "Entry info link" : "Entry info link" 
 }
