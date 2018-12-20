@@ -50,15 +50,20 @@ td {
 
 .mnth-subheader {
     justify-content: center;
+    padding-top: 25px;
+    padding-bottom: 15px;
 }
 
-.mnf-subheader {
-    margin-left: 10px;
-    // justify-content: center;
+.calendar-icon{
+    padding-right: 10px;
 }
 
 .mnf {
-    padding-bottom: 15px;
+    padding-bottom: 5px;
+}
+
+.mnf-subheader {
+    margin-left: 120px;
 }
 
 .checkbox-icon {

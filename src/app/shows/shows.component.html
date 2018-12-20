@@ -51,7 +51,7 @@
       </div>
       <div class="period">
         <span class="mat-h3">{{"Months to load" | translate }}:</span>
-        <mat-slider class="period-slider" [max]="6" [min]="1" [step]="1" [thumbLabel]="true" [tickInterval]="1"
+        <mat-slider class="period-slider" [max]="4" [min]="1" [step]="1" [thumbLabel]="true" [tickInterval]="1"
           (change)="loadPeriod()" [(ngModel)]="loadingMonths">
         </mat-slider>
       </div>
@@ -59,12 +59,14 @@
     <div class="main-list">
       <mat-list>
         <ng-container *ngFor="let monthshow of monthshows">
-          <h3 mat-subheader class="mnth-subheader">{{intToDateToString(+(monthshow.month + "01"), "MMMM YYYY")}}</h3>
+          <h3 mat-subheader class="mnth-subheader">
+              <mat-icon class="calendar-icon">calendar_today</mat-icon>  
+              {{intToDateToString(+(monthshow.month + "01"), "MMMM YYYY")}}</h3>
           <div class="mnf" *ngFor="let manifestation of monthshow.manifestations">
-            <div *ngIf="manifestation.name">
-              <h3 mat-subheader class="mnf-subheader">
+            <div *ngIf="manifestation.name"  class="mnf-subheader">
+              <h3 mat-subheader>
                 <img class="show-icon" src="assets/icons/manifestation.svg">
-                {{manifestation.name}}
+                  {{manifestation.name}}
                 <button *ngIf="admin>2" type="button" mat-button (click)="addToManifestation(manifestation)">
                   <mat-icon>add</mat-icon>
                 </button>
