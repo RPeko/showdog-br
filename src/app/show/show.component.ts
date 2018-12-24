@@ -60,7 +60,7 @@ export class ShowComponent implements OnInit {
           'name': '',
           'organizer': '',
           'place': '',
-          'manifestation':'',
+          'manifestation': '',
           'level': 1,
           'type': 'General',
           'countrycode': '',
@@ -70,7 +70,7 @@ export class ShowComponent implements OnInit {
           'lat': null,
           'lon': null
         };
-        this.show.date = +((new Date()).toISOString().slice(0, 10).replace(/-/g, ''));
+        // this.show.date = +((new Date()).toISOString().slice(0, 10).replace(/-/g, ''));
       }
       this.showForm.setValue({
         name: this.show.name || '',
