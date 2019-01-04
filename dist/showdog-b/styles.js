@@ -580,8 +580,8 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\rpeko\Documents\Angular projects\showdog-br\src\styles.css */"./src/styles.css");
-module.exports = __webpack_require__(/*! C:\Users\rpeko\Documents\Angular projects\showdog-br\src\styles.scss */"./src/styles.scss");
+__webpack_require__(/*! C:\Users\peko.roganovic.SOVRBAS\Documents\Angular projects\showdog-b\src\styles.css */"./src/styles.css");
+module.exports = __webpack_require__(/*! C:\Users\peko.roganovic.SOVRBAS\Documents\Angular projects\showdog-b\src\styles.scss */"./src/styles.scss");
 
 
 /***/ })

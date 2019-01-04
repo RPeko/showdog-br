@@ -10,8 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 const iconBaseUrl = 'assets/icons/';
 
-interface CFirmType extends  FirmType
-{ count: number; }
+interface CFirmType extends  FirmType { count: number; }
 
 @Component({
   selector: 'app-firms',
@@ -59,7 +58,7 @@ export class FirmsComponent implements OnInit {
 
   loadData() {
     this.countryFirms = [];
-    let name = "";
+    let name = '';
     this.firmsProvider.firmTypes.subscribe(firmTypes => {
       for (let i = 0; i < firmTypes.length; i++) {
         this.translate.get(firmTypes[i].name).subscribe((respname: string) => {
@@ -83,14 +82,14 @@ export class FirmsComponent implements OnInit {
 
   countTypes(firms: Firm[]) {
     for (let i = 0; i < firms.length; i++) {
-      let ft = this.firmTypes.find(type => type.id === firms[i].type);
+      const ft = this.firmTypes.find(type => type.id === firms[i].type);
       if (ft) {
         ft.count++;
       }
     }
   }
 
-  getTypeName(id: number){
+  getTypeName(id: number) {
     const type = this.firmTypes.find(t => t.id === id);
     if (type) {
         return type.name;
@@ -116,12 +115,12 @@ export class FirmsComponent implements OnInit {
       this.mymap.addLayer(this.markerClusters);
     }
     // console.log((new Date()).toISOString() + ' processfirms ...');
-    if (this.selectedFirmTypes.length > 0){
+    if (this.selectedFirmTypes.length > 0) {
        this.mymap.fitBounds(this.markerClusters.getBounds());
     }
   }
 
-  addMarker(firm:Firm) {
+  addMarker(firm: Firm) {
     const icon = L.icon({ iconUrl: iconBaseUrl + 'firmtype/' + firm.type + '.svg'});
     const marker = L.marker(new L.LatLng(firm.lat, firm.lon), { title: firm.name, icon: icon });
     marker.bindPopup('<div>' + firm.name + '</div>');

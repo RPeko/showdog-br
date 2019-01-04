@@ -6,10 +6,8 @@ import { Language } from './models/language';
 @Injectable()
 export class AppProvider {
     public languages: Observable<Language[]>;
-  
+
     constructor(public db: AngularFireDatabase) {
           this.languages = db.list<Language>('/languages', ref => ref.orderByChild('order')).valueChanges();
-        
     }
-
 }

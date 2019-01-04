@@ -137,4 +137,8 @@ export class RegistrationComponent implements OnInit {
       return null;
     }
   }
+
+  remove(firm: Firm) {
+    this.registrationProvider.removeFirm(firm).catch(err => console.log(err));
+  }
 }

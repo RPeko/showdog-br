@@ -334,7 +334,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 var routes = [
-    { path: '', redirectTo: '/login', pathMatch: 'full' },
+    { path: '', redirectTo: '/shows', pathMatch: 'full' },
     { path: 'show', component: _show_show_component__WEBPACK_IMPORTED_MODULE_4__["ShowComponent"] },
     { path: 'shows', component: _shows_shows_component__WEBPACK_IMPORTED_MODULE_2__["ShowsComponent"] },
     { path: 'firms', component: _firms_firms_component__WEBPACK_IMPORTED_MODULE_6__["FirmsComponent"] },
@@ -364,7 +364,7 @@ var AppRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".menu{\r\n    width: 30vw;\r\n    position: fixed;\r\n    padding-bottom: 5px;\r\n    padding-right: 5px;\r\n}\r\n\r\n.menu-icon {\r\n    font-size: 40px!important;\r\n}\r\n\r\n.router-outlet{\r\n    padding-top:50px;\r\n    padding-left:10px;\r\n}"
+module.exports = ".menu{\r\n    width: 100%;\r\n    position: fixed;\r\n    background: white;\r\n}\r\n\r\n.menu-btn {\r\n    float: left;\r\n    width: 5vw;\r\n}\r\n\r\n.lang {\r\n    float: right;\r\n    padding-right: 2vw;\r\n    width: 5vw;\r\n}\r\n\r\n.flag-icon {\r\n    height: 25px;\r\n    width: 30px;\r\n    padding-left: 15px;\r\n    padding-right: 15px;\r\n}\r\n\r\n.menu-icon {\r\n    font-size: 40px!important;\r\n}\r\n\r\n.router-outlet{\r\n    padding-top:50px;\r\n    padding-left:10px;\r\n}"
 
 /***/ }),
 
@@ -375,7 +375,7 @@ module.exports = ".menu{\r\n    width: 30vw;\r\n    position: fixed;\r\n    padd
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\r\n<div class=\"menu\">\r\n    <button class=\"menu-button\"  mat-icon-button matTooltip=\"Menu\" [matMenuTriggerFor]=\"menu\">\r\n        <mat-icon class=\"menu-icon\">menu</mat-icon>\r\n    </button>\r\n</div>\r\n<mat-menu #menu=\"matMenu\">\r\n  <button mat-menu-item *ngFor=\"let item of menuItems\" routerLink=\"{{item.routerLink}}\">{{item.title}}</button>\r\n  <div *ngIf=\"authService.afAuth.user | async as user; else showRegister\">\r\n        <button mat-menu-item routerLink=\"registration\">Register your bussiness</button>\r\n  </div>\r\n  \r\n  <div *ngIf=\"authService.afAuth.user | async as user; else showLogin\">\r\n      <button mat-menu-item (click)=\"logout()\" routerLink=\"login\">Logout</button>\r\n  </div> \r\n\r\n</mat-menu>\r\n\r\n<div class=\"router-outlet\">\r\n    <router-outlet></router-outlet>\r\n</div>\r\n\r\n<ng-template #showLogin>\r\n    <button  mat-menu-item routerLink=\"login\">Login</button>\r\n</ng-template>\r\n\r\n<ng-template #showRegister>\r\n    <div matTooltip=\"You have to be logged in if want to register you business.\">\r\n        <button mat-menu-item disabled>Register your bussiness</button>\r\n   </div>\r\n</ng-template>\r\n"
+module.exports = "<div class=\"menu\">\r\n    <button class=\"menu-btn\" mat-icon-button matTooltip=\"Menu\" [matMenuTriggerFor]=\"menu\">\r\n        <mat-icon class=\"menu-icon\">menu</mat-icon>\r\n    </button>\r\n    <mat-select class=\"lang\" placeholder=\"Select language\" [(value)]=\"currentLang\" (selectionChange)=\"changeLang($event.value)\">\r\n        <mat-select-trigger>\r\n            <img class=\"flag-icon\" src=\"assets/icons/langflag/{{currentLang}}.svg\">\r\n        </mat-select-trigger>\r\n        <mat-option *ngFor=\"let lang of languages\" [value]=\"lang.code\">\r\n         <img class=\"flag-icon\" src=\"assets/icons/langflag/{{lang.code}}.svg\">\r\n            {{lang.name}}\r\n        </mat-option>\r\n    </mat-select>\r\n</div>\r\n<mat-menu #menu=\"matMenu\">\r\n    <button mat-menu-item *ngFor=\"let item of menuItems\" routerLink=\"{{item.routerLink}}\">{{ item.title | translate }}</button>\r\n    <div *ngIf=\"authService.afAuth.user | async as user; else showRegister\">\r\n        <button mat-menu-item routerLink=\"registration\">Register your bussiness</button>\r\n    </div>\r\n    <div *ngIf=\"authService.afAuth.user | async as user; else showLogin\">\r\n        <button mat-menu-item (click)=\"logout()\" routerLink=\"login\">{{\"Logout\" | translate }}</button>\r\n    </div>\r\n</mat-menu>\r\n\r\n<div class=\"router-outlet\">\r\n    <router-outlet></router-outlet>\r\n</div>\r\n\r\n<ng-template #showLogin>\r\n    <button mat-menu-item routerLink=\"login\">{{ \"Login\" | translate }}</button>\r\n</ng-template>\r\n\r\n<ng-template #showRegister>\r\n    <div matTooltip=\"{{ 'You have to be logged in if want to register your business.' | translate}}\">\r\n        <button mat-menu-item disabled>{{ \"Register your bussiness\" | translate }}</button>\r\n    </div>\r\n</ng-template>"
 
 /***/ }),
 
@@ -391,6 +391,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services/auth */ "./src/app/services/auth.ts");
+/* harmony import */ var _ngx_pwa_local_storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ngx-pwa/local-storage */ "./node_modules/@ngx-pwa/local-storage/fesm5/ngx-pwa-local-storage.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _app_provider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.provider */ "./src/app/app.provider.ts");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -402,21 +407,48 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
+
+
+
 var AppComponent = /** @class */ (function () {
-    function AppComponent(authService) {
+    function AppComponent(authService, translate, appProvider, localStorage) {
+        var _this = this;
         this.authService = authService;
+        this.translate = translate;
+        this.appProvider = appProvider;
+        this.localStorage = localStorage;
         this.title = 'Show Dog';
         this.menuItems = [
-            { title: 'Dog Shows', routerLink: 'shows' },
+            { title: 'Dog shows', routerLink: 'shows' },
             { title: 'Dog Related Businesses', routerLink: 'firms' },
         ];
+        this.languages = [];
+        this.currentLang = 'ENG';
+        translate.setDefaultLang('ENG');
+        localStorage.getItem('lang').subscribe(function (lang) {
+            if (lang) {
+                _this.currentLang = lang.code;
+                translate.use(lang.code);
+                moment__WEBPACK_IMPORTED_MODULE_5__["locale"](lang.locale);
+            }
+        });
+        appProvider.languages.subscribe(function (langs) { return _this.languages = langs; });
     }
     AppComponent.prototype.logout = function () {
         this.authService.signOut();
     };
     AppComponent.prototype.registrationInfo = function () {
         if (this.authService.authenticated) {
-            return "You have to be logged in if want to register you business.";
+            return 'You have to be logged in if want to register you business.';
+        }
+    };
+    AppComponent.prototype.changeLang = function (langcode) {
+        var lang = this.languages.find(function (l) { return l.code === langcode; });
+        if (lang) {
+            this.translate.use(lang.code);
+            this.localStorage.setItem('lang', lang).subscribe(function () { });
+            moment__WEBPACK_IMPORTED_MODULE_5__["locale"](lang.locale);
         }
     };
     AppComponent = __decorate([
@@ -425,7 +457,10 @@ var AppComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./app.component.html */ "./src/app/app.component.html"),
             styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")]
         }),
-        __metadata("design:paramtypes", [_services_auth__WEBPACK_IMPORTED_MODULE_1__["AuthService"]])
+        __metadata("design:paramtypes", [_services_auth__WEBPACK_IMPORTED_MODULE_1__["AuthService"],
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslateService"],
+            _app_provider__WEBPACK_IMPORTED_MODULE_4__["AppProvider"],
+            _ngx_pwa_local_storage__WEBPACK_IMPORTED_MODULE_2__["LocalStorage"]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -438,49 +473,54 @@ var AppComponent = /** @class */ (function () {
 /*!*******************************!*\
   !*** ./src/app/app.module.ts ***!
   \*******************************/
-/*! exports provided: AppModule */
+/*! exports provided: HttpLoaderFactory, AppModule */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpLoaderFactory", function() { return HttpLoaderFactory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppModule", function() { return AppModule; });
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 /* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var angularfire2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! angularfire2 */ "./node_modules/angularfire2/index.js");
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../environments/environment */ "./src/environments/environment.ts");
-/* harmony import */ var _shows_shows_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./shows/shows.component */ "./src/app/shows/shows.component.ts");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _shows_shows_provider__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./shows/shows.provider */ "./src/app/shows/shows.provider.ts");
-/* harmony import */ var angularfire2_auth__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! angularfire2/auth */ "./node_modules/angularfire2/auth/index.js");
-/* harmony import */ var angularfire2_database__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! angularfire2/database */ "./node_modules/angularfire2/database/index.js");
-/* harmony import */ var _services_auth__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./services/auth */ "./src/app/services/auth.ts");
-/* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
-/* harmony import */ var _angular_material_menu__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/material/menu */ "./node_modules/@angular/material/esm5/menu.es5.js");
-/* harmony import */ var _angular_material_list__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/material/list */ "./node_modules/@angular/material/esm5/list.es5.js");
-/* harmony import */ var _angular_material_grid_list__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/material/grid-list */ "./node_modules/@angular/material/esm5/grid-list.es5.js");
-/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/material/form-field */ "./node_modules/@angular/material/esm5/form-field.es5.js");
-/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
-/* harmony import */ var _angular_material_divider__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/material/divider */ "./node_modules/@angular/material/esm5/divider.es5.js");
-/* harmony import */ var _angular_material_button__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @angular/material/button */ "./node_modules/@angular/material/esm5/button.es5.js");
-/* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/material/icon */ "./node_modules/@angular/material/esm5/icon.es5.js");
-/* harmony import */ var _angular_material_radio__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @angular/material/radio */ "./node_modules/@angular/material/esm5/radio.es5.js");
-/* harmony import */ var _angular_material_expansion__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @angular/material/expansion */ "./node_modules/@angular/material/esm5/expansion.es5.js");
-/* harmony import */ var _angular_material_button_toggle__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @angular/material/button-toggle */ "./node_modules/@angular/material/esm5/button-toggle.es5.js");
-/* harmony import */ var _angular_material_slide_toggle__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @angular/material/slide-toggle */ "./node_modules/@angular/material/esm5/slide-toggle.es5.js");
-/* harmony import */ var _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @angular/material/toolbar */ "./node_modules/@angular/material/esm5/toolbar.es5.js");
-/* harmony import */ var _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @angular/material/tooltip */ "./node_modules/@angular/material/esm5/tooltip.es5.js");
-/* harmony import */ var _angular_material_dialog__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @angular/material/dialog */ "./node_modules/@angular/material/esm5/dialog.es5.js");
-/* harmony import */ var _angular_material_slider__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @angular/material/slider */ "./node_modules/@angular/material/esm5/slider.es5.js");
-/* harmony import */ var _agm_core__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @agm/core */ "./node_modules/@agm/core/index.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _show_show_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./show/show.component */ "./src/app/show/show.component.ts");
-/* harmony import */ var _show_show_provider__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./show/show.provider */ "./src/app/show/show.provider.ts");
-/* harmony import */ var _registration_registration_component__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./registration/registration.component */ "./src/app/registration/registration.component.ts");
-/* harmony import */ var _registration_registration_provider__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./registration/registration.provider */ "./src/app/registration/registration.provider.ts");
-/* harmony import */ var _firms_firms_component__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./firms/firms.component */ "./src/app/firms/firms.component.ts");
-/* harmony import */ var _firms_firms_provider__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./firms/firms.provider */ "./src/app/firms/firms.provider.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _ngx_translate_http_loader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ngx-translate/http-loader */ "./node_modules/@ngx-translate/http-loader/fesm5/ngx-translate-http-loader.js");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var angularfire2__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! angularfire2 */ "./node_modules/angularfire2/index.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _shows_shows_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./shows/shows.component */ "./src/app/shows/shows.component.ts");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _shows_shows_provider__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./shows/shows.provider */ "./src/app/shows/shows.provider.ts");
+/* harmony import */ var angularfire2_auth__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! angularfire2/auth */ "./node_modules/angularfire2/auth/index.js");
+/* harmony import */ var angularfire2_database__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! angularfire2/database */ "./node_modules/angularfire2/database/index.js");
+/* harmony import */ var _services_auth__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./services/auth */ "./src/app/services/auth.ts");
+/* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
+/* harmony import */ var _angular_material_menu__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/material/menu */ "./node_modules/@angular/material/esm5/menu.es5.js");
+/* harmony import */ var _angular_material_list__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/material/list */ "./node_modules/@angular/material/esm5/list.es5.js");
+/* harmony import */ var _angular_material_grid_list__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/material/grid-list */ "./node_modules/@angular/material/esm5/grid-list.es5.js");
+/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @angular/material/form-field */ "./node_modules/@angular/material/esm5/form-field.es5.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _angular_material_divider__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @angular/material/divider */ "./node_modules/@angular/material/esm5/divider.es5.js");
+/* harmony import */ var _angular_material_button__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @angular/material/button */ "./node_modules/@angular/material/esm5/button.es5.js");
+/* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @angular/material/icon */ "./node_modules/@angular/material/esm5/icon.es5.js");
+/* harmony import */ var _angular_material_radio__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @angular/material/radio */ "./node_modules/@angular/material/esm5/radio.es5.js");
+/* harmony import */ var _angular_material_expansion__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @angular/material/expansion */ "./node_modules/@angular/material/esm5/expansion.es5.js");
+/* harmony import */ var _angular_material_button_toggle__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @angular/material/button-toggle */ "./node_modules/@angular/material/esm5/button-toggle.es5.js");
+/* harmony import */ var _angular_material_slide_toggle__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @angular/material/slide-toggle */ "./node_modules/@angular/material/esm5/slide-toggle.es5.js");
+/* harmony import */ var _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @angular/material/toolbar */ "./node_modules/@angular/material/esm5/toolbar.es5.js");
+/* harmony import */ var _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @angular/material/tooltip */ "./node_modules/@angular/material/esm5/tooltip.es5.js");
+/* harmony import */ var _angular_material_dialog__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @angular/material/dialog */ "./node_modules/@angular/material/esm5/dialog.es5.js");
+/* harmony import */ var _angular_material_slider__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! @angular/material/slider */ "./node_modules/@angular/material/esm5/slider.es5.js");
+/* harmony import */ var _agm_core__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! @agm/core */ "./node_modules/@agm/core/index.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _show_show_component__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./show/show.component */ "./src/app/show/show.component.ts");
+/* harmony import */ var _show_show_provider__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./show/show.provider */ "./src/app/show/show.provider.ts");
+/* harmony import */ var _registration_registration_component__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./registration/registration.component */ "./src/app/registration/registration.component.ts");
+/* harmony import */ var _registration_registration_provider__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./registration/registration.provider */ "./src/app/registration/registration.provider.ts");
+/* harmony import */ var _firms_firms_component__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./firms/firms.component */ "./src/app/firms/firms.component.ts");
+/* harmony import */ var _firms_firms_provider__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./firms/firms.provider */ "./src/app/firms/firms.provider.ts");
+/* harmony import */ var _app_provider__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./app.provider */ "./src/app/app.provider.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -524,61 +564,117 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
+
+
+// AoT requires an exported function for factories
+function HttpLoaderFactory(http) {
+    return new _ngx_translate_http_loader__WEBPACK_IMPORTED_MODULE_5__["TranslateHttpLoader"](http);
+}
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"],
-                _shows_shows_component__WEBPACK_IMPORTED_MODULE_6__["ShowsComponent"],
-                _show_show_component__WEBPACK_IMPORTED_MODULE_31__["ShowComponent"],
-                _login_login_component__WEBPACK_IMPORTED_MODULE_12__["LoginComponent"],
-                _show_show_component__WEBPACK_IMPORTED_MODULE_31__["ShowComponent"],
-                _registration_registration_component__WEBPACK_IMPORTED_MODULE_33__["RegistrationComponent"],
-                _firms_firms_component__WEBPACK_IMPORTED_MODULE_35__["FirmsComponent"],
+                _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
+                _shows_shows_component__WEBPACK_IMPORTED_MODULE_9__["ShowsComponent"],
+                _show_show_component__WEBPACK_IMPORTED_MODULE_34__["ShowComponent"],
+                _login_login_component__WEBPACK_IMPORTED_MODULE_15__["LoginComponent"],
+                _show_show_component__WEBPACK_IMPORTED_MODULE_34__["ShowComponent"],
+                _registration_registration_component__WEBPACK_IMPORTED_MODULE_36__["RegistrationComponent"],
+                _firms_firms_component__WEBPACK_IMPORTED_MODULE_38__["FirmsComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
-                _app_routing_module__WEBPACK_IMPORTED_MODULE_7__["AppRoutingModule"],
-                angularfire2__WEBPACK_IMPORTED_MODULE_4__["AngularFireModule"].initializeApp(_environments_environment__WEBPACK_IMPORTED_MODULE_5__["environment"].firebaseConfig),
-                _agm_core__WEBPACK_IMPORTED_MODULE_29__["AgmCoreModule"].forRoot({
-                    apiKey: _environments_environment__WEBPACK_IMPORTED_MODULE_5__["environment"].googleMapConfig.apiKey
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_10__["AppRoutingModule"],
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
+                angularfire2__WEBPACK_IMPORTED_MODULE_7__["AngularFireModule"].initializeApp(_environments_environment__WEBPACK_IMPORTED_MODULE_8__["environment"].firebaseConfig),
+                _agm_core__WEBPACK_IMPORTED_MODULE_32__["AgmCoreModule"].forRoot({
+                    apiKey: _environments_environment__WEBPACK_IMPORTED_MODULE_8__["environment"].googleMapConfig.apiKey
                 }),
-                _angular_forms__WEBPACK_IMPORTED_MODULE_30__["FormsModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_30__["ReactiveFormsModule"],
+                _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateModule"].forRoot({
+                    loader: {
+                        provide: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateLoader"],
+                        useFactory: HttpLoaderFactory,
+                        deps: [_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"]]
+                    }
+                }),
+                _angular_forms__WEBPACK_IMPORTED_MODULE_33__["FormsModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_33__["ReactiveFormsModule"],
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_1__["BrowserAnimationsModule"],
-                _angular_material_menu__WEBPACK_IMPORTED_MODULE_13__["MatMenuModule"],
-                _angular_material_grid_list__WEBPACK_IMPORTED_MODULE_15__["MatGridListModule"],
-                _angular_material_form_field__WEBPACK_IMPORTED_MODULE_16__["MatFormFieldModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_17__["MatInputModule"],
-                _angular_material_icon__WEBPACK_IMPORTED_MODULE_20__["MatIconModule"],
-                _angular_material_list__WEBPACK_IMPORTED_MODULE_14__["MatListModule"],
-                _angular_material_divider__WEBPACK_IMPORTED_MODULE_18__["MatDividerModule"],
-                _angular_material_button__WEBPACK_IMPORTED_MODULE_19__["MatButtonModule"],
-                _angular_material_expansion__WEBPACK_IMPORTED_MODULE_22__["MatExpansionModule"],
-                _angular_material_button_toggle__WEBPACK_IMPORTED_MODULE_23__["MatButtonToggleModule"],
-                _angular_material_radio__WEBPACK_IMPORTED_MODULE_21__["MatRadioModule"],
-                _angular_material_slide_toggle__WEBPACK_IMPORTED_MODULE_24__["MatSlideToggleModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_17__["MatSelectModule"],
-                _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_25__["MatToolbarModule"],
-                _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_26__["MatTooltipModule"],
-                _angular_material_dialog__WEBPACK_IMPORTED_MODULE_27__["MatDialogModule"],
-                _angular_material_slider__WEBPACK_IMPORTED_MODULE_28__["MatSliderModule"]
+                _angular_material_menu__WEBPACK_IMPORTED_MODULE_16__["MatMenuModule"],
+                _angular_material_grid_list__WEBPACK_IMPORTED_MODULE_18__["MatGridListModule"],
+                _angular_material_form_field__WEBPACK_IMPORTED_MODULE_19__["MatFormFieldModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_20__["MatInputModule"],
+                _angular_material_icon__WEBPACK_IMPORTED_MODULE_23__["MatIconModule"],
+                _angular_material_list__WEBPACK_IMPORTED_MODULE_17__["MatListModule"],
+                _angular_material_divider__WEBPACK_IMPORTED_MODULE_21__["MatDividerModule"],
+                _angular_material_button__WEBPACK_IMPORTED_MODULE_22__["MatButtonModule"],
+                _angular_material_expansion__WEBPACK_IMPORTED_MODULE_25__["MatExpansionModule"],
+                _angular_material_button_toggle__WEBPACK_IMPORTED_MODULE_26__["MatButtonToggleModule"],
+                _angular_material_radio__WEBPACK_IMPORTED_MODULE_24__["MatRadioModule"],
+                _angular_material_slide_toggle__WEBPACK_IMPORTED_MODULE_27__["MatSlideToggleModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_20__["MatSelectModule"],
+                _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_28__["MatToolbarModule"],
+                _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_29__["MatTooltipModule"],
+                _angular_material_dialog__WEBPACK_IMPORTED_MODULE_30__["MatDialogModule"],
+                _angular_material_slider__WEBPACK_IMPORTED_MODULE_31__["MatSliderModule"]
             ],
             providers: [
-                _shows_shows_provider__WEBPACK_IMPORTED_MODULE_8__["ShowsProvider"],
-                _show_show_provider__WEBPACK_IMPORTED_MODULE_32__["ShowProvider"],
-                _registration_registration_provider__WEBPACK_IMPORTED_MODULE_34__["RegistrationProvider"],
-                _firms_firms_provider__WEBPACK_IMPORTED_MODULE_36__["FirmsProvider"],
-                _services_auth__WEBPACK_IMPORTED_MODULE_11__["AuthService"],
-                angularfire2_auth__WEBPACK_IMPORTED_MODULE_9__["AngularFireAuth"],
-                angularfire2_database__WEBPACK_IMPORTED_MODULE_10__["AngularFireDatabase"],
+                _shows_shows_provider__WEBPACK_IMPORTED_MODULE_11__["ShowsProvider"],
+                _show_show_provider__WEBPACK_IMPORTED_MODULE_35__["ShowProvider"],
+                _app_provider__WEBPACK_IMPORTED_MODULE_40__["AppProvider"],
+                _registration_registration_provider__WEBPACK_IMPORTED_MODULE_37__["RegistrationProvider"],
+                _firms_firms_provider__WEBPACK_IMPORTED_MODULE_39__["FirmsProvider"],
+                _services_auth__WEBPACK_IMPORTED_MODULE_14__["AuthService"],
+                angularfire2_auth__WEBPACK_IMPORTED_MODULE_12__["AngularFireAuth"],
+                angularfire2_database__WEBPACK_IMPORTED_MODULE_13__["AngularFireDatabase"],
             ],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/app.provider.ts":
+/*!*********************************!*\
+  !*** ./src/app/app.provider.ts ***!
+  \*********************************/
+/*! exports provided: AppProvider */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppProvider", function() { return AppProvider; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var angularfire2_database__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! angularfire2/database */ "./node_modules/angularfire2/database/index.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var AppProvider = /** @class */ (function () {
+    function AppProvider(db) {
+        this.db = db;
+        this.languages = db.list('/languages', function (ref) { return ref.orderByChild('order'); }).valueChanges();
+    }
+    AppProvider = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
+        __metadata("design:paramtypes", [angularfire2_database__WEBPACK_IMPORTED_MODULE_1__["AngularFireDatabase"]])
+    ], AppProvider);
+    return AppProvider;
 }());
 
 
@@ -592,7 +688,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* .lmapa {\r\n    position: relative;\r\n} */\r\n\r\n#lmapa { height: 80vh; }\r\n\r\n.container {\r\n    display: flex;\r\n}\r\n\r\n.lista {\r\n    height: 50vh!important;\r\n}\r\n\r\n.left {\r\n    float:left;\r\n    width: 50vw;\r\n    margin-right: 2vw;\r\n}\r\n\r\n.right {\r\n    float:left;\r\n    width: 45vw;\r\n}\r\n\r\n.panel-header {\r\n    height: 35px!important;\r\n}\r\n\r\n.flag-icon {\r\n    height: 15px;\r\n    padding-left: 15px;\r\n    padding-right: 15px;\r\n}"
+module.exports = "/* .lmapa {\r\n    position: relative;\r\n} */\r\n\r\n#lmapa { height: 80vh; }\r\n\r\n.container {\r\n    padding-top: 20px;\r\n    display: flex;\r\n}\r\n\r\n.lista {\r\n    height: 50vh!important;\r\n}\r\n\r\n.left {\r\n    float:left;\r\n    width: 50vw;\r\n    margin-right: 2vw;\r\n}\r\n\r\n.right {\r\n    float:left;\r\n    width: 45vw;\r\n}\r\n\r\n.panel-header {\r\n    height: 35px!important;\r\n}\r\n\r\n.flag-icon {\r\n    height: 15px;\r\n    padding-left: 15px;\r\n    padding-right: 15px;\r\n}"
 
 /***/ }),
 
@@ -603,7 +699,7 @@ module.exports = "/* .lmapa {\r\n    position: relative;\r\n} */\r\n\r\n#lmapa {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n    <div class=\"left\">\r\n        <div id=\"lmapa\" class=\"lmapa\"></div>\r\n      </div>\r\n  <div class=\"right\">\r\n    <div class=\"filter\">\r\n          <mat-select \r\n            placeholder=\"Click for filtering business types\" \r\n            [(value)]=\"selectedFirmTypes\" \r\n            (selectionChange)=\"filtering()\" \r\n            multiple>\r\n            <mat-option *ngFor=\"let firmType of firmTypes\" [value]=\"firmType\">\r\n              {{firmType.name}} ({{firmType.count}})\r\n            </mat-option>\r\n          </mat-select>\r\n    </div>\r\n    <mat-list class=\"lista\">\r\n      <ng-container *ngFor=\"let countryFirm of countryFirms\">\r\n        <h3 mat-subheader>  <img class=\"flag-icon\" src=\"assets/icons/flag/{{countryFirm.country}}.svg\">{{countryFirm.country}}</h3>\r\n        <mat-expansion-panel *ngFor=\"let firm of countryFirm.firms\">\r\n          <mat-expansion-panel-header class=\"panel-header\">\r\n            <mat-panel-title>\r\n                <img class=\"flag-icon\" src=\"assets/icons/firmtype/{{firm.type}}.svg\"> {{firm.name}}\r\n            </mat-panel-title>\r\n            <mat-panel-description>\r\n              {{firm.date}}\r\n            </mat-panel-description>\r\n          </mat-expansion-panel-header>\r\n          <div>\r\n            <table>\r\n                <tr>{{\"Place: \" + firm.place}}</tr>\r\n                <tr>{{\"Description: \" + firm.description}}</tr>\r\n                <tr>{{\"Type: \" + getTypeName(firm.type)}}</tr>\r\n            </table>\r\n          </div>\r\n        </mat-expansion-panel>\r\n      </ng-container>\r\n    </mat-list>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"container\">\r\n    <div class=\"left\">\r\n        <div id=\"lmapa\" class=\"lmapa\"></div>\r\n      </div>\r\n  <div class=\"right\">\r\n    <div class=\"filter\">\r\n          <mat-select \r\n            [placeholder]=\"'Click for filtering business types' | translate\"\r\n            [(value)]=\"selectedFirmTypes\" \r\n            (selectionChange)=\"filtering()\" \r\n            multiple>\r\n            <mat-option *ngFor=\"let firmType of firmTypes\" [value]=\"firmType\">\r\n              {{firmType.name}} ({{firmType.count}})\r\n            </mat-option>\r\n          </mat-select>\r\n    </div>\r\n    <mat-list class=\"lista\">\r\n      <ng-container *ngFor=\"let countryFirm of countryFirms\">\r\n        <h3 mat-subheader>  <img class=\"flag-icon\" src=\"assets/icons/flag/{{countryFirm.country}}.svg\">{{countryFirm.country}}</h3>\r\n        <mat-expansion-panel *ngFor=\"let firm of countryFirm.firms\">\r\n          <mat-expansion-panel-header class=\"panel-header\">\r\n            <mat-panel-title>\r\n                <img class=\"flag-icon\" src=\"assets/icons/firmtype/{{firm.type}}.svg\"> {{firm.name}}\r\n            </mat-panel-title>\r\n            <mat-panel-description>\r\n              {{firm.date}}\r\n            </mat-panel-description>\r\n          </mat-expansion-panel-header>\r\n          <div>\r\n            <table>\r\n                <tr>{{\"Place: \" + firm.place}}</tr>\r\n                <tr>{{\"Description: \" + firm.description}}</tr>\r\n                <tr>{{\"Type: \" + getTypeName(firm.type)}}</tr>\r\n            </table>\r\n          </div>\r\n        </mat-expansion-panel>\r\n      </ng-container>\r\n    </mat-list>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -624,6 +720,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var leaflet_markercluster__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(leaflet_markercluster__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _services_auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/auth */ "./src/app/services/auth.ts");
 /* harmony import */ var _firms_provider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./firms.provider */ "./src/app/firms/firms.provider.ts");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -638,11 +735,13 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var iconBaseUrl = 'assets/icons/';
 var FirmsComponent = /** @class */ (function () {
-    function FirmsComponent(firmsProvider, authService) {
+    function FirmsComponent(firmsProvider, authService, translate) {
         this.firmsProvider = firmsProvider;
         this.authService = authService;
+        this.translate = translate;
         this.firmTypes = [];
         this.selectedFirmTypes = [];
         this.centar = leaflet__WEBPACK_IMPORTED_MODULE_1__["latLng"](45.57185, 19.640113);
@@ -667,9 +766,21 @@ var FirmsComponent = /** @class */ (function () {
     FirmsComponent.prototype.loadData = function () {
         var _this = this;
         this.countryFirms = [];
+        var name = '';
         this.firmsProvider.firmTypes.subscribe(function (firmTypes) {
+            var _loop_1 = function (i) {
+                _this.translate.get(firmTypes[i].name).subscribe(function (respname) {
+                    if (respname) {
+                        name = respname;
+                    }
+                    else {
+                        name = firmTypes[i].name;
+                    }
+                    _this.firmTypes.push({ id: i, name: name, order: firmTypes[i].order, count: 0 });
+                });
+            };
             for (var i = 0; i < firmTypes.length; i++) {
-                _this.firmTypes.push({ id: i, name: firmTypes[i].name, order: firmTypes[i].order, count: 0 });
+                _loop_1(i);
             }
             _this.firmsProvider.firms.subscribe(function (firms) {
                 // console.log('firms: ' + JSON.stringify(firms));
@@ -681,7 +792,7 @@ var FirmsComponent = /** @class */ (function () {
         });
     };
     FirmsComponent.prototype.countTypes = function (firms) {
-        var _loop_1 = function (i) {
+        var _loop_2 = function (i) {
             var ft = this_1.firmTypes.find(function (type) { return type.id === firms[i].type; });
             if (ft) {
                 ft.count++;
@@ -689,7 +800,7 @@ var FirmsComponent = /** @class */ (function () {
         };
         var this_1 = this;
         for (var i = 0; i < firms.length; i++) {
-            _loop_1(i);
+            _loop_2(i);
         }
     };
     FirmsComponent.prototype.getTypeName = function (id) {
@@ -744,7 +855,8 @@ var FirmsComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./firms.component.css */ "./src/app/firms/firms.component.css")]
         }),
         __metadata("design:paramtypes", [_firms_provider__WEBPACK_IMPORTED_MODULE_4__["FirmsProvider"],
-            _services_auth__WEBPACK_IMPORTED_MODULE_3__["AuthService"]])
+            _services_auth__WEBPACK_IMPORTED_MODULE_3__["AuthService"],
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_5__["TranslateService"]])
     ], FirmsComponent);
     return FirmsComponent;
 }());
@@ -811,7 +923,7 @@ module.exports = ".front-image{\r\n    width: 250px;\r\n}\r\n\r\n.login-button{\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-grid-list cols=\"2\">\r\n        <mat-grid-tile>\r\n                <div style=\"text-align:center\">\r\n                    <img class=\"front-image\" alt=\"Dog exhibitors heper app!\" src=\"/assets/images/welcome.jpg\">\r\n                </div>\r\n        </mat-grid-tile>\r\n        <mat-grid-tile>\r\n                <div *ngIf=\"authService.afAuth.user | async as user; else showLogin\">\r\n                        <h2>Hello {{ user.isAnonymous?\" Dear Guest\":user.displayName }}!</h2>\r\n                        <button mat-raised-button color=\"primary\" (click)=\"logout()\">{{ user.isAnonymous?\"Login\":\"Logout\"}}</button>\r\n                    </div>\r\n                    <ng-template #showLogin>\r\n                        <mat-list [ngClass]=\"login-lista\">\r\n                            <mat-list-item>\r\n                                <button class=\"login-button\" mat-raised-button color=\"primary\" (click)=\"loginWithGoogle()\">Login with Google</button>\r\n                            </mat-list-item>\r\n                            <mat-list-item>\r\n                                <button class=\"login-button\" mat-raised-button color=\"primary\" (click)=\"loginWithFB()\">Login with Facebook</button>\r\n                            </mat-list-item>\r\n                            <mat-list-item>\r\n                                <button class=\"login-button\" mat-raised-button color=\"secondary\" (click)=\"loginAsGuest()\">Login as Guest</button>\r\n                            </mat-list-item>\r\n                        </mat-list>\r\n                    </ng-template>\r\n        </mat-grid-tile>\r\n</mat-grid-list>\r\n\r\n\r\n"
+module.exports = "<mat-grid-list cols=\"2\">\n        <mat-grid-tile>\n                <div style=\"text-align:center\">\n                    <img class=\"front-image\" alt=\"Dog exhibitors helper app!\" src=\"/assets/images/welcome.jpg\">\n                </div>\n        </mat-grid-tile>\n        <mat-grid-tile>\n                <div *ngIf=\"authService.afAuth.user | async as user; else showLogin\">\n                        <h2>Hello {{ user.isAnonymous?\" Dear Guest\":user.displayName }}!</h2>\n                        <button mat-raised-button color=\"primary\" (click)=\"logout()\">{{ user.isAnonymous?\"Login\":\"Logout\"}}</button>\n                    </div>\n                    <ng-template #showLogin>\n                        <mat-list [ngClass]=\"login-lista\">\n                            <mat-list-item>\n                                <button class=\"login-button\" mat-raised-button color=\"primary\" (click)=\"loginWithGoogle()\">{{\"Login\" | translate}} {{\"with\" | translate}}  Google</button>\n                            </mat-list-item>\n                            <mat-list-item>\n                                <button class=\"login-button\" mat-raised-button color=\"primary\" (click)=\"loginWithFB()\">{{\"Login\" | translate}} {{\"with\" | translate}} Facebook</button>\n                            </mat-list-item>\n                            <mat-list-item>\n                                <button class=\"login-button\" mat-raised-button color=\"secondary\" (click)=\"loginAsGuest()\">{{\"Login as Guest\" | translate}}</button>\n                            </mat-list-item>\n                        </mat-list>\n                    </ng-template>\n        </mat-grid-tile>\n</mat-grid-list>\n\n\n"
 
 /***/ }),
 
@@ -900,7 +1012,7 @@ module.exports = ".container {\r\n    display: flex;\r\n}\r\n\r\n.left {\r\n    
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n    <div class=\"left\">\r\n        <form [formGroup]=\"firmForm\" (ngSubmit)=\"onSubmit()\">\r\n            <div>\r\n                <mat-form-field class=\"form-field\">\r\n                    <mat-select placeholder=\"Firm Type\" formControlName=\"type\">\r\n                        <mat-option *ngFor=\"let firmtype of firmtypes\" [value]=\"firmtype.id\">\r\n                            {{firmtype.name}}\r\n                        </mat-option>\r\n                    </mat-select>\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-form-field class=\"form-field\">\r\n                    <input matInput formControlName=\"name\" placeholder=\"Name\" [errorStateMatcher]=\"matcher\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-form-field class=\"form-field\">\r\n                    <input matInput formControlName=\"description\" placeholder=\"Description\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-form-field class=\"form-field\">\r\n                    <input matInput formControlName=\"place\" placeholder=\"Place\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-form-field class=\"form-field\">\r\n                    <input matInput formControlName=\"address\" placeholder=\"Address\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-form-field class=\"form-field\">\r\n                    <mat-select placeholder=\"Country\" formControlName=\"countrycode\" [errorStateMatcher]=\"matcher\">\r\n                        <mat-option *ngFor=\"let country of countries\" [value]=\"country.code\">\r\n                            {{country.name}}\r\n                        </mat-option>\r\n                    </mat-select>\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-form-field class=\"form-field\">\r\n                    <input matInput formControlName=\"email\" placeholder=\"email\" [errorStateMatcher]=\"matcher\">\r\n                    <!-- <mat-error *ngIf=\"email && email.hasError('email')\">\r\n                        Please enter a valid email address\r\n                    </mat-error> -->\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-form-field class=\"form-field\">\r\n                    <input matInput formControlName=\"phone\" placeholder=\"phone\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <table>\r\n                    <tr>\r\n                        <td>\r\n                            <div class=\"form-container\">\r\n                                <mat-form-field class=\"form-field\">\r\n                                    <input matInput formControlName=\"lat\" placeholder=\"Latitude\">\r\n                                </mat-form-field>\r\n                            </div>\r\n                            <div class=\"form-container\">\r\n                                <mat-form-field class=\"form-field\">\r\n                                    <input matInput formControlName=\"lon\" placeholder=\"Longitude\">\r\n                                </mat-form-field>\r\n                            </div>\r\n                        </td>\r\n                        <td>\r\n                            <a href=\"https://www.latlong.net/\" target=\"_blank\" title=\"How to get coordinates?\">\r\n                                <mat-icon>contact_support</mat-icon>\r\n                            </a>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n            </div>\r\n            <div>\r\n                <button type=\"submit\" mat-raised-button color=\"primary\">{{submitButtonText}}</button>\r\n                <button type=\"button\" mat-button (click)=\"populateForm()\">Cancel</button>\r\n            </div>\r\n        </form>\r\n    </div>\r\n    <div class=\"right\">\r\n        <mat-toolbar>My businesses:</mat-toolbar>\r\n        <mat-expansion-panel *ngFor=\"let firm of firms\">\r\n            <mat-expansion-panel-header>\r\n                <mat-panel-title>\r\n                    {{firm.name}}\r\n                </mat-panel-title>\r\n                <mat-panel-description>\r\n                    {{getFirmtype(firm.type)}}\r\n                </mat-panel-description>\r\n            </mat-expansion-panel-header>\r\n            <div>\r\n                <table>\r\n                    <tr>{{\"Place: \" + firm.place}}</tr>\r\n                    <tr>{{\"Description: \" + firm.description}}</tr>\r\n                    <tr>{{\"Type: \" + getFirmtype(firm.type)}}</tr>\r\n                    <tr>{{\"Address: \" + firm.address}}</tr>\r\n                    <tr>{{\"Email: \" + firm.email}}</tr>\r\n                    <tr>{{\"Phone: \" + firm.phone}}</tr>\r\n                </table>\r\n            </div>\r\n            <div>\r\n                <mat-action-row>\r\n                    <button mat-button (click)=\"populateForm(firm)\">\r\n                        <mat-icon>edit</mat-icon>\r\n                    </button>\r\n                </mat-action-row>\r\n            </div>\r\n        </mat-expansion-panel>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"container\">\r\n    <div class=\"left\">\r\n        <form [formGroup]=\"firmForm\" (ngSubmit)=\"onSubmit()\">\r\n            <div>\r\n                <mat-form-field class=\"form-field\">\r\n                    <mat-select placeholder=\"Firm Type\" formControlName=\"type\">\r\n                        <mat-option *ngFor=\"let firmtype of firmtypes\" [value]=\"firmtype.id\">\r\n                            {{firmtype.name}}\r\n                        </mat-option>\r\n                    </mat-select>\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-form-field class=\"form-field\">\r\n                    <input matInput formControlName=\"name\" placeholder=\"Name\" [errorStateMatcher]=\"matcher\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-form-field class=\"form-field\">\r\n                    <input matInput formControlName=\"description\" placeholder=\"Description\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-form-field class=\"form-field\">\r\n                    <input matInput formControlName=\"place\" placeholder=\"Place\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-form-field class=\"form-field\">\r\n                    <input matInput formControlName=\"address\" placeholder=\"Address\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-form-field class=\"form-field\">\r\n                    <mat-select placeholder=\"Country\" formControlName=\"countrycode\" [errorStateMatcher]=\"matcher\">\r\n                        <mat-option *ngFor=\"let country of countries\" [value]=\"country.code\">\r\n                            {{country.name}}\r\n                        </mat-option>\r\n                    </mat-select>\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-form-field class=\"form-field\">\r\n                    <input matInput formControlName=\"email\" placeholder=\"email\" [errorStateMatcher]=\"matcher\">\r\n                    <!-- <mat-error *ngIf=\"email && email.hasError('email')\">\r\n                        Please enter a valid email address\r\n                    </mat-error> -->\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-form-field class=\"form-field\">\r\n                    <input matInput formControlName=\"phone\" placeholder=\"phone\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <table>\r\n                    <tr>\r\n                        <td>\r\n                            <div class=\"form-container\">\r\n                                <mat-form-field class=\"form-field\">\r\n                                    <input matInput formControlName=\"lat\" placeholder=\"Latitude\">\r\n                                </mat-form-field>\r\n                            </div>\r\n                            <div class=\"form-container\">\r\n                                <mat-form-field class=\"form-field\">\r\n                                    <input matInput formControlName=\"lon\" placeholder=\"Longitude\">\r\n                                </mat-form-field>\r\n                            </div>\r\n                        </td>\r\n                        <td>\r\n                            <a href=\"https://www.latlong.net/\" target=\"_blank\" title=\"How to get coordinates?\">\r\n                                <mat-icon>contact_support</mat-icon>\r\n                            </a>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n            </div>\r\n            <div>\r\n                <button type=\"submit\" mat-raised-button color=\"primary\">{{submitButtonText}}</button>\r\n                <button type=\"button\" mat-button (click)=\"populateForm()\">Cancel</button>\r\n            </div>\r\n        </form>\r\n    </div>\r\n    <div class=\"right\">\r\n        <mat-toolbar>My businesses:</mat-toolbar>\r\n        <mat-expansion-panel *ngFor=\"let firm of firms\">\r\n            <mat-expansion-panel-header>\r\n                <mat-panel-title>\r\n                    {{firm.name}}\r\n                </mat-panel-title>\r\n                <mat-panel-description>\r\n                    {{getFirmtype(firm.type)}}\r\n                </mat-panel-description>\r\n            </mat-expansion-panel-header>\r\n            <div>\r\n                <table>\r\n                    <tr>{{\"Place: \" + firm.place}}</tr>\r\n                    <tr>{{\"Description: \" + firm.description}}</tr>\r\n                    <tr>{{\"Type: \" + getFirmtype(firm.type)}}</tr>\r\n                    <tr>{{\"Address: \" + firm.address}}</tr>\r\n                    <tr>{{\"Email: \" + firm.email}}</tr>\r\n                    <tr>{{\"Phone: \" + firm.phone}}</tr>\r\n                </table>\r\n            </div>\r\n            <div>\r\n                <mat-action-row>\r\n                    <button mat-button (click)=\"populateForm(firm)\">\r\n                        <mat-icon>edit</mat-icon>\r\n                    </button>\r\n                    <button mat-button (click)=\"remove(firm)\">\r\n                        <mat-icon>delete</mat-icon>\r\n                    </button>\r\n                </mat-action-row>\r\n            </div>\r\n        </mat-expansion-panel>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -1055,6 +1167,9 @@ var RegistrationComponent = /** @class */ (function () {
             return null;
         }
     };
+    RegistrationComponent.prototype.remove = function (firm) {
+        this.registrationProvider.removeFirm(firm).catch(function (err) { return console.log(err); });
+    };
     RegistrationComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-registration',
@@ -1118,6 +1233,12 @@ var RegistrationProvider = /** @class */ (function () {
         }
         var firmObj = this.db.object('/firms/' + firm.key);
         return firmObj.update(firm);
+    };
+    RegistrationProvider.prototype.removeFirm = function (firm) {
+        if (firm.key && firm.key !== '' && firm.key !== 'undefined') {
+            var firmObj = this.db.object('/firms/' + firm.key);
+            return firmObj.remove();
+        }
     };
     RegistrationProvider = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
@@ -1254,7 +1375,7 @@ module.exports = ".main {\r\n  padding-top: 10px;\r\n}\r\n\r\n.form-container {\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"main\">\r\n    <form [formGroup]=\"showForm\" (ngSubmit)=\"onSubmit()\">\r\n        <div class=\"left\">\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"name\" placeholder=\"Name\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-error *ngIf=\"name.invalid\">Invalid name: {{name.hasError('maxLength')?' max length error!':'\r\n                    required!'}}</mat-error>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"organizer\" placeholder=\"organizer\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"place\" placeholder=\"Place\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"manifestation\" placeholder=\"Manifestation (more than 1)\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <mat-select placeholder=\"Show Level\" formControlName=\"level\">\r\n                        <mat-option *ngFor=\"let showLevel of showLevels\" [value]=\"showLevel.id\">\r\n                            {{showLevel.name}}\r\n                        </mat-option>\r\n                    </mat-select>\r\n                </mat-form-field>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <mat-select placeholder=\"Show Type\" formControlName=\"type\">\r\n                        <mat-option *ngFor=\"let type of types\" [value]=\"type\">\r\n                            {{type}}\r\n                        </mat-option>\r\n                    </mat-select>\r\n                </mat-form-field>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <mat-select placeholder=\"Country Code\" formControlName=\"countrycode\">\r\n                        <mat-option *ngFor=\"let country of countries\" [value]=\"country.code\">\r\n                            {{country.code}}\r\n                        </mat-option>\r\n                    </mat-select>\r\n                </mat-form-field>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"link\" placeholder=\"entry info link\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-error *ngIf=\"showForm.get('link').errors\">Invalid link!</mat-error>\r\n            </div>\r\n        </div>\r\n        <div class=\"right\">\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"date\" placeholder=\"Opening Date(YYYYMMDD)\" [errorStateMatcher]=\"matcher\">\r\n                    <mat-error *ngIf=\"date && date.hasError('invalid format')\">\r\n                            Please enter a valid date format: YYYYMMDD, like 20201231\r\n                    </mat-error>\r\n                    <mat-error *ngIf=\"date && date.hasError('invalid year')\">\r\n                        Please enter a valid year: between 2018-2040\r\n                    </mat-error>\r\n                </mat-form-field>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"regclosed\" placeholder=\"Registration closed (YYYYMMDD)\" [errorStateMatcher]=\"matcher\">\r\n                    <mat-error *ngIf=\"date && date.hasError('invalid format')\">\r\n                        Please enter a valid date format: YYYYMMDD, like 20201231\r\n                    </mat-error>\r\n                    <mat-error *ngIf=\"date && date.hasError('invalid year')\">\r\n                        Please enter a valid year: between 2018-2040\r\n                     </mat-error>\r\n                </mat-form-field>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                    <mat-form-field>\r\n                        <input matInput formControlName=\"latlon\" placeholder=\"Latitude,Longitude\">\r\n                    </mat-form-field>\r\n                </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"lat\" placeholder=\"Latitude\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-error *ngIf=\"showForm.get('lat').errors\">Invalid lat format!</mat-error>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"lon\" placeholder=\"Longitude\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-error *ngIf=\"showForm.get('lon').errors\">Invalid lon format!</mat-error>\r\n            </div>\r\n            <button type=\"submit\" mat-raised-button [disabled]=\"showForm.invalid\" color=\"primary\">Save</button>\r\n            <button type=\"button\" mat-button (click)=\"back()\">Cancel</button>\r\n        </div>\r\n    </form>\r\n \r\n</div>"
+module.exports = "<div class=\"main\">\r\n    <form [formGroup]=\"showForm\" (ngSubmit)=\"onSubmit()\">\r\n        <div class=\"left\">\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"name\" placeholder=\"Name\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-error *ngIf=\"name.invalid\">Invalid name: {{name.hasError('maxLength')?' max length error!':'\r\n                    required!'}}</mat-error>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"organizer\" placeholder=\"organizer\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"place\" placeholder=\"Place\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"manifestation\" placeholder=\"Manifestation (more than 1)\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <mat-select placeholder=\"Show Level\" formControlName=\"level\">\r\n                        <mat-option *ngFor=\"let showLevel of showLevels\" [value]=\"showLevel.id\">\r\n                            {{showLevel.name}}\r\n                        </mat-option>\r\n                    </mat-select>\r\n                </mat-form-field>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <mat-select placeholder=\"Show Type\" formControlName=\"type\">\r\n                        <mat-option *ngFor=\"let type of types\" [value]=\"type\">\r\n                            {{type}}\r\n                        </mat-option>\r\n                    </mat-select>\r\n                </mat-form-field>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <mat-select placeholder=\"Country Code\" formControlName=\"countrycode\">\r\n                        <mat-option *ngFor=\"let country of countries\" [value]=\"country.code\">\r\n                            {{country.code}}\r\n                        </mat-option>\r\n                    </mat-select>\r\n                </mat-form-field>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"link\" placeholder=\"entry info link\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-error *ngIf=\"showForm.get('link').errors\">Invalid link!</mat-error>\r\n            </div>\r\n        </div>\r\n        <div class=\"right\">\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"date\" placeholder=\"Opening Date(YYYYMMDD)\" [errorStateMatcher]=\"matcher\">\r\n                    <mat-error *ngIf=\"date && date.hasError('invalid format')\">\r\n                            Please enter a valid date format: YYYYMMDD, like 20201231\r\n                    </mat-error>\r\n                    <mat-error *ngIf=\"date && date.hasError('invalid year')\">\r\n                        Please enter a valid year: between 2018-2040\r\n                    </mat-error>\r\n                </mat-form-field>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"regclosed\" placeholder=\"Registration closed (YYYYMMDD)\" [errorStateMatcher]=\"matcher\">\r\n                    <mat-error *ngIf=\"date && date.hasError('invalid format')\">\r\n                        Please enter a valid date format: YYYYMMDD, like 20201231\r\n                    </mat-error>\r\n                    <mat-error *ngIf=\"date && date.hasError('invalid year')\">\r\n                        Please enter a valid year: between 2018-2040\r\n                     </mat-error>\r\n                </mat-form-field>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                    <mat-form-field>\r\n                        <input matInput formControlName=\"latlon\" placeholder=\"Latitude,Longitude\">\r\n                    </mat-form-field>\r\n                </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"lat\" placeholder=\"Latitude\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-error *ngIf=\"showForm.get('lat').errors\">Invalid lat format!</mat-error>\r\n            </div>\r\n            <div class=\"form-container\">\r\n                <mat-form-field>\r\n                    <input matInput formControlName=\"lon\" placeholder=\"Longitude\">\r\n                </mat-form-field>\r\n            </div>\r\n            <div>\r\n                <mat-error *ngIf=\"showForm.get('lon').errors\">Invalid lon format!</mat-error>\r\n            </div>\r\n            <button type=\"submit\" mat-raised-button [disabled]=\"showForm.invalid\" color=\"primary\">Save</button>\r\n            <button type=\"button\" mat-button (click)=\"back()\">Cancel</button>\r\n        </div>\r\n    </form>\r\n \r\n    \r\n</div>"
 
 /***/ }),
 
@@ -1343,7 +1464,7 @@ var ShowComponent = /** @class */ (function () {
                     'lat': null,
                     'lon': null
                 };
-                _this.show.date = +((new Date()).toISOString().slice(0, 10).replace(/-/g, ''));
+                // this.show.date = +((new Date()).toISOString().slice(0, 10).replace(/-/g, ''));
             }
             _this.showForm.setValue({
                 name: _this.show.name || '',
@@ -1502,7 +1623,7 @@ var ShowProvider = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n  <div class=\"left\">\r\n    <div class=\"filter\">\r\n      <span class=\"mat-h3\">Filter shows:</span>\r\n      <mat-select class=\"filter-type\" placeholder=\"Click for filtering types\" [(value)]=\"selectedTypes\"\r\n        (selectionChange)=\"runFilter()\" multiple>\r\n        <mat-select-trigger>\r\n          <img class=\"checkbox-icon\" src=\"assets/icons/checkbox.svg\"> {{getFilterTypeHeader()}}\r\n        </mat-select-trigger>\r\n        <mat-option *ngFor=\"let type of allTypes\" [value]=\"type.name\">\r\n          <span>{{type.name}} ({{type.count}}/{{type.all}})</span>\r\n        </mat-option>\r\n      </mat-select>\r\n\r\n      <mat-select class=\"filter-level\" placeholder=\"Click for filtering level\" [(value)]=\"selectedLevels\"\r\n        (selectionChange)=\"runFilter()\" multiple>\r\n        <mat-select-trigger>\r\n          <img class=\"checkbox-icon\" src=\"assets/icons/checkbox.svg\"> {{getFilterLevelHeader()}}\r\n        </mat-select-trigger>\r\n        <mat-option *ngFor=\"let level of allLevels\" [value]=\"level\">\r\n          <img src=\"assets/icons/show/{{level.id}}.svg\">\r\n          <span>{{level.description}} ({{level.count}}/{{level.all}})</span>\r\n        </mat-option>\r\n      </mat-select>\r\n\r\n      <mat-select class=\"filter-country\" placeholder=\"Click for filtering countries\" [(value)]=\"countries\"\r\n        (selectionChange)=\"runFilter();updateCountries()\" multiple>\r\n        <div>\r\n          <button class=\"check-uncheck-button\" mat-raised-button (click)=\"checkAllCountries(); runFilter();updateCountries()\">\r\n            Select All\r\n          </button>\r\n          <button class=\"check-uncheck-button\" mat-raised-button (click)=\"uncheckAllCountries(); runFilter();updateCountries()\">\r\n            Deselect All\r\n          </button>\r\n        </div>\r\n        <mat-select-trigger>\r\n          <img class=\"checkbox-icon\" src=\"assets/icons/checkbox.svg\"> {{getFilterCountryHeader()}}\r\n        </mat-select-trigger>\r\n        <mat-option *ngFor=\"let country of allCountries\" [value]=\"country.code\">\r\n          <span>{{country.name}} ({{country.count}}/{{country.all}})</span>\r\n        </mat-option>\r\n      </mat-select>\r\n    </div>\r\n    <div id=\"lmapa\" class=\"lmapa\"></div>\r\n  </div>\r\n  <div class=\"right\">\r\n    <div class=\"admin\" *ngIf=\"admin>2\">\r\n      <button mat-raised-button (click)=\"loadAll()\">{{txtLoad()}}</button>\r\n      <button mat-button><a routerLink=\"/show\">Add Show</a></button>\r\n    </div>\r\n    <div class=\"period\">\r\n      <span class=\"mat-h3\">Months to load:</span>\r\n      <mat-slider class=\"period-slider\" [max]=\"6\" [min]=\"1\" [step]=\"1\" [thumbLabel]=\"true\" [tickInterval]=\"1\" (change)=\"loadPeriod()\"\r\n        [(ngModel)]=\"loadingMonths\">\r\n      </mat-slider>\r\n    </div>\r\n    <mat-list class=\"main-list\">\r\n      <ng-container *ngFor=\"let monthshow of monthshows\">\r\n        <h3 mat-subheader class=\"mnth-subheader\">{{intToDateToString(+(monthshow.month + \"01\"), \"MMMM YYYY\")}}</h3>\r\n        <div class=\"mnf\" *ngFor=\"let manifestation of monthshow.manifestations\">\r\n          <div *ngIf=\"manifestation.name\">\r\n            <h3 mat-subheader class=\"mnf-subheader\">\r\n              <img class=\"show-icon\" src=\"assets/icons/manifestation.svg\">\r\n              {{manifestation.name}}\r\n              <button *ngIf=\"admin>2\" type=\"button\" mat-button (click)=\"addToManifestation(manifestation)\">\r\n                <mat-icon>add</mat-icon>\r\n              </button>\r\n            </h3>\r\n          </div>\r\n          <div class=\"show\" *ngFor=\"let show of manifestation.shows\">\r\n            <mat-expansion-panel [ngClass]=\"{'panel-header-finished': show.past}\" \r\n              matTooltip=\"{{getToolTip(show)}}\">\r\n              <mat-expansion-panel-header class=\"panel-header\">\r\n                <mat-panel-title [ngClass]=\"{'panel-header-finished': show.past}\">\r\n                  <span class=\"panel-title\">\r\n                    <img class=\"show-icon\" src=\"assets/icons/show/{{show.level}}.svg\">\r\n                    <img class=\"flag-icon\" src=\"assets/icons/flag/{{show.countrycode}}.svg\">\r\n                    {{show.name}}, {{show.place}} / {{intToDateToString(show.date, 'ddd, Do')}}\r\n                  </span>\r\n                </mat-panel-title>\r\n                <mat-panel-description>\r\n                  <mat-icon class=\"reg-open\" *ngIf=\"show.regFlag==='open'\">access_time</mat-icon>\r\n                  <mat-icon class=\"reg-lastminute\" *ngIf=\"show.regFlag==='lastminute'\">av_timer</mat-icon>\r\n                  <mat-icon class=\"reg-closed\" *ngIf=\"show.regFlag==='closed'\">timer_off</mat-icon>\r\n                </mat-panel-description>\r\n              </mat-expansion-panel-header>\r\n              <div>\r\n                <table>\r\n                  <tr>\r\n                    <td>{{\"Place: \" + show.place}}</td>\r\n                    <td>{{\"Opening date: \" + intToDateToString(show.date, 'll')}}</td>\r\n                  </tr>\r\n                  <tr>\r\n                    <td>{{\"Type: \" + show.type + \" Show\"}}</td>\r\n                    <td>{{\"Registration until: \" + intToDateToString(show.regclosed, 'll')}}</td>\r\n                  </tr>\r\n                  <tr>\r\n                    <td>{{\"Organizer: \" + show.organizer}}</td>\r\n                    <td><span *ngIf=\"show.link\">\r\n                        <a href={{show.link}} target=\"_blank\">Entry info link</a>\r\n                      </span></td>\r\n                  </tr>\r\n                </table>\r\n              </div>\r\n              <mat-action-row *ngIf=\"admin>2\">\r\n                <button mat-button>\r\n                  <a routerLink=\"/show\" [queryParams]=\"{show: show | json }\">\r\n                    <mat-icon>edit</mat-icon>\r\n                  </a>\r\n                </button>\r\n              </mat-action-row>\r\n            </mat-expansion-panel>\r\n          </div>\r\n        </div>\r\n      </ng-container>\r\n    </mat-list>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"container\">\r\n  <div class=\"left\">\r\n    <div class=\"filter\">\r\n      <span class=\"mat-h3\">{{\"Filter shows\" | translate }}:</span>\r\n      <mat-select class=\"filter-type\" placeholder=\"Click for filtering types\" [(value)]=\"selectedTypes\"\r\n        (selectionChange)=\"runFilter()\" multiple>\r\n        <mat-select-trigger>\r\n          <img class=\"checkbox-icon\" src=\"assets/icons/checkbox.svg\"> {{\"Types\" | translate}}: {{getFilterTypeHeader()}}\r\n        </mat-select-trigger>\r\n        <mat-option *ngFor=\"let type of allTypes\" [value]=\"type.name\">\r\n          <span>{{type.name}} ({{type.count}}/{{type.all}})</span>\r\n        </mat-option>\r\n      </mat-select>\r\n\r\n      <mat-select class=\"filter-level\" placeholder=\"Click for filtering level\" [(value)]=\"selectedLevels\"\r\n        (selectionChange)=\"runFilter()\" multiple>\r\n        <mat-select-trigger>\r\n          <img class=\"checkbox-icon\" src=\"assets/icons/checkbox.svg\"> {{\"Levels\" | translate}}:{{getFilterLevelHeader()}}\r\n        </mat-select-trigger>\r\n        <mat-option *ngFor=\"let level of allLevels\" [value]=\"level\">\r\n          <img src=\"assets/icons/show/{{level.id}}.svg\">\r\n          <span>{{level.description}} ({{level.count}}/{{level.all}})</span>\r\n        </mat-option>\r\n      </mat-select>\r\n\r\n      <mat-select class=\"filter-country\" placeholder=\"Click for filtering countries\" [(value)]=\"countries\"\r\n        (selectionChange)=\"runFilter();updateCountries()\" multiple>\r\n        <div>\r\n          <button class=\"check-uncheck-button\" mat-raised-button (click)=\"checkAllCountries(); runFilter();updateCountries()\">\r\n            Select All\r\n          </button>\r\n          <button class=\"check-uncheck-button\" mat-raised-button (click)=\"uncheckAllCountries(); runFilter();updateCountries()\">\r\n            Deselect All\r\n          </button>\r\n        </div>\r\n        <mat-select-trigger>\r\n          <img class=\"checkbox-icon\" src=\"assets/icons/checkbox.svg\"> {{\"Countries\" | translate}}:{{getFilterCountryHeader()}}\r\n        </mat-select-trigger>\r\n        <mat-option *ngFor=\"let country of allCountries\" [value]=\"country.code\">\r\n          <span>{{country.name}} ({{country.count}}/{{country.all}})</span>\r\n        </mat-option>\r\n      </mat-select>\r\n    </div>\r\n    <div id=\"lmapa\" class=\"lmapa\"></div>\r\n  </div>\r\n  <div class=\"right\">\r\n    <div class=\"right-fixed\">\r\n      <div class=\"admin\" *ngIf=\"admin>2\">\r\n        <button mat-raised-button (click)=\"loadAll()\">{{txtLoad()}}</button>\r\n        <button mat-button><a routerLink=\"/show\">Add Show</a></button>\r\n      </div>\r\n      <div class=\"period\">\r\n        <span class=\"mat-h3\">{{\"Months to load\" | translate }}:</span>\r\n        <mat-slider class=\"period-slider\" [max]=\"4\" [min]=\"1\" [step]=\"1\" [thumbLabel]=\"true\" [tickInterval]=\"1\"\r\n          (change)=\"loadPeriod()\" [(ngModel)]=\"loadingMonths\">\r\n        </mat-slider>\r\n      </div>\r\n    </div>\r\n    <div class=\"main-list\">\r\n        <!-- <div *ngFor=\"let c of allCountries\">\r\n            {{c.code}}  -- {{c.name}}<img class=\"flag-icon\" src=\"assets/icons/flag/{{c.code}}.svg\">\r\n          </div> -->\r\n      <mat-list>\r\n        <ng-container *ngFor=\"let monthshow of monthshows\">\r\n          <h3 mat-subheader class=\"mnth-subheader\">\r\n              <mat-icon class=\"calendar-icon\">calendar_today</mat-icon>  \r\n              {{intToDateToString(+(monthshow.month + \"01\"), \"MMMM YYYY\")}}</h3>\r\n          <div class=\"mnf\" *ngFor=\"let manifestation of monthshow.manifestations\">\r\n            <div *ngIf=\"manifestation.name\"  class=\"mnf-subheader\">\r\n              <h3 mat-subheader>\r\n                <img class=\"show-icon\" src=\"assets/icons/manifestation.svg\">\r\n                  {{manifestation.name}}\r\n                <button *ngIf=\"admin>2\" type=\"button\" mat-button (click)=\"addToManifestation(manifestation)\">\r\n                  <mat-icon>add</mat-icon>\r\n                </button>\r\n              </h3>\r\n            </div>\r\n            <div class=\"show\" *ngFor=\"let show of manifestation.shows\">\r\n              <mat-expansion-panel [ngClass]=\"{'panel-header-finished': show.past}\" matTooltip=\"{{getToolTip(show)}}\">\r\n                <mat-expansion-panel-header class=\"panel-header\">\r\n                  <mat-panel-title [ngClass]=\"{'panel-header-finished': show.past}\">\r\n                    <span class=\"panel-title\">\r\n                      <img class=\"show-icon\" src=\"assets/icons/show/{{show.level}}.svg\">\r\n                      <img class=\"flag-icon\" src=\"assets/icons/flag/{{show.countrycode}}.svg\">\r\n                      {{show.name}}, {{show.place}} / {{intToDateToString(show.date, 'ddd, Do')}}\r\n                    </span>\r\n                  </mat-panel-title>\r\n                  <mat-panel-description>\r\n                    <mat-icon class=\"reg-open\" *ngIf=\"show.regFlag==='open'\">access_time</mat-icon>\r\n                    <mat-icon class=\"reg-lastminute\" *ngIf=\"show.regFlag==='lastminute'\">av_timer</mat-icon>\r\n                    <mat-icon class=\"reg-closed\" *ngIf=\"show.regFlag==='closed'\">timer_off</mat-icon>\r\n                  </mat-panel-description>\r\n                </mat-expansion-panel-header>\r\n                <div>\r\n                  <table>\r\n                    <tr>\r\n                      <td>{{\"Place\" | translate}} {{\"Place: \" + show.place}}</td>\r\n                      <td>{{\"Opening date\" | translate}} {{\": \" + intToDateToString(show.date, 'll')}}</td>\r\n                    </tr>\r\n                    <tr>\r\n                      <td>{{\"Type\" | translate}} {{\": \" + show.type + \" Show\"}}</td>\r\n                      <td>{{\"Registration until\" | translate}} {{\": \" + intToDateToString(show.regclosed, 'll')}}</td>\r\n                    </tr>\r\n                    <tr>\r\n                      <td>{{\"Organizer\" | translate}} {{\": \" + show.organizer}}</td>\r\n                      <td><span *ngIf=\"show.link\">\r\n                          <a href={{show.link}} target=\"_blank\">{{ \"Entry info link\" | translate }}</a>\r\n                        </span></td>\r\n                    </tr>\r\n                  </table>\r\n                </div>\r\n                <mat-action-row *ngIf=\"admin>2\">\r\n                  <button mat-button>\r\n                    <a routerLink=\"/show\" [queryParams]=\"{show: show | json }\">\r\n                      <mat-icon>edit</mat-icon>\r\n                    </a>\r\n                  </button>\r\n                </mat-action-row>\r\n              </mat-expansion-panel>\r\n            </div>\r\n          </div>\r\n        </ng-container>\r\n      </mat-list>\r\n    </div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -1513,7 +1634,7 @@ module.exports = "<div class=\"container\">\r\n  <div class=\"left\">\r\n    <di
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/**\n * Applies styles for users in high contrast mode. Note that this only applies\n * to Microsoft browsers. Chrome can be included by checking for the `html[hc]`\n * attribute, however Chrome handles high contrast differently.\n * @param target Which kind of high contrast setting to target. Defaults to `active`, can be\n *    `white-on-black` or `black-on-white`.\n */\n/* Theme for the ripple elements.*/\n/* stylelint-disable material/no-prefixes */\n/* stylelint-enable */\n.left {\n  float: left;\n  width: 47vw;\n  margin-right: 2vw;\n  position: fixed; }\n.right {\n  float: left;\n  padding-left: 49vw;\n  width: 48vw; }\n.admin {\n  padding-bottom: 7px; }\n.lmapa {\n  position: relative;\n  /* height: 50vh; */\n  /* width:500px; */ }\n#lmapa {\n  height: 83vh; }\n.filter {\n  display: inline-block;\n  padding-bottom: 2vh; }\n.filter-type {\n  padding-left: 30px;\n  max-width: 10vw; }\n.filter-level {\n  padding-left: 20px;\n  max-width: 10vw; }\n.filter-country {\n  padding-left: 20px;\n  max-width: 12vw; }\ntd {\n  width: 50%;\n  padding-right: 10px; }\n.mnth-subheader {\n  justify-content: center; }\n.mnf-subheader {\n  margin-left: 10px; }\n.mnf {\n  padding-bottom: 15px; }\n.checkbox-icon {\n  height: 15px;\n  padding-right: 15px; }\n.show {\n  margin-bottom: 2px; }\n.show-icon {\n  height: 15px;\n  padding-right: 15px; }\n.flag-icon {\n  height: 15px;\n  padding-left: 15px;\n  padding-right: 15px; }\n.panel-header {\n  height: 35px !important; }\n.panel-title {\n  width: 90%; }\n.panel-header-finished {\n  background-color: whitesmoke;\n  color: #bdbdbd; }\n.check-uncheck-button {\n  width: 50%; }\n.reg-open {\n  color: #388e3c;\n  padding-top: 1px;\n  padding-right: 15px;\n  padding-left: 15px; }\n.reg-lastminute {\n  color: #f44336;\n  padding-top: 1px;\n  padding-right: 15px;\n  padding-left: 15px; }\n.reg-closed {\n  color: #9e9e9e;\n  padding-top: 1px;\n  padding-right: 15px;\n  padding-left: 15px; }\n.period {\n  display: inline-block; }\n.period-slider {\n  width: 40vw;\n  padding-left: 15px; }\n"
+module.exports = "/**\n * Applies styles for users in high contrast mode. Note that this only applies\n * to Microsoft browsers. Chrome can be included by checking for the `html[hc]`\n * attribute, however Chrome handles high contrast differently.\n * @param target Which kind of high contrast setting to target. Defaults to `active`, can be\n *    `white-on-black` or `black-on-white`.\n */\n/* Theme for the ripple elements.*/\n/* stylelint-disable material/no-prefixes */\n/* stylelint-enable */\n.left {\n  float: left;\n  width: 47vw;\n  margin-right: 2vw;\n  position: fixed; }\n.right {\n  float: left;\n  padding-left: 49vw;\n  width: 48vw; }\n.admin {\n  padding-bottom: 7px; }\n.lmapa {\n  position: relative; }\n#lmapa {\n  height: 83vh; }\n.filter {\n  display: inline-block;\n  padding-bottom: 2vh; }\n.filter-type {\n  padding-left: 30px;\n  max-width: 10vw; }\n.filter-level {\n  padding-left: 20px;\n  max-width: 10vw; }\n.filter-country {\n  padding-left: 20px;\n  max-width: 12vw; }\ntd {\n  width: 50%;\n  padding-right: 10px; }\n.mnth-subheader {\n  justify-content: center;\n  padding-top: 25px;\n  padding-bottom: 15px; }\n.calendar-icon {\n  padding-right: 10px; }\n.mnf {\n  padding-bottom: 5px; }\n.mnf-subheader {\n  margin-left: 120px; }\n.checkbox-icon {\n  height: 15px;\n  padding-right: 15px; }\n.show {\n  margin-bottom: 2px; }\n.show-icon {\n  height: 15px;\n  padding-right: 15px; }\n.flag-icon {\n  height: 15px;\n  width: 40px;\n  padding-left: 15px;\n  padding-right: 15px; }\n.panel-header {\n  height: 35px !important; }\n.panel-title {\n  width: 90%; }\n.panel-header-finished {\n  background-color: whitesmoke;\n  color: #bdbdbd; }\n.check-uncheck-button {\n  width: 50%; }\n.reg-open {\n  color: #388e3c;\n  padding-top: 1px;\n  padding-right: 15px;\n  padding-left: 15px; }\n.reg-lastminute {\n  color: #f44336;\n  padding-top: 1px;\n  padding-right: 15px;\n  padding-left: 15px; }\n.reg-closed {\n  color: #9e9e9e;\n  padding-top: 1px;\n  padding-right: 15px;\n  padding-left: 15px; }\n.right-fixed {\n  position: -webkit-sticky;\n  position: sticky; }\n.period {\n  position: fixed;\n  width: 100%;\n  background: white; }\n.period-slider {\n  width: 40vw;\n  padding-left: 15px; }\n.main-list {\n  padding-top: 50px; }\n"
 
 /***/ }),
 
@@ -1867,13 +1988,13 @@ var ShowsComponent = /** @class */ (function () {
         }
     };
     ShowsComponent.prototype.getFilterTypeHeader = function () {
-        return 'Types: ' + this.selectedTypes.length + ' of ' + this.allTypes.length;
+        return this.selectedTypes.length + ' of ' + this.allTypes.length;
     };
     ShowsComponent.prototype.getFilterLevelHeader = function () {
-        return 'Levels: ' + this.selectedLevels.length + ' of ' + this.allLevels.length;
+        return this.selectedLevels.length + ' of ' + this.allLevels.length;
     };
     ShowsComponent.prototype.getFilterCountryHeader = function () {
-        return 'Countries: ' + this.countries.length + ' of ' + this.allCountries.length;
+        return this.countries.length + ' of ' + this.allCountries.length;
     };
     ShowsComponent.prototype.setRegFlag = function () {
         var _this = this;
@@ -2223,7 +2344,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\rpeko\Documents\Angular projects\showdog-br\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\peko.roganovic.SOVRBAS\Documents\Angular projects\showdog-b\src\main.ts */"./src/main.ts");
 
 
 /***/ })

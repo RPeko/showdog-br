@@ -32,4 +32,11 @@ export class RegistrationProvider {
         return firmObj.update(firm);
     }
 
+    public removeFirm(firm: Firm) {
+        if (firm.key && firm.key !== '' && firm.key !== 'undefined') {
+            const firmObj = this.db.object('/firms/' + firm.key);
+            return firmObj.remove();
+        }
+    }
+
 }

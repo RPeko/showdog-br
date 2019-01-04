@@ -20,7 +20,7 @@ export class ShowsProvider {
           this.allCountries = db.list<Country>('/countries', ref => ref.orderByChild('name')).valueChanges();
     }
 
-    public getShows(start: number, end: number){   
+    public getShows(start: number, end: number) {
         return this.db.list<Show>('/shows', ref => ref.orderByChild('date')
                                                       .startAt(start)
                                                       .endAt(end)
