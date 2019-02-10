@@ -128,9 +128,9 @@ export class ShowsComponent implements OnInit {
 
     loadPeriod() {
         this.paramEndAt = +moment('' + intNow, 'YYYYMMDD').add(this.loadingMonths, 'months').format('YYYYMMDD');
-        console.log("months: " + this.loadingMonths);
-        console.log("start at: " + this.paramStartAt);
-        console.log("end at: " + this.paramEndAt);
+        console.log('months: ' + this.loadingMonths);
+        console.log('start at: ' + this.paramStartAt);
+        console.log('end at: ' + this.paramEndAt);
         this.showsProvider.getShows(this.paramStartAt, this.paramEndAt).subscribe(allshows => {
             this.shows = [];
             allshows.forEach(show => {
@@ -182,9 +182,9 @@ export class ShowsComponent implements OnInit {
 
     txtLoad() {
         if (this.paramStartAt > 0) {
-            return "load all";
+            return 'load all';
         } else {
-            return "load only range";
+            return 'load only range';
         }
     }
 
@@ -337,7 +337,7 @@ export class ShowsComponent implements OnInit {
 
     }
 
-    getLevelName(id) {
+    getLevelName(id: number) {
         const level = this.allLevels.find(t => t.id === id);
         if (level) {
             return level.description;

@@ -63,7 +63,7 @@ td {
 }
 
 .mnf-subheader {
-    margin-left: 120px;
+    margin-left: 80px;
 }
 
 .checkbox-icon {
@@ -77,14 +77,14 @@ td {
 
 .show-icon {
     height: 15px;
-    padding-right: 15px;
+    padding-right: 10px;
 }
 
 .flag-icon {
     height: 15px;
-    width: 40px;
-    padding-left: 15px;
-    padding-right: 15px;
+    width: 35px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .panel-header {
@@ -107,22 +107,27 @@ td {
 .reg-open {
     color: mat-color($mat-green, 700);
     padding-top: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: 5px;
+    padding-left: 5px;
 }
 
 .reg-lastminute {
     color: mat-color($mat-red, 500);
     padding-top: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: 5px;
+    padding-left: 5px;
 }
 
 .reg-closed {
     color: mat-color($mat-grey, 500);
     padding-top: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.reg-flag-panel-descript{
+    text-align: right;
+    max-width: 35px!important;
 }
 
 .right-fixed {

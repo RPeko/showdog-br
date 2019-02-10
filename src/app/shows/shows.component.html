@@ -85,7 +85,7 @@
                       {{show.name}}, {{show.place}} / {{intToDateToString(show.date, 'ddd, Do')}}
                     </span>
                   </mat-panel-title>
-                  <mat-panel-description>
+                  <mat-panel-description class="reg-flag-panel-descript">
                     <mat-icon class="reg-open" *ngIf="show.regFlag==='open'">access_time</mat-icon>
                     <mat-icon class="reg-lastminute" *ngIf="show.regFlag==='lastminute'">av_timer</mat-icon>
                     <mat-icon class="reg-closed" *ngIf="show.regFlag==='closed'">timer_off</mat-icon>
@@ -94,7 +94,7 @@
                 <div>
                   <table>
                     <tr>
-                      <td>{{"Place" | translate}} {{"Place: " + show.place}}</td>
+                      <td>{{"Place" | translate}} {{": " + show.place}}</td>
                       <td>{{"Opening date" | translate}} {{": " + intToDateToString(show.date, 'll')}}</td>
                     </tr>
                     <tr>
