@@ -144,7 +144,7 @@ export class ShowsComponent implements OnInit {
             });
             this.runFilter();
             this.setRegFlag();
-            this.allTypes.forEach(type => type.all = 0);
+            // this.allTypes.forEach(type => type.all = 0);
             // this.allLevels.forEach(lvl => lvl.all = 0);
             this.allCountries.forEach(country => country.all = 0);
             console.log(JSON.stringify(this.shows));
@@ -173,7 +173,7 @@ export class ShowsComponent implements OnInit {
             });
             this.runFilter();
             this.setRegFlag();
-            this.allTypes.forEach(type => type.all = 0);
+            // this.allTypes.forEach(type => type.all = 0);
             // this.allLevels.forEach(lvl => lvl.all = 0);
             this.allCountries.forEach(country => country.all = 0);
             this.countAll();
