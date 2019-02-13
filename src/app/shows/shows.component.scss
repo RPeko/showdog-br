@@ -7,16 +7,6 @@
     position: fixed;
 }
 
-.right {
-    float: left;
-    padding-left: 49vw;
-    width: 48vw;
-}
-
-.admin {
-    padding-bottom: 7px;
-}
-
 .lmapa {
     position: relative;
 }
@@ -130,8 +120,16 @@ td {
     max-width: 35px!important;
 }
 
+.right {
+    float: left;
+    padding-left: 49vw;
+    width: 48vw;
+}
+
 .right-fixed {
-    position: sticky;
+    position: fixed;
+    background: white;
+    background-color: white;
 }
 
 .period {
@@ -144,6 +142,13 @@ td {
     width: 40vw;
     padding-left: 15px;
 }
+
+.admin {
+    padding-top: 50px;
+    width: 100%;
+    padding-bottom: 5px;
+}
+
 
 .main-list {
     padding-top: 50px;

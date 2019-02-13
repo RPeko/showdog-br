@@ -44,15 +44,15 @@
   </div>
   <div class="right">
     <div class="right-fixed">
-      <div class="admin" *ngIf="admin>2">
-        <button mat-raised-button (click)="loadAll()">{{txtLoad()}}</button>
-        <button mat-button><a routerLink="/show">Add Show</a></button>
-      </div>
       <div class="period">
         <span class="mat-h3">{{"Months to load" | translate }}:</span>
         <mat-slider class="period-slider" [max]="3" [min]="1" [step]="1" [thumbLabel]="true" [tickInterval]="1"
           (change)="loadPeriod()" [(ngModel)]="loadingMonths">
         </mat-slider>
+      </div>
+      <div class="admin" *ngIf="admin>2">
+        <button mat-raised-button (click)="loadAll()">{{txtLoad()}}</button>
+        <button mat-button><a routerLink="/show">Add Show</a></button>
       </div>
     </div>
     <div class="main-list">
