@@ -1,8 +1,8 @@
 <div class="container">
   <div class="left">
     <div class="filter">
-      <span class="mat-h3">{{"Filter shows" | translate }}:</span>
-      <mat-select class="filter-type" placeholder="Click for filtering types" [(value)]="selectedTypes"
+      <span class="mat-h3">{{"Filter countries" | translate }}:</span>
+      <!-- <mat-select class="filter-type" placeholder="Click for filtering types" [(value)]="selectedTypes"
         (selectionChange)="runFilter()" multiple>
         <mat-select-trigger>
           <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{"Types" | translate}}: {{getFilterTypeHeader()}}
@@ -21,8 +21,7 @@
           <img src="assets/icons/show/{{level.id}}.svg">
           <span>{{level.description}} ({{level.count}}/{{level.all}})</span>
         </mat-option>
-      </mat-select>
-
+      </mat-select> -->
       <mat-select class="filter-country" placeholder="Click for filtering countries" [(value)]="countries"
         (selectionChange)="runFilter();updateCountries()" multiple>
         <div>
@@ -34,7 +33,7 @@
           </button>
         </div>
         <mat-select-trigger>
-          <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{"Countries" | translate}}:{{getFilterCountryHeader()}}
+          <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{"Selected" | translate}}:{{getFilterCountryHeader()}}
         </mat-select-trigger>
         <mat-option *ngFor="let country of allCountries" [value]="country.code">
           <span>{{country.name}} ({{country.count}}/{{country.all}})</span>

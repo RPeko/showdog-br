@@ -39,8 +39,8 @@ export class ShowsComponent implements OnInit {
     loadingMonths = 3;
     allCountries: ExtCountry[] = [];
     countries: string[] = [];
-    allLevels: ExtShowLevel[] = [];
-    selectedLevels: ExtShowLevel[] = [];
+    // allLevels: ExtShowLevel[] = [];
+    // selectedLevels: ExtShowLevel[] = [];
     allTypes = [{ 'name': 'General', 'all': 0, 'count': 0 },
     { 'name': 'Group', 'all': 0, 'count': 0 }, { 'name': 'Single breed', 'all': 0, 'count': 0 }];
     selectedTypes = ['General', 'Group', 'Single breed'];
@@ -84,53 +84,53 @@ export class ShowsComponent implements OnInit {
     loadData() {
         this.shows = [];
         this.monthshows = [];
-        this.showsProvider.showLevels.subscribe(showLevels => {
-            this.allLevels = [];
-            for (let i = 0; i < showLevels.length; i++) {
-                this.allLevels.push({
-                    id: i,
-                    name: showLevels[i].name,
-                    description: showLevels[i].description,
-                    order: showLevels[i].order,
-                    count: 0,
-                    all: 0
-                });
-            }
-            this.showsProvider.getShows(this.paramStartAt, this.paramEndAt).subscribe(allshows => {
-                allshows.forEach(show => {
-                    const extShow = <ExtShow>show;
-                    if (show.date > intNow) {
-                        extShow.past = false;
-                    } else {
-                        extShow.past = true;
-                    }
-                    this.shows.push(extShow);
-                });
-                // console.log(JSON.stringify(this.shows));
-                this.showsProvider.allCountries.subscribe(allcountries => {
-                    this.allCountries = [];
-                    allcountries.forEach(c =>
-                        this.allCountries.push({
-                            code: c.code,
-                            name: c.name,
-                            count: 0,
-                            all: 0
-                        }));
-                    this.selectedLevels = this.allLevels;
-                    this.checkAllCountries();
-                    this.userDataSubscription();
-                    this.setRegFlag();
-                    this.countAll();
-                }, err => console.log('Countries provider err: ' + err));
-            }, err => console.log('Shows provider err: ' + err));
-        }, err => console.log('Show levels provider err: ' + err));
+        // this.showsProvider.showLevels.subscribe(showLevels => {
+        //     this.allLevels = [];
+        //     for (let i = 0; i < showLevels.length; i++) {
+        //         this.allLevels.push({
+        //             id: i,
+        //             name: showLevels[i].name,
+        //             description: showLevels[i].description,
+        //             order: showLevels[i].order,
+        //             count: 0,
+        //             all: 0
+        //         });
+        //     }
+        this.showsProvider.getShows(this.paramStartAt, this.paramEndAt).subscribe(allshows => {
+            allshows.forEach(show => {
+                const extShow = <ExtShow>show;
+                if (show.date > intNow) {
+                    extShow.past = false;
+                } else {
+                    extShow.past = true;
+                }
+                this.shows.push(extShow);
+            });
+            // console.log(JSON.stringify(this.shows));
+            this.showsProvider.allCountries.subscribe(allcountries => {
+                this.allCountries = [];
+                allcountries.forEach(c =>
+                    this.allCountries.push({
+                        code: c.code,
+                        name: c.name,
+                        count: 0,
+                        all: 0
+                    }));
+                // this.selectedLevels = this.allLevels;
+                this.checkAllCountries();
+                this.userDataSubscription();
+                this.setRegFlag();
+                this.countAll();
+            }, err => console.log('Countries provider err: ' + err));
+        }, err => console.log('Shows provider err: ' + err));
+        // }, err => console.log('Show levels provider err: ' + err));
     }
 
     loadPeriod() {
         this.paramEndAt = +moment('' + intNow, 'YYYYMMDD').add(this.loadingMonths, 'months').format('YYYYMMDD');
-        console.log('months: ' + this.loadingMonths);
-        console.log('start at: ' + this.paramStartAt);
-        console.log('end at: ' + this.paramEndAt);
+        // console.log('months: ' + this.loadingMonths);
+        // console.log('start at: ' + this.paramStartAt);
+        // console.log('end at: ' + this.paramEndAt);
         this.showsProvider.getShows(this.paramStartAt, this.paramEndAt).subscribe(allshows => {
             this.shows = [];
             allshows.forEach(show => {
@@ -145,7 +145,7 @@ export class ShowsComponent implements OnInit {
             this.runFilter();
             this.setRegFlag();
             this.allTypes.forEach(type => type.all = 0);
-            this.allLevels.forEach(lvl => lvl.all = 0);
+            // this.allLevels.forEach(lvl => lvl.all = 0);
             this.allCountries.forEach(country => country.all = 0);
             console.log(JSON.stringify(this.shows));
             this.countAll();
@@ -174,7 +174,7 @@ export class ShowsComponent implements OnInit {
             this.runFilter();
             this.setRegFlag();
             this.allTypes.forEach(type => type.all = 0);
-            this.allLevels.forEach(lvl => lvl.all = 0);
+            // this.allLevels.forEach(lvl => lvl.all = 0);
             this.allCountries.forEach(country => country.all = 0);
             this.countAll();
         }, err => console.log('Shows provider err: ' + err));
@@ -220,13 +220,14 @@ export class ShowsComponent implements OnInit {
 
     runFilter() {
         const filterLevel = [];
-        this.selectedLevels.forEach(st => filterLevel.push(st.id));
-        this.processShows(this.shows.filter(show =>
-            filterLevel.includes(show.level) &&
-            this.selectedTypes.includes(show.type) &&
-            this.countries.includes(show.countrycode)
-        )
-        );
+        // this.selectedLevels.forEach(st => filterLevel.push(st.id));
+         this.processShows(this.shows.filter(show => this.countries.includes(show.countrycode)));
+        // this.processShows(this.shows.filter(show =>
+        //     filterLevel.includes(show.level) &&
+        //     this.selectedTypes.includes(show.type) &&
+        //     this.countries.includes(show.countrycode)
+        // )
+        // );
     }
 
     processShows(shows: ExtShow[]) {
@@ -244,8 +245,8 @@ export class ShowsComponent implements OnInit {
         if (this.markerClusters.getBounds().isValid()) {
             this.mymap.fitBounds(this.markerClusters.getBounds());
         }
-        this.countForSelectedTypes(shows);
-        this.countForSelectedLevels(shows);
+        // this.countForSelectedTypes(shows);
+        // this.countForSelectedLevels(shows);
         this.countForSelectedCountries(shows);
     }
 
@@ -284,14 +285,14 @@ export class ShowsComponent implements OnInit {
         for (let i = 0; i < this.shows.length; i++) {
             // console.log(JSON.stringify(this.shows[i]));
             if (!this.shows[i].past) {
-                const type = this.allTypes.find(type => type.name === this.shows[i].type);
-                if (type) {
-                    type.all++;
-                }
-                const sl = this.allLevels.find(level => level.id === this.shows[i].level);
-                if (sl) {
-                    sl.all++;
-                }
+                // const type = this.allTypes.find(type => type.name === this.shows[i].type);
+                // if (type) {
+                //     type.all++;
+                // }
+                // const sl = this.allLevels.find(level => level.id === this.shows[i].level);
+                // if (sl) {
+                //     sl.all++;
+                // }
                 const c = this.allCountries.find(country => country.code === this.shows[i].countrycode);
                 if (c) {
                     c.all++;
@@ -300,29 +301,29 @@ export class ShowsComponent implements OnInit {
         }
     }
 
-    countForSelectedTypes(shows: ExtShow[]) {
-        this.allTypes.forEach(c => c.count = 0);
-        for (let i = 0; i < shows.length; i++) {
-            if (!shows[i].past) {
-                const c = this.allTypes.find(type => type.name === shows[i].type);
-                if (c) {
-                    c.count++;
-                }
-            }
-        }
-    }
+    // countForSelectedTypes(shows: ExtShow[]) {
+    //     this.allTypes.forEach(c => c.count = 0);
+    //     for (let i = 0; i < shows.length; i++) {
+    //         if (!shows[i].past) {
+    //             const c = this.allTypes.find(type => type.name === shows[i].type);
+    //             if (c) {
+    //                 c.count++;
+    //             }
+    //         }
+    //     }
+    // }
 
-    countForSelectedLevels(shows: ExtShow[]) {
-        this.allLevels.forEach(sl => sl.count = 0);
-        for (let i = 0; i < shows.length; i++) {
-            if (!shows[i].past) {
-                const sl = this.allLevels.find(level => level.id === shows[i].level);
-                if (sl) {
-                    sl.count++;
-                }
-            }
-        }
-    }
+    // countForSelectedLevels(shows: ExtShow[]) {
+    //     this.allLevels.forEach(sl => sl.count = 0);
+    //     for (let i = 0; i < shows.length; i++) {
+    //         if (!shows[i].past) {
+    //             const sl = this.allLevels.find(level => level.id === shows[i].level);
+    //             if (sl) {
+    //                 sl.count++;
+    //             }
+    //         }
+    //     }
+    // }
 
     countForSelectedCountries(shows: ExtShow[]) {
         this.allCountries.forEach(c => c.count = 0);
@@ -337,22 +338,22 @@ export class ShowsComponent implements OnInit {
 
     }
 
-    getLevelName(id: number) {
-        const level = this.allLevels.find(t => t.id === id);
-        if (level) {
-            return level.description;
-        } else {
-            return '';
-        }
-    }
+    // getLevelName(id) {
+    //     const level = this.allLevels.find(t => t.id === id);
+    //     if (level) {
+    //         return level.description;
+    //     } else {
+    //         return '';
+    //     }
+    // }
 
     getFilterTypeHeader() {
         return  this.selectedTypes.length + ' of ' + this.allTypes.length;
     }
 
-    getFilterLevelHeader() {
-        return this.selectedLevels.length + ' of ' + this.allLevels.length;
-    }
+    // getFilterLevelHeader() {
+    //     return this.selectedLevels.length + ' of ' + this.allLevels.length;
+    // }
 
     getFilterCountryHeader() {
         return this.countries.length + ' of ' + this.allCountries.length;

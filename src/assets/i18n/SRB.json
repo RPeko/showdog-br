@@ -7,7 +7,7 @@
     "You have to be logged in if want to register your business.": "Morate biti registrovani, ako želite da registrujete svoju delatnost.",
     "with": "sa",
     "Login as Guest": "Uloguj se kao gost",
-    "Filter shows": "Filter izložbi",
+    "Filter countries": "Filtriraj države",
     "Types": "Tipovi",
     "Levels": "Nivoi",
     "Countries": "Države",
@@ -19,5 +19,6 @@
     "Registration until": "Krajnji rok za registraciju",
     "Organizer": "Organizator",
     "Entry info link" : "Info link za prijavu",
-    "Pet shop": "Pet šop"
+    "Pet shop": "Pet šop",
+    "Selected":"Izabrano"
 }

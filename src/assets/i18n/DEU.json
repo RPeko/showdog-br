@@ -7,7 +7,7 @@
     "You have to be logged in if want to register your business.": "Sie müssen angemeldet sein, um Ihr Unternehmen registrieren zu können.",
     "with": "mit",
     "Login as Guest": "Melden Sie sich als Gast an",
-    "Filter shows": "Filter Ausstellung",
+    "Filter countries": "Länder filtern",
     "Types": "Typen",
     "Levels": "Ebenen",
     "Countries": "Länder",
@@ -18,5 +18,6 @@
     "Type": "Typ",
     "Registration until": "Anmeldung bis",
     "Organizer":"Veranstalter",
-    "Entry info link" : "Eintrag Info-Link"
+    "Entry info link" : "Eintrag Info-Link",
+    "Selected":"Ausgewählt"
 }

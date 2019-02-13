@@ -7,7 +7,7 @@
     "You have to be logged in if want to register your business.": "You have to be logged in if want to register your business.",
     "with": "with",
     "Login as Guest": "Login as Guest",
-    "Filter shows": "Filter shows",
+    "Filter countries": "Filter countries",
     "Types": "Types",
     "Levels": "Levels",
     "Countries": "Countries",
@@ -18,5 +18,6 @@
     "Type": "Type",
     "Registration until": "Registration until",
     "Organizer": "Organizer",
-    "Entry info link" : "Entry info link" 
+    "Entry info link" : "Entry info link",
+    "Selected":"Selected"
 }
