@@ -266,8 +266,9 @@ export class ShowsComponent implements OnInit {
 
     addMarker(show: ExtShow) {
         if (!show.past) {
-            const icon = L.icon({ iconUrl: iconBaseUrl + 'show/' + show.level + '.svg' });
+            const icon = L.icon({ iconUrl: iconBaseUrl + 'show/' + show.level + '.svg',  iconSize: [20, 20], iconAnchor: [6, 6] });
             const marker = L.marker(new L.LatLng(show.lat, show.lon), { title: show.name, icon: icon });
+            // .setIcon(L.icon({ iconUrl: tacka.icon, iconSize: [24,24], iconAnchor: [12, 12]})).addTo(this.mymap);
             marker.bindTooltip(this.intToDateToString(show.date, 'MMM YY'),
                 { permanent: true, offset: [0, 0], opacity: 0.4 });
             marker.bindPopup('<div>' + show.name + '</div>'
