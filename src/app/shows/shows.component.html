@@ -1,49 +1,52 @@
 <div class="container">
   <div class="left">
-    <div class="filter">
-      <span class="mat-h3">{{"Filter countries" | translate }}:</span>
-      <!-- <mat-select class="filter-type" placeholder="Click for filtering types" [(value)]="selectedTypes"
-        (selectionChange)="runFilter()" multiple>
-        <mat-select-trigger>
-          <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{"Types" | translate}}: {{getFilterTypeHeader()}}
-        </mat-select-trigger>
-        <mat-option *ngFor="let type of allTypes" [value]="type.name">
-          <span>{{type.name}} ({{type.count}}/{{type.all}})</span>
-        </mat-option>
-      </mat-select>
-
-      <mat-select class="filter-level" placeholder="Click for filtering level" [(value)]="selectedLevels"
-        (selectionChange)="runFilter()" multiple>
-        <mat-select-trigger>
-          <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{"Levels" | translate}}:{{getFilterLevelHeader()}}
-        </mat-select-trigger>
-        <mat-option *ngFor="let level of allLevels" [value]="level">
-          <img src="assets/icons/show/{{level.id}}.svg">
-          <span>{{level.description}} ({{level.count}}/{{level.all}})</span>
-        </mat-option>
-      </mat-select> -->
-      <mat-select class="filter-country" placeholder="Click for filtering countries" [(value)]="countries"
-        (selectionChange)="runFilter();updateCountries()" multiple>
-        <div>
-          <button class="check-uncheck-button" mat-raised-button (click)="checkAllCountries(); runFilter();updateCountries()">
-            Select All
-          </button>
-          <button class="check-uncheck-button" mat-raised-button (click)="uncheckAllCountries(); runFilter();updateCountries()">
-            Deselect All
-          </button>
-        </div>
-        <mat-select-trigger>
-          <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{"Selected" | translate}}:{{getFilterCountryHeader()}}
-        </mat-select-trigger>
-        <mat-option *ngFor="let country of allCountries" [value]="country.code">
-          <span>{{country.name}} ({{country.count}}/{{country.all}})</span>
-        </mat-option>
-      </mat-select>
+    <div class="title">
+        <img  alt="Dog exhibitors helper app!" src="/assets/images/title.png">
     </div>
     <div id="lmapa" class="lmapa"></div>
   </div>
   <div class="right">
     <div class="right-fixed">
+        <div class="filter">
+            <span class="mat-h3">{{"Filter countries" | translate }}:</span>
+            <!-- <mat-select class="filter-type" placeholder="Click for filtering types" [(value)]="selectedTypes"
+              (selectionChange)="runFilter()" multiple>
+              <mat-select-trigger>
+                <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{"Types" | translate}}: {{getFilterTypeHeader()}}
+              </mat-select-trigger>
+              <mat-option *ngFor="let type of allTypes" [value]="type.name">
+                <span>{{type.name}} ({{type.count}}/{{type.all}})</span>
+              </mat-option>
+            </mat-select>
+      
+            <mat-select class="filter-level" placeholder="Click for filtering level" [(value)]="selectedLevels"
+              (selectionChange)="runFilter()" multiple>
+              <mat-select-trigger>
+                <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{"Levels" | translate}}:{{getFilterLevelHeader()}}
+              </mat-select-trigger>
+              <mat-option *ngFor="let level of allLevels" [value]="level">
+                <img src="assets/icons/show/{{level.id}}.svg">
+                <span>{{level.description}} ({{level.count}}/{{level.all}})</span>
+              </mat-option>
+            </mat-select> -->
+            <mat-select class="filter-country" placeholder="Click for filtering countries" [(value)]="countries"
+              (selectionChange)="runFilter();updateCountries()" multiple>
+              <div>
+                <button class="check-uncheck-button" mat-raised-button (click)="checkAllCountries(); runFilter();updateCountries()">
+                  Select All
+                </button>
+                <button class="check-uncheck-button" mat-raised-button (click)="uncheckAllCountries(); runFilter();updateCountries()">
+                  Deselect All
+                </button>
+              </div>
+              <mat-select-trigger>
+                <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{"Selected" | translate}}:{{getFilterCountryHeader()}}
+              </mat-select-trigger>
+              <mat-option *ngFor="let country of allCountries" [value]="country.code">
+                <span>{{country.name}} ({{country.count}}/{{country.all}})</span>
+              </mat-option>
+            </mat-select>
+          </div>
       <div class="period">
         <span class="mat-h3">{{"Months to load" | translate }}:</span>
         <mat-slider class="period-slider" [max]="3" [min]="1" [step]="1" [thumbLabel]="true" [tickInterval]="1"

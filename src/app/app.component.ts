@@ -18,7 +18,7 @@ export class AppComponent {
   title = 'Show Dog';
 
   menuItems = [
-    { title: 'Dog shows', routerLink: 'shows' },
+    { title: 'International Dog shows', routerLink: 'shows' },
     { title: 'Dog Related Businesses', routerLink: 'firms' },
   ];
 

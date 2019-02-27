@@ -7,16 +7,22 @@
     position: fixed;
 }
 
+.title {
+    position: relative;
+    padding-left: 25px;
+    padding-bottom: 5px;
+    height: 30px!important;
+    width: 400px!important;
+}
+
+.title img {
+    width: 100%;
+}
 .lmapa {
     position: relative;
 }
 
 #lmapa { height: 83vh; }
-
-.filter {
-    display: inline-block;
-    padding-bottom: 2vh;
-}
 
 // .filter-type {
 //     padding-left: 30px;
@@ -28,9 +34,40 @@
 //     max-width: 10vw;
 // }
 
+.period {
+    position: fixed;
+    width: 100%;
+    height: 30px;
+    background: white;
+}
+
+.period-slider {
+    width: 40vw;
+    padding-left: 15px;
+}
+
+.filter {
+    position: fixed;
+    width: 100%;
+    // background: white;
+    padding-top: 45px;
+    padding-bottom: 5px;
+}
+
 .filter-country {
     padding-left: 20px;
     max-width: 12vw;
+}
+
+.admin {
+    padding-top: 80px;
+    width: 100%;
+    padding-bottom: 5px;
+}
+
+
+.main-list {
+    padding-top: 70px;
 }
 
 td {
@@ -130,26 +167,4 @@ td {
     position: fixed;
     background: white;
     background-color: white;
-}
-
-.period {
-    position: fixed;
-    width: 100%;
-    background: white;
-}
-
-.period-slider {
-    width: 40vw;
-    padding-left: 15px;
-}
-
-.admin {
-    padding-top: 50px;
-    width: 100%;
-    padding-bottom: 5px;
-}
-
-
-.main-list {
-    padding-top: 50px;
 }
