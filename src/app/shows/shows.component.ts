@@ -10,10 +10,10 @@ import { ShowLevel } from '../models/showlevel';
 import { Country } from '../models/country';
 import { Router } from '@angular/router';
 
-interface ExtShowLevel extends ShowLevel {
-    count: number;
-    all: number;
-}
+// interface ExtShowLevel extends ShowLevel {
+//     count: number;
+//     all: number;
+// }
 
 interface ExtCountry extends Country {
     count: number;
@@ -404,6 +404,16 @@ export class ShowsComponent implements OnInit {
                 return '';
         }
     }
+
+    onExpandShow(show:ExtShow) {
+        let centar = L.latLng(show.lat, show.lon);
+        this.mymap.setView(centar, 7);
+    }
+
+    onCollapsedShow() {
+        this.mymap.fitBounds(this.markerClusters.getBounds());
+    }
+
 
     intToDateToString(intDate: number, format: string) {
         if (moment('' + intDate, 'YYYYMMDD').isValid()) {

@@ -78,7 +78,11 @@
               </h3>
             </div>
             <div class="show" *ngFor="let show of manifestation.shows">
-              <mat-expansion-panel [ngClass]="{'panel-header-finished': show.past}" matTooltip="{{getToolTip(show)}}">
+              <mat-expansion-panel 
+                    [ngClass]="{'panel-header-finished': show.past}"
+                    matTooltip="{{getToolTip(show)}}"
+                    (opened)="onExpandShow(show)"
+                    (closed)="onCollapsedShow()">
                 <mat-expansion-panel-header class="panel-header">
                   <mat-panel-title [ngClass]="{'panel-header-finished': show.past}">
                     <span class="panel-title">
