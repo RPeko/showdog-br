@@ -10,11 +10,6 @@ import { ShowLevel } from '../models/showlevel';
 import { Country } from '../models/country';
 import { Router } from '@angular/router';
 
-// interface ExtShowLevel extends ShowLevel {
-//     count: number;
-//     all: number;
-// }
-
 interface ExtCountry extends Country {
     count: number;
     all: number;
@@ -39,8 +34,6 @@ export class ShowsComponent implements OnInit {
     loadingMonths = 3;
     allCountries: ExtCountry[] = [];
     countries: string[] = [];
-    // allLevels: ExtShowLevel[] = [];
-    // selectedLevels: ExtShowLevel[] = [];
     allTypes = [{ 'name': 'General', 'all': 0, 'count': 0 },
     { 'name': 'Group', 'all': 0, 'count': 0 }, { 'name': 'Single breed', 'all': 0, 'count': 0 }];
     selectedTypes = ['General', 'Group', 'Single breed'];
@@ -50,8 +43,8 @@ export class ShowsComponent implements OnInit {
     admin = 0;
     mymap: L.Map;
     markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 18 });
-    centar = L.latLng(45.57185, 19.640113);
-    zoom = 8;
+    centar = L.latLng(49.3310955, 18.4821483);
+    zoom = 4;
     baselayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
         {
             attribution:
@@ -77,25 +70,13 @@ export class ShowsComponent implements OnInit {
 
     createMap() {
         this.mymap = L.map('lmapa');
-        this.mymap.setView(this.centar, this.zoom);
+        // this.mymap.setView(this.centar, this.zoom);
         this.baselayer.addTo(this.mymap);
     }
 
     loadData() {
         this.shows = [];
         this.monthshows = [];
-        // this.showsProvider.showLevels.subscribe(showLevels => {
-        //     this.allLevels = [];
-        //     for (let i = 0; i < showLevels.length; i++) {
-        //         this.allLevels.push({
-        //             id: i,
-        //             name: showLevels[i].name,
-        //             description: showLevels[i].description,
-        //             order: showLevels[i].order,
-        //             count: 0,
-        //             all: 0
-        //         });
-        //     }
         this.showsProvider.getShows(this.paramStartAt, this.paramEndAt).subscribe(allshows => {
             allshows.forEach(show => {
                 const extShow = <ExtShow>show;
@@ -106,7 +87,6 @@ export class ShowsComponent implements OnInit {
                 }
                 this.shows.push(extShow);
             });
-            // console.log(JSON.stringify(this.shows));
             this.showsProvider.allCountries.subscribe(allcountries => {
                 this.allCountries = [];
                 allcountries.forEach(c =>
@@ -116,21 +96,17 @@ export class ShowsComponent implements OnInit {
                         count: 0,
                         all: 0
                     }));
-                // this.selectedLevels = this.allLevels;
                 this.checkAllCountries();
                 this.userDataSubscription();
                 this.setRegFlag();
                 this.countAll();
             }, err => console.log('Countries provider err: ' + err));
         }, err => console.log('Shows provider err: ' + err));
-        // }, err => console.log('Show levels provider err: ' + err));
+
     }
 
     loadPeriod() {
         this.paramEndAt = +moment('' + intNow, 'YYYYMMDD').add(this.loadingMonths, 'months').format('YYYYMMDD');
-        // console.log('months: ' + this.loadingMonths);
-        // console.log('start at: ' + this.paramStartAt);
-        // console.log('end at: ' + this.paramEndAt);
         this.showsProvider.getShows(this.paramStartAt, this.paramEndAt).subscribe(allshows => {
             this.shows = [];
             allshows.forEach(show => {
@@ -144,10 +120,7 @@ export class ShowsComponent implements OnInit {
             });
             this.runFilter();
             this.setRegFlag();
-            // this.allTypes.forEach(type => type.all = 0);
-            // this.allLevels.forEach(lvl => lvl.all = 0);
             this.allCountries.forEach(country => country.all = 0);
-            console.log(JSON.stringify(this.shows));
             this.countAll();
         }, err => console.log('Shows provider err: ' + err));
     }
@@ -173,8 +146,6 @@ export class ShowsComponent implements OnInit {
             });
             this.runFilter();
             this.setRegFlag();
-            // this.allTypes.forEach(type => type.all = 0);
-            // this.allLevels.forEach(lvl => lvl.all = 0);
             this.allCountries.forEach(country => country.all = 0);
             this.countAll();
         }, err => console.log('Shows provider err: ' + err));
@@ -190,7 +161,7 @@ export class ShowsComponent implements OnInit {
 
     userDataSubscription() {
         this.authService.getUserdata().on('value', data => {
-            console.log('pokrenut authService getUserData');
+            // console.log('pokrenut authService getUserData');
             let userdata: Userdata;
             userdata = data.val();
             if (userdata && userdata.usercountries) {
@@ -219,15 +190,7 @@ export class ShowsComponent implements OnInit {
     }
 
     runFilter() {
-        const filterLevel = [];
-        // this.selectedLevels.forEach(st => filterLevel.push(st.id));
          this.processShows(this.shows.filter(show => this.countries.includes(show.countrycode)));
-        // this.processShows(this.shows.filter(show =>
-        //     filterLevel.includes(show.level) &&
-        //     this.selectedTypes.includes(show.type) &&
-        //     this.countries.includes(show.countrycode)
-        // )
-        // );
     }
 
     processShows(shows: ExtShow[]) {
@@ -242,13 +205,22 @@ export class ShowsComponent implements OnInit {
             }
         }
         this.mymap.addLayer(this.markerClusters);
-        if (this.markerClusters.getBounds().isValid()) {
-            this.mymap.fitBounds(this.markerClusters.getBounds());
-        }
-        // this.countForSelectedTypes(shows);
-        // this.countForSelectedLevels(shows);
+        this.zoomToBoundaries();
         this.countForSelectedCountries(shows);
     }
+
+    zoomToShow(show: ExtShow) {
+        this.mymap.setView(L.latLng(show.lat, show.lon), 7);
+    }
+
+    zoomToBoundaries() {
+        if (this.markerClusters.getBounds().isValid()) {
+            this.mymap.fitBounds(this.markerClusters.getBounds());
+    } else {
+            this.mymap.setView(this.centar, this.zoom);
+    }
+    }
+
 
     groupByMonth(show: Show) {
         const indexMnth = this.monthshows.findIndex(ms => ms.month === ('' + show.date).slice(0, 6));
@@ -265,10 +237,8 @@ export class ShowsComponent implements OnInit {
     }
 
     addMarker(show: ExtShow) {
-        if (!show.past) {
             const icon = L.icon({ iconUrl: iconBaseUrl + 'show/' + show.level + '.svg',  iconSize: [20, 20], iconAnchor: [6, 6] });
             const marker = L.marker(new L.LatLng(show.lat, show.lon), { title: show.name, icon: icon });
-            // .setIcon(L.icon({ iconUrl: tacka.icon, iconSize: [24,24], iconAnchor: [12, 12]})).addTo(this.mymap);
             marker.bindTooltip(this.intToDateToString(show.date, 'MMM YY'),
                 { permanent: true, offset: [0, 0], opacity: 0.4 });
             marker.bindPopup('<div>' + show.name + '</div>'
@@ -276,24 +246,11 @@ export class ShowsComponent implements OnInit {
                 + '<div>' + show.place + '</div>'
             );
             this.markerClusters.addLayer(marker);
-        } else {
-
-        }
-
     }
 
     countAll() {
         for (let i = 0; i < this.shows.length; i++) {
-            // console.log(JSON.stringify(this.shows[i]));
             if (!this.shows[i].past) {
-                // const type = this.allTypes.find(type => type.name === this.shows[i].type);
-                // if (type) {
-                //     type.all++;
-                // }
-                // const sl = this.allLevels.find(level => level.id === this.shows[i].level);
-                // if (sl) {
-                //     sl.all++;
-                // }
                 const c = this.allCountries.find(country => country.code === this.shows[i].countrycode);
                 if (c) {
                     c.all++;
@@ -301,30 +258,6 @@ export class ShowsComponent implements OnInit {
             }
         }
     }
-
-    // countForSelectedTypes(shows: ExtShow[]) {
-    //     this.allTypes.forEach(c => c.count = 0);
-    //     for (let i = 0; i < shows.length; i++) {
-    //         if (!shows[i].past) {
-    //             const c = this.allTypes.find(type => type.name === shows[i].type);
-    //             if (c) {
-    //                 c.count++;
-    //             }
-    //         }
-    //     }
-    // }
-
-    // countForSelectedLevels(shows: ExtShow[]) {
-    //     this.allLevels.forEach(sl => sl.count = 0);
-    //     for (let i = 0; i < shows.length; i++) {
-    //         if (!shows[i].past) {
-    //             const sl = this.allLevels.find(level => level.id === shows[i].level);
-    //             if (sl) {
-    //                 sl.count++;
-    //             }
-    //         }
-    //     }
-    // }
 
     countForSelectedCountries(shows: ExtShow[]) {
         this.allCountries.forEach(c => c.count = 0);
@@ -339,22 +272,9 @@ export class ShowsComponent implements OnInit {
 
     }
 
-    // getLevelName(id) {
-    //     const level = this.allLevels.find(t => t.id === id);
-    //     if (level) {
-    //         return level.description;
-    //     } else {
-    //         return '';
-    //     }
-    // }
-
     getFilterTypeHeader() {
         return  this.selectedTypes.length + ' of ' + this.allTypes.length;
     }
-
-    // getFilterLevelHeader() {
-    //     return this.selectedLevels.length + ' of ' + this.allLevels.length;
-    // }
 
     getFilterCountryHeader() {
         return this.countries.length + ' of ' + this.allCountries.length;
@@ -404,16 +324,6 @@ export class ShowsComponent implements OnInit {
                 return '';
         }
     }
-
-    onExpandShow(show:ExtShow) {
-        let centar = L.latLng(show.lat, show.lon);
-        this.mymap.setView(centar, 7);
-    }
-
-    onCollapsedShow() {
-        this.mymap.fitBounds(this.markerClusters.getBounds());
-    }
-
 
     intToDateToString(intDate: number, format: string) {
         if (moment('' + intDate, 'YYYYMMDD').isValid()) {

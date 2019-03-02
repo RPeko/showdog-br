@@ -9,26 +9,6 @@
     <div class="right-fixed">
         <div class="filter">
             <span class="mat-h3">{{"Filter countries" | translate }}:</span>
-            <!-- <mat-select class="filter-type" placeholder="Click for filtering types" [(value)]="selectedTypes"
-              (selectionChange)="runFilter()" multiple>
-              <mat-select-trigger>
-                <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{"Types" | translate}}: {{getFilterTypeHeader()}}
-              </mat-select-trigger>
-              <mat-option *ngFor="let type of allTypes" [value]="type.name">
-                <span>{{type.name}} ({{type.count}}/{{type.all}})</span>
-              </mat-option>
-            </mat-select>
-      
-            <mat-select class="filter-level" placeholder="Click for filtering level" [(value)]="selectedLevels"
-              (selectionChange)="runFilter()" multiple>
-              <mat-select-trigger>
-                <img class="checkbox-icon" src="assets/icons/checkbox.svg"> {{"Levels" | translate}}:{{getFilterLevelHeader()}}
-              </mat-select-trigger>
-              <mat-option *ngFor="let level of allLevels" [value]="level">
-                <img src="assets/icons/show/{{level.id}}.svg">
-                <span>{{level.description}} ({{level.count}}/{{level.all}})</span>
-              </mat-option>
-            </mat-select> -->
             <mat-select class="filter-country" placeholder="Click for filtering countries" [(value)]="countries"
               (selectionChange)="runFilter();updateCountries()" multiple>
               <div>
@@ -59,9 +39,6 @@
       </div>
     </div>
     <div class="main-list">
-        <!-- <div *ngFor="let c of allCountries">
-            {{c.code}}  -- {{c.name}}<img class="flag-icon" src="assets/icons/flag/{{c.code}}.svg">
-          </div> -->
       <mat-list>
         <ng-container *ngFor="let monthshow of monthshows">
           <h3 mat-subheader class="mnth-subheader">
@@ -81,13 +58,13 @@
               <mat-expansion-panel 
                     [ngClass]="{'panel-header-finished': show.past}"
                     matTooltip="{{getToolTip(show)}}"
-                    (opened)="onExpandShow(show)"
-                    (closed)="onCollapsedShow()">
+                    (opened)="zoomToShow(show)"
+                    (closed)="zoomToBoundaries()">
                 <mat-expansion-panel-header class="panel-header">
                   <mat-panel-title [ngClass]="{'panel-header-finished': show.past}">
                     <span class="panel-title">
-                      <img class="show-icon" src="assets/icons/show/{{show.level}}.svg">
-                      <img class="flag-icon" src="assets/icons/flag/{{show.countrycode}}.svg">
+                      <img class="show-icon" [ngClass]="{'opacity04': show.past}" src="assets/icons/show/{{show.level}}.svg">
+                      <img class="flag-icon" [ngClass]="{'opacity04': show.past}" src="assets/icons/flag/{{show.countrycode}}.svg">
                       {{show.name}}, {{show.place}} / {{intToDateToString(show.date, 'ddd, Do')}}
                     </span>
                   </mat-panel-title>
