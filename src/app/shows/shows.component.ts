@@ -10,6 +10,11 @@ import { ShowLevel } from '../models/showlevel';
 import { Country } from '../models/country';
 import { Router } from '@angular/router';
 
+interface ExtShowLevel extends ShowLevel {
+    count: number;
+    all: number;
+}
+
 interface ExtCountry extends Country {
     count: number;
     all: number;
@@ -43,8 +48,8 @@ export class ShowsComponent implements OnInit {
     admin = 0;
     mymap: L.Map;
     markerClusters = L.markerClusterGroup({ disableClusteringAtZoom: 18 });
-    centar = L.latLng(49.3310955, 18.4821483);
-    zoom = 4;
+    centar = L.latLng(45.57185, 19.640113);
+    zoom = 8;
     baselayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
         {
             attribution:
@@ -70,7 +75,7 @@ export class ShowsComponent implements OnInit {
 
     createMap() {
         this.mymap = L.map('lmapa');
-        // this.mymap.setView(this.centar, this.zoom);
+        this.mymap.setView(this.centar, this.zoom);
         this.baselayer.addTo(this.mymap);
     }
 
@@ -87,6 +92,7 @@ export class ShowsComponent implements OnInit {
                 }
                 this.shows.push(extShow);
             });
+            // console.log(JSON.stringify(this.shows));
             this.showsProvider.allCountries.subscribe(allcountries => {
                 this.allCountries = [];
                 allcountries.forEach(c =>
@@ -102,7 +108,6 @@ export class ShowsComponent implements OnInit {
                 this.countAll();
             }, err => console.log('Countries provider err: ' + err));
         }, err => console.log('Shows provider err: ' + err));
-
     }
 
     loadPeriod() {
@@ -121,6 +126,7 @@ export class ShowsComponent implements OnInit {
             this.runFilter();
             this.setRegFlag();
             this.allCountries.forEach(country => country.all = 0);
+            console.log(JSON.stringify(this.shows));
             this.countAll();
         }, err => console.log('Shows provider err: ' + err));
     }
@@ -161,7 +167,6 @@ export class ShowsComponent implements OnInit {
 
     userDataSubscription() {
         this.authService.getUserdata().on('value', data => {
-            // console.log('pokrenut authService getUserData');
             let userdata: Userdata;
             userdata = data.val();
             if (userdata && userdata.usercountries) {
@@ -205,22 +210,11 @@ export class ShowsComponent implements OnInit {
             }
         }
         this.mymap.addLayer(this.markerClusters);
-        this.zoomToBoundaries();
-        this.countForSelectedCountries(shows);
-    }
-
-    zoomToShow(show: ExtShow) {
-        this.mymap.setView(L.latLng(show.lat, show.lon), 7);
-    }
-
-    zoomToBoundaries() {
         if (this.markerClusters.getBounds().isValid()) {
             this.mymap.fitBounds(this.markerClusters.getBounds());
-    } else {
-            this.mymap.setView(this.centar, this.zoom);
+        }
+        this.countForSelectedCountries(shows);
     }
-    }
-
 
     groupByMonth(show: Show) {
         const indexMnth = this.monthshows.findIndex(ms => ms.month === ('' + show.date).slice(0, 6));
@@ -237,6 +231,7 @@ export class ShowsComponent implements OnInit {
     }
 
     addMarker(show: ExtShow) {
+        if (!show.past) {
             const icon = L.icon({ iconUrl: iconBaseUrl + 'show/' + show.level + '.svg',  iconSize: [20, 20], iconAnchor: [6, 6] });
             const marker = L.marker(new L.LatLng(show.lat, show.lon), { title: show.name, icon: icon });
             marker.bindTooltip(this.intToDateToString(show.date, 'MMM YY'),
@@ -246,10 +241,15 @@ export class ShowsComponent implements OnInit {
                 + '<div>' + show.place + '</div>'
             );
             this.markerClusters.addLayer(marker);
+        } else {
+
+        }
+
     }
 
     countAll() {
         for (let i = 0; i < this.shows.length; i++) {
+            // console.log(JSON.stringify(this.shows[i]));
             if (!this.shows[i].past) {
                 const c = this.allCountries.find(country => country.code === this.shows[i].countrycode);
                 if (c) {
