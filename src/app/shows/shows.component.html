@@ -6,6 +6,10 @@
     <div id="lmapa" class="lmapa"></div>
   </div>
   <div class="right">
+      <div class="admin" *ngIf="admin>2">
+          <button mat-raised-button (click)="loadAll()">{{txtLoad()}}</button>
+          <button mat-button><a routerLink="/show">Add Show</a></button>
+        </div>
     <div class="right-fixed">
         <div class="filter">
             <span class="mat-h3">{{"Filter countries" | translate }}:</span>
@@ -26,17 +30,16 @@
                 <span>{{country.name}} ({{country.count}}/{{country.all}})</span>
               </mat-option>
             </mat-select>
+            <mat-slide-toggle (change)="loadData()"  [(ngModel)]="showPast">
+              <span class="mat-h3">{{"Previous month" | translate }}</span>
+            </mat-slide-toggle>
           </div>
-      <div class="period">
+      <!-- <div class="period">
         <span class="mat-h3">{{"Months to load" | translate }}:</span>
         <mat-slider class="period-slider" [max]="3" [min]="1" [step]="1" [thumbLabel]="true" [tickInterval]="1"
           (change)="loadPeriod()" [(ngModel)]="loadingMonths">
         </mat-slider>
-      </div>
-      <div class="admin" *ngIf="admin>2">
-        <button mat-raised-button (click)="loadAll()">{{txtLoad()}}</button>
-        <button mat-button><a routerLink="/show">Add Show</a></button>
-      </div>
+      </div> -->
     </div>
     <div class="main-list">
       <mat-list>

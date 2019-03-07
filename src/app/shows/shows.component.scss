@@ -10,7 +10,7 @@
 .title {
     position: relative;
     padding-left: 25px;
-    padding-bottom: 5px;
+    padding-bottom: 15px;
     height: 30px!important;
     width: 400px!important;
 }
@@ -24,50 +24,41 @@
 
 #lmapa { height: 83vh; }
 
-// .filter-type {
-//     padding-left: 30px;
-//     max-width: 10vw;
+// .period {
+//     position: fixed;
+//     width: 100%;
+//     height: 30px;
+//     background: white;
 // }
 
-// .filter-level {
-//     padding-left: 20px;
-//     max-width: 10vw;
+// .period-slider {
+//     width: 40vw;
+//     padding-left: 15px;
 // }
-
-.period {
-    position: fixed;
-    width: 100%;
-    height: 30px;
-    background: white;
-}
-
-.period-slider {
-    width: 40vw;
-    padding-left: 15px;
-}
 
 .filter {
     position: fixed;
     width: 100%;
-    // background: white;
-    padding-top: 45px;
+    background: white;
+    opacity: 100;
+    padding-top: 25px;
     padding-bottom: 5px;
-}
-
-.filter-country {
-    padding-left: 20px;
-    max-width: 12vw;
 }
 
 .admin {
     padding-top: 80px;
     width: 100%;
-    padding-bottom: 5px;
 }
 
+.filter-country {
+    opacity: 100;
+    padding-left: 20px;
+    padding-right: 100px;
+    max-width: 12vw;
+}
 
 .main-list {
-    padding-top: 70px;
+    padding-top: 50px;
 }
 
 td {

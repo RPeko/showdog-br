@@ -21,10 +21,17 @@ export class ShowsProvider {
     }
 
     public getShows(start: number, end: number) {
-        return this.db.list<Show>('/shows', ref => ref.orderByChild('date')
-                                                      .startAt(start)
-                                                      .endAt(end)
-                                                      ).valueChanges();
+        if (end){
+            return this.db.list<Show>('/shows', ref => ref.orderByChild('date')
+            .startAt(start)
+            .endAt(end)
+            ).valueChanges();
+        } else {
+            return this.db.list<Show>('/shows', ref => ref.orderByChild('date')
+            .startAt(start)
+            ).valueChanges();
+        }
+       
     }
 
 }

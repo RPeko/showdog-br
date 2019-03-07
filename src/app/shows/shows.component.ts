@@ -6,14 +6,8 @@ import { ShowsProvider } from './shows.provider';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import * as moment from 'moment';
-import { ShowLevel } from '../models/showlevel';
 import { Country } from '../models/country';
 import { Router } from '@angular/router';
-
-interface ExtShowLevel extends ShowLevel {
-    count: number;
-    all: number;
-}
 
 interface ExtCountry extends Country {
     count: number;
@@ -42,8 +36,10 @@ export class ShowsComponent implements OnInit {
     allTypes = [{ 'name': 'General', 'all': 0, 'count': 0 },
     { 'name': 'Group', 'all': 0, 'count': 0 }, { 'name': 'Single breed', 'all': 0, 'count': 0 }];
     selectedTypes = ['General', 'Group', 'Single breed'];
-    paramStartAt = +moment('' + intNow, 'YYYYMMDD').add(-1, 'weeks').format('YYYYMMDD');
-    paramEndAt = +moment('' + intNow, 'YYYYMMDD').add(this.loadingMonths, 'months').format('YYYYMMDD');
+    paramStartAt = +moment('' + intNow, 'YYYYMMDD').add(-1, 'month').format('YYYYMMDD');
+    // paramEndAt = +moment('' + intNow, 'YYYYMMDD').add(this.loadingMonths, 'months').format('YYYYMMDD');
+    paramEndAt = null;
+    showPast = false;
     monthshows: { month: string, manifestations: { name: string, shows: Show[] }[] }[];
     admin = 0;
     mymap: L.Map;
@@ -82,10 +78,15 @@ export class ShowsComponent implements OnInit {
     loadData() {
         this.shows = [];
         this.monthshows = [];
+        if (this.showPast){
+            this.paramStartAt = +moment('' + intNow, 'YYYYMMDD').add(-1, 'month').format('YYYYMMDD');
+        } else {
+            this.paramStartAt = +moment('' + intNow, 'YYYYMMDD').format('YYYYMMDD');
+        }
         this.showsProvider.getShows(this.paramStartAt, this.paramEndAt).subscribe(allshows => {
             allshows.forEach(show => {
                 const extShow = <ExtShow>show;
-                if (show.date > intNow) {
+                if (show.date >= intNow) {
                     extShow.past = false;
                 } else {
                     extShow.past = true;
@@ -110,33 +111,33 @@ export class ShowsComponent implements OnInit {
         }, err => console.log('Shows provider err: ' + err));
     }
 
-    loadPeriod() {
-        this.paramEndAt = +moment('' + intNow, 'YYYYMMDD').add(this.loadingMonths, 'months').format('YYYYMMDD');
-        this.showsProvider.getShows(this.paramStartAt, this.paramEndAt).subscribe(allshows => {
-            this.shows = [];
-            allshows.forEach(show => {
-                const extShow = <ExtShow>show;
-                if (show.date > intNow) {
-                    extShow.past = false;
-                } else {
-                    extShow.past = true;
-                }
-                this.shows.push(extShow);
-            });
-            this.runFilter();
-            this.setRegFlag();
-            this.allCountries.forEach(country => country.all = 0);
-            console.log(JSON.stringify(this.shows));
-            this.countAll();
-        }, err => console.log('Shows provider err: ' + err));
-    }
+    // loadPeriod() {
+    //     this.paramEndAt = +moment('' + intNow, 'YYYYMMDD').add(this.loadingMonths, 'months').format('YYYYMMDD');
+    //     this.showsProvider.getShows(this.paramStartAt, this.paramEndAt).subscribe(allshows => {
+    //         this.shows = [];
+    //         allshows.forEach(show => {
+    //             const extShow = <ExtShow>show;
+    //             if (show.date > intNow) {
+    //                 extShow.past = false;
+    //             } else {
+    //                 extShow.past = true;
+    //             }
+    //             this.shows.push(extShow);
+    //         });
+    //         this.runFilter();
+    //         this.setRegFlag();
+    //         this.allCountries.forEach(country => country.all = 0);
+    //         console.log(JSON.stringify(this.shows));
+    //         this.countAll();
+    //     }, err => console.log('Shows provider err: ' + err));
+    // }
 
     loadAll() {
         if (this.paramStartAt > 0) {
             this.paramStartAt = 0;
             this.paramEndAt = 99999999;
         } else {
-            this.paramStartAt = +moment('' + intNow, 'YYYYMMDD').add(-1, 'weeks').format('YYYYMMDD');
+            this.paramStartAt = +moment('' + intNow, 'YYYYMMDD').add(-1, 'day').format('YYYYMMDD');
             this.paramEndAt = +moment('' + intNow, 'YYYYMMDD').add(this.loadingMonths, 'months').format('YYYYMMDD');
         }
         this.showsProvider.getShows(this.paramStartAt, this.paramEndAt).subscribe(allshows => {
@@ -204,9 +205,7 @@ export class ShowsComponent implements OnInit {
         for (let i = 0; i < shows.length; i++) {
             this.groupByMonth(shows[i]);
             if ((typeof shows[i].lat === 'number') && (typeof shows[i].lon === 'number') && ((shows[i].lat + shows[i].lon) !== 0)) {
-                if (!shows[i].past) {
-                    this.addMarker(shows[i]);
-                }
+                this.addMarker(shows[i], shows[i].past);
             }
         }
         this.mymap.addLayer(this.markerClusters);
@@ -230,32 +229,29 @@ export class ShowsComponent implements OnInit {
         }
     }
 
-    addMarker(show: ExtShow) {
-        if (!show.past) {
-            const icon = L.icon({ iconUrl: iconBaseUrl + 'show/' + show.level + '.svg',  iconSize: [20, 20], iconAnchor: [6, 6] });
-            const marker = L.marker(new L.LatLng(show.lat, show.lon), { title: show.name, icon: icon });
-            marker.bindTooltip(this.intToDateToString(show.date, 'MMM YY'),
+    addMarker(show: ExtShow, past: boolean) {
+        let opac = 1;
+        if (past){
+            opac = 0.4;
+        }
+            const icon = L.icon({ iconUrl: iconBaseUrl + 'show/' + show.level +  '.svg',  iconSize: [20, 20], iconAnchor: [6, 6] }); 
+            const marker = L.marker(new L.LatLng(show.lat, show.lon), { title: show.name, icon: icon, opacity: opac });
+            marker.bindTooltip(this.intToDateToString(show.date, 'MMM DD'),
                 { permanent: true, offset: [0, 0], opacity: 0.4 });
             marker.bindPopup('<div>' + show.name + '</div>'
                 + '<div>' + this.intToDateToString(show.date, 'LL') + '</div>'
                 + '<div>' + show.place + '</div>'
             );
             this.markerClusters.addLayer(marker);
-        } else {
-
-        }
 
     }
 
     countAll() {
         for (let i = 0; i < this.shows.length; i++) {
-            // console.log(JSON.stringify(this.shows[i]));
-            if (!this.shows[i].past) {
                 const c = this.allCountries.find(country => country.code === this.shows[i].countrycode);
                 if (c) {
                     c.all++;
                 }
-            }
         }
     }
 
@@ -269,7 +265,6 @@ export class ShowsComponent implements OnInit {
                 }
             }
         }
-
     }
 
     getFilterTypeHeader() {
