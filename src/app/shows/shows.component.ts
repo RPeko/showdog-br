@@ -293,7 +293,7 @@ export class ShowsComponent implements OnInit {
         }
 
         if (!show.regclosed) {
-            return '';
+            return 'no data';
         }
 
         if (show.regclosed >= intNow) {
@@ -317,13 +317,15 @@ export class ShowsComponent implements OnInit {
                 return 'Registration opened until: ' + this.intToDateToString(show.regclosed, 'LL');
             case 'closed':
                 return 'Registration closed on: ' + this.intToDateToString(show.regclosed, 'LL');
+            case 'no data':
+                return 'No data about registration deadline!';
             default:
                 return '';
         }
     }
 
     intToDateToString(intDate: number, format: string) {
-        if (moment('' + intDate, 'YYYYMMDD').isValid()) {
+        if (intDate && moment('' + intDate, 'YYYYMMDD').isValid()) {
             return moment('' + intDate, 'YYYYMMDD').format(format);
         } else {
             return '';
