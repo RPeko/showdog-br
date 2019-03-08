@@ -66,7 +66,7 @@ export class ShowsComponent implements OnInit {
 
     ngOnInit() {
         this.createMap();
-        this.loadData();
+        this.loadData(true);
     }
 
     createMap() {
@@ -75,7 +75,7 @@ export class ShowsComponent implements OnInit {
         this.baselayer.addTo(this.mymap);
     }
 
-    loadData() {
+    loadData(all_countries: boolean) {
         this.shows = [];
         this.monthshows = [];
         if (this.showPast){
@@ -103,7 +103,9 @@ export class ShowsComponent implements OnInit {
                         count: 0,
                         all: 0
                     }));
-                this.checkAllCountries();
+                if (all_countries){
+                    this.checkAllCountries();
+                }    
                 this.userDataSubscription();
                 this.setRegFlag();
                 this.countAll();

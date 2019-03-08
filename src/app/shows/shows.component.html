@@ -30,7 +30,7 @@
                 <span>{{country.name}} ({{country.count}}/{{country.all}})</span>
               </mat-option>
             </mat-select>
-            <mat-slide-toggle (change)="loadData()"  [(ngModel)]="showPast">
+            <mat-slide-toggle (change)="loadData(false)"  [(ngModel)]="showPast">
               <span class="mat-h3">{{"Previous month" | translate }}</span>
             </mat-slide-toggle>
           </div>
