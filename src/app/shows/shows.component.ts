@@ -8,6 +8,7 @@ import 'leaflet.markercluster';
 import * as moment from 'moment';
 import { Country } from '../models/country';
 import { Router } from '@angular/router';
+import { isNumber } from 'util';
 
 interface ExtCountry extends Country {
     count: number;
@@ -85,13 +86,15 @@ export class ShowsComponent implements OnInit {
         }
         this.showsProvider.getShows(this.paramStartAt, this.paramEndAt).subscribe(allshows => {
             allshows.forEach(show => {
-                const extShow = <ExtShow>show;
-                if (show.date >= intNow) {
-                    extShow.past = false;
-                } else {
-                    extShow.past = true;
-                }
-                this.shows.push(extShow);
+                if (this.isLat(show.lat)){
+                    const extShow = <ExtShow>show;
+                    if (show.date >= intNow) {
+                        extShow.past = false;
+                    } else {
+                        extShow.past = true;
+                    }
+                    this.shows.push(extShow);
+                }      
             });
             // console.log(JSON.stringify(this.shows));
             this.showsProvider.allCountries.subscribe(allcountries => {
@@ -351,5 +354,13 @@ export class ShowsComponent implements OnInit {
             };
             this.router.navigate(['show'], { queryParams: { show: JSON.stringify(show) } });
         }
+    }
+
+    isLat(lat: any){
+        return isNumber(lat) && (lat > -35) && (lat < 70);
+    }
+
+    isLon(lon: any){
+        return isNumber(lon) && (lon > 10) && (lon < 25);
     }
 }
