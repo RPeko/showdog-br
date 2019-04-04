@@ -138,5 +138,4 @@ export class ShowComponent implements OnInit {
   get regclosed() { return this.showForm.get('regclosed'); }
   get lat() { return this.showForm.get('lat'); }
   get lon() { return this.showForm.get('lon'); }
-
 }

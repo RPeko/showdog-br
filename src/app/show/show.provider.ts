@@ -25,5 +25,4 @@ export class ShowProvider {
         const showObj = this.db.object('/shows/' + show.key);
         return showObj.update(show);
     }
-
 }

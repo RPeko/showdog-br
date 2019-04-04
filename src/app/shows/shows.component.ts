@@ -86,7 +86,7 @@ export class ShowsComponent implements OnInit {
         }
         this.showsProvider.getShows(this.paramStartAt, this.paramEndAt).subscribe(allshows => {
             allshows.forEach(show => {
-                if (this.isLat(show.lat)){
+                if (this.isLat(show.lat) && this.isLon(show.lon)){
                     const extShow = <ExtShow>show;
                     if (show.date >= intNow) {
                         extShow.past = false;
@@ -145,7 +145,7 @@ export class ShowsComponent implements OnInit {
             this.paramStartAt = +moment('' + intNow, 'YYYYMMDD').add(-1, 'day').format('YYYYMMDD');
             this.paramEndAt = +moment('' + intNow, 'YYYYMMDD').add(this.loadingMonths, 'months').format('YYYYMMDD');
         }
-        this.showsProvider.getShows(this.paramStartAt, this.paramEndAt).subscribe(allshows => {
+        this.showsProvider.getShows(this.paramStartAt, null).subscribe(allshows => {
             this.shows = [];
             allshows.forEach(show => {
                 const extShow = <ExtShow>show;
@@ -161,6 +161,14 @@ export class ShowsComponent implements OnInit {
             this.allCountries.forEach(country => country.all = 0);
             this.countAll();
         }, err => console.log('Shows provider err: ' + err));
+    }
+
+    load(){
+        if (this.paramStartAt > 0) {
+            this.loadAll();
+        } else {
+            this.loadData(false);
+        } 
     }
 
     txtLoad() {
@@ -357,10 +365,10 @@ export class ShowsComponent implements OnInit {
     }
 
     isLat(lat: any){
-        return isNumber(lat) && (lat > -35) && (lat < 70);
+        return (isNumber(lat) && (lat > -35) && (lat < 70));
     }
 
     isLon(lon: any){
-        return isNumber(lon) && (lon > 10) && (lon < 25);
+        return (isNumber(lon) && (lon > 10) && (lon < 25));
     }
 }
